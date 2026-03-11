@@ -1,0 +1,7 @@
+memory/
+state/
+.tokens/
+.secrets/
+.env
+*.db
+*.sqlite
