@@ -18,3 +18,18 @@ skills/ # Reusable capabilities (portable)
 workflows/ # Reactive triggers + recurring cron jobs
 templates/ # User-safe templates for first-run setup
 scripts/ # Bootstrap/export utilities
+```
+
+## Interview Schema Validation
+
+Validates `sample-input.json` and `sample-output.json` against their JSON Schema contracts.
+
+```bash
+bash scripts/validate-interview-schema.sh
+```
+
+Requires [`ajv-cli`](https://github.com/ajv-validator/ajv-cli). Install with:
+
+```bash
+npm install -g ajv-cli
+```

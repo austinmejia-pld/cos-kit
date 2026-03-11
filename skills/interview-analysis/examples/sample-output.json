@@ -1,0 +1,59 @@
+{
+  "recommendation": "mixed",
+  "confidence": 0.62,
+  "decision_summary": "Jordan shows strong problem-structuring instincts and credible execution in high-stakes scenarios, but the failure example reveals a pattern of anchoring on preferred hypotheses and the communication style, while effective upward, has not been tested at scale across distributed or adversarial organizations.",
+  "dimension_scores": [
+    {
+      "dimension": "Problem Solving",
+      "score": 3,
+      "rationale": "Jordan framed the fraud-detection problem well — segmenting risk, quantifying cost, and designing a staged rollout with a kill switch. The failure story, however, shows a confirmed bias: Jordan had disconfirming activation data and rationalized it away. Score is a 3, not a 4, because the ceiling on self-correction appears only post-failure rather than mid-stream.",
+      "evidence_quotes": [
+        "I pulled together a quick data analysis, mapped the user segments most affected, and proposed a tiered rollout: launch to low-risk segments first, cap exposure to roughly 20% of volume, and set a hard kill switch.",
+        "I had data showing low activation but convinced myself it was a content problem, not a flow problem. It was both."
+      ]
+    },
+    {
+      "dimension": "Execution",
+      "score": 3,
+      "rationale": "The payments launch story demonstrates solid execution mechanics: rapid stakeholder alignment, time-bounded pilot, measurable outcome. The candidate named the CEO and head of Risk, ran a pilot, and hit a concrete target. The failure story shows a gap — Jordan did not act on early activation signals until the damage was done, suggesting reactive rather than proactive risk monitoring in some contexts.",
+      "evidence_quotes": [
+        "I aligned the CEO and head of Risk in a thirty-minute meeting, then ran a week-long pilot before full launch. We hit 1.8% false positives by week four.",
+        "We launched an in-app coaching feature that saw 40% drop-off after day three. In retrospect I had prioritized the feature roadmap over the activation funnel."
+      ]
+    },
+    {
+      "dimension": "Communication",
+      "score": 3,
+      "rationale": "Jordan's approach to engineering skepticism is genuinely thoughtful — surfacing real concerns by asking what questions they'd need answered, making trade-offs visible, and over-communicating during problem-framing. The technique is principled. However, all examples are from small-group or 1:1 contexts; no evidence of communication at org scale or across time zones and functions under pressure.",
+      "evidence_quotes": [
+        "I start by asking them what questions they'd want answered before they'd trust the direction. That surfaces real concerns, not just surface-level skepticism.",
+        "I try to never surprise them with a decision; I'd rather over-communicate during the problem-framing phase and have shorter alignment conversations at decision time."
+      ]
+    }
+  ],
+  "strengths": [
+    "Structures ambiguous decisions with clear frameworks (segmented rollout, kill-switch threshold, tiered risk).",
+    "Acknowledges dissenting stakeholder concerns directly and builds credible fallback options rather than dismissing them.",
+    "Demonstrates genuine self-awareness in failure retrospective and has operationalized the lesson into process."
+  ],
+  "concerns": [
+    "Confirmation bias surfaced explicitly in the coaching feature failure — acted on disconfirming data too late.",
+    "All execution examples are from a single prior company; unclear how skills transfer to a new org with different constraints.",
+    "Communication examples are exclusively small-group or bilateral; no evidence of driving alignment at org or exec scale."
+  ],
+  "risk_flags": [
+    "Anchoring bias on preferred hypotheses may recur in higher-stakes or faster-moving environments.",
+    "No evidence of navigating political complexity or working across silos in a large matrixed organization."
+  ],
+  "interviewer_feedback": [
+    "Candidate was well-prepared and answered directly without over-hedging.",
+    "Would benefit from a follow-up case or simulation to stress-test real-time problem framing rather than retrospective storytelling.",
+    "The failure story felt rehearsed — consider probing for a more recent or unresolved failure in a second round."
+  ],
+  "follow_up_questions": [
+    "Tell me about a time your kill-switch or contingency plan actually triggered — what happened next?",
+    "Describe a situation where you had to reverse a product decision publicly. How did you handle the communication?",
+    "When you've had to make a product call that the engineering lead still disagreed with after discussion, how did you proceed?",
+    "How have you communicated a strategy shift to a team of 50+ across multiple time zones?"
+  ]
+}
