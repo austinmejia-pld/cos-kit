@@ -1,0 +1,14 @@
+name: interview-analysis
+trigger:
+when_message_contains_any:
+- "interview transcript"
+- "evaluate candidate"
+- "interview analysis"
+inputs_required:
+- role
+- stage
+- rubric
+- transcript
+route_to_agent: interviews
+skill: skills/interview-analysis/SKILL.md
+output_schema: skills/interview-analysis/schemas/output.schema.json
