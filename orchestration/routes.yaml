@@ -1,0 +1,59 @@
+routes:
+  - id: interview-analysis
+    status: active
+    trigger_examples:
+      - "evaluate this interview transcript"
+      - "interview analysis for candidate"
+      - "score this interview"
+      - "assess candidate performance"
+    required_inputs:
+      - transcript
+      - role
+      - stage
+      - rubric
+    target:
+      agent: agents/interviews/AGENT.md
+      skill: skills/interview-analysis/SKILL.md
+      output_schema: skills/interview-analysis/schemas/output.schema.json
+    fallback_prompt: >
+      I need a few things to run an interview analysis:
+      1. The interview transcript (full text)
+      2. The role the candidate is interviewing for
+      3. The interview stage (recruiter_screen, hiring_manager, onsite, panel, or final)
+      4. A rubric with at least one scoring dimension (name, description, scale 1-4)
+    run_policy:
+      reactive_only: true
+
+  - id: transcript-decision-extraction
+    status: planned
+    trigger_examples:
+      - "extract decisions from this transcript"
+      - "what was decided in this meeting"
+      - "pull action items from transcript"
+    required_inputs:
+      - transcript
+    target:
+      agent: null
+      skill: null
+      output_schema: null
+    fallback_prompt: >
+      I need the meeting transcript to extract decisions and action items.
+    run_policy:
+      reactive_only: true
+
+  - id: action-tracker
+    status: planned
+    trigger_examples:
+      - "track this action item"
+      - "what actions are outstanding"
+      - "update action status"
+    required_inputs:
+      - action_description
+    target:
+      agent: null
+      skill: null
+      output_schema: null
+    fallback_prompt: >
+      I need at least a description of the action item to track.
+    run_policy:
+      reactive_only: true
