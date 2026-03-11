@@ -1,7 +1,28 @@
+```gitignore
+# Private state
 memory/
 state/
+logs/
+cache/
+
+# Secrets
+.env
+.env.*
 .tokens/
 .secrets/
-.env
+*.key
+*.pem
+client_secret*.json
+
+# Local DB/artifacts
 *.db
 *.sqlite
+*.sqlite3
+*.log
+.DS_Store
+
+# Python/Node misc (if used)
+__pycache__/
+node_modules/
+dist/
+build/
