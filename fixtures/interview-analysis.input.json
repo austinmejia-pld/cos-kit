@@ -1,0 +1,58 @@
+{
+  "interview_id": "ia-2026-0001",
+  "candidate_name": "Jordan Lee",
+  "role": "Senior Product Manager",
+  "stage": "onsite",
+  "interviewer": "Alex Rivera",
+  "interview_date": "2026-03-10",
+  "rubric_version": "v1.0",
+  "must_have_requirements": [
+    "5+ years product management experience",
+    "Experience shipping 0-to-1 products",
+    "Cross-functional leadership without authority"
+  ],
+  "transcript": "Interviewer: Can you walk me through a time you had to make a hard product decision with incomplete data?\n\nCandidate: Sure. At my last company we were six weeks from launch on a payments feature and discovered our fraud detection model was flagging 12% of legitimate transactions — way above the 2% threshold we'd set. Engineering estimated a full fix would take eight weeks. I pulled together a quick data analysis, mapped the user segments most affected, and proposed a tiered rollout: launch to low-risk segments first, cap exposure to roughly 20% of volume, and set a hard kill switch if flags exceeded 5%. I aligned the CEO and head of Risk in a thirty-minute meeting, then ran a week-long pilot before full launch. We hit 1.8% false positives by week four.\n\nInterviewer: How did you handle pushback from the engineering lead who wanted to delay the full launch?\n\nCandidate: He had a fair point — shipping with a known defect felt wrong. I didn't dismiss it. I acknowledged the risk directly in the document, quantified the cost of delay in terms of revenue and competitive timing, and offered him a named escalation path if the kill-switch threshold was ever crossed. That gave him a credible fallback. He signed off.\n\nInterviewer: Tell me about a project that failed and what you learned.\n\nCandidate: We launched an in-app coaching feature that saw 40% drop-off after day three. In retrospect I had prioritized the feature roadmap over the activation funnel. I had data showing low activation but convinced myself it was a content problem, not a flow problem. It was both. I now require a user journey walkthrough before any feature gets a green-light, regardless of how confident I am in the concept.\n\nInterviewer: How do you communicate product strategy to an engineering team that's skeptical of PM-led decisions?\n\nCandidate: I start by asking them what questions they'd want answered before they'd trust the direction. That surfaces real concerns, not just surface-level skepticism. Then I bring the evidence — user research, data, competitive context — and I make the trade-offs visible, not buried. I try to never surprise them with a decision; I'd rather over-communicate during the problem-framing phase and have shorter alignment conversations at decision time.",
+  "rubric": {
+    "dimensions": [
+      {
+        "name": "Problem Solving",
+        "description": "Structures ambiguous problems, synthesizes data, and reaches sound decisions under uncertainty.",
+        "scale_min": 1,
+        "scale_max": 4,
+        "must_have": true,
+        "anchors": [
+          { "score": 1, "definition": "Struggles to frame the problem; relies on others to structure thinking." },
+          { "score": 2, "definition": "Identifies the problem but analysis is shallow or incomplete." },
+          { "score": 3, "definition": "Breaks down complex problems clearly; uses data and judgment well." },
+          { "score": 4, "definition": "Exceptional rigor; anticipates second-order effects; reframes problems to surface better solutions." }
+        ]
+      },
+      {
+        "name": "Execution",
+        "description": "Drives work from ambiguity to outcome; manages risk, scope, and stakeholders through delivery.",
+        "scale_min": 1,
+        "scale_max": 4,
+        "must_have": true,
+        "anchors": [
+          { "score": 1, "definition": "Work frequently stalls; poor follow-through or accountability." },
+          { "score": 2, "definition": "Delivers on defined tasks but struggles with ambiguity or cross-functional coordination." },
+          { "score": 3, "definition": "Reliable delivery; proactively manages blockers and communicates trade-offs." },
+          { "score": 4, "definition": "Creates momentum in ambiguous environments; builds systems that scale beyond themselves." }
+        ]
+      },
+      {
+        "name": "Communication",
+        "description": "Adapts message to audience; drives alignment and trust through clarity and transparency.",
+        "scale_min": 1,
+        "scale_max": 4,
+        "must_have": false,
+        "anchors": [
+          { "score": 1, "definition": "Unclear or inconsistent; frequently misunderstood." },
+          { "score": 2, "definition": "Communicates adequately but misses audience calibration or leaves gaps." },
+          { "score": 3, "definition": "Clear, audience-aware; proactively shares context and surfaces disagreement." },
+          { "score": 4, "definition": "Creates clarity in ambiguous situations; builds trust even with skeptics." }
+        ]
+      }
+    ]
+  }
+}

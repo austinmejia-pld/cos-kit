@@ -65,6 +65,30 @@ async function defaultResolveRunner(
     }
     case "stakeholder-analysis":
       return createStakeholderAdapter();
+    case "decision-quality-audit": {
+      const { runDecisionQualityAudit } = await import(
+        "../skills/decision-quality-audit/index.js"
+      );
+      return (input, client) => runDecisionQualityAudit(input, client);
+    }
+    case "redteam": {
+      const { runRedteam } = await import(
+        "../skills/redteam/index.js"
+      );
+      return (input, client) => runRedteam(input, client);
+    }
+    case "meeting-risk-analysis": {
+      const { runMeetingRiskAnalysis } = await import(
+        "../skills/meeting-risk-analysis/index.js"
+      );
+      return (input, client) => runMeetingRiskAnalysis(input, client);
+    }
+    case "interview-analysis": {
+      const { runInterviewAnalysis } = await import(
+        "../skills/interview-analysis/index.js"
+      );
+      return (input, client) => runInterviewAnalysis(input, client);
+    }
     default:
       return null;
   }
@@ -244,6 +268,9 @@ export async function runSkillCommand(
   baseInput: Record<string, unknown>,
   options: RunOptions = {},
 ): Promise<WrapperResult> {
+  // #region agent log
+  fetch("http://127.0.0.1:7848/ingest/394e6945-2750-434f-bb8d-31c4f129abe1",{method:"POST",headers:{"Content-Type":"application/json","X-Debug-Session-Id":"6491c8"},body:JSON.stringify({sessionId:"6491c8",runId:"cmd-ui-check",hypothesisId:"H2",location:"src/wrapper/runSkillCommand.ts:271",message:"runSkillCommand entry",data:{recognized:parsed.recognized,skillName:parsed.skillName ?? null,flags:parsed.flags},timestamp:Date.now()})}).catch(()=>{});
+  // #endregion
   const config = options.config ?? loadConfig();
 
   if (!config.enabled) {
@@ -267,6 +294,9 @@ export async function runSkillCommand(
 
   const resolve_ = options.resolveRunner ?? defaultResolveRunner;
   const runner = await resolve_(skillName);
+  // #region agent log
+  fetch("http://127.0.0.1:7848/ingest/394e6945-2750-434f-bb8d-31c4f129abe1",{method:"POST",headers:{"Content-Type":"application/json","X-Debug-Session-Id":"6491c8"},body:JSON.stringify({sessionId:"6491c8",runId:"cmd-ui-check",hypothesisId:"H4",location:"src/wrapper/runSkillCommand.ts:296",message:"runner resolution",data:{skillName,runnerFound:Boolean(runner),hasLlmClient:Boolean(options.llmClient)},timestamp:Date.now()})}).catch(()=>{});
+  // #endregion
   if (!runner) {
     return {
       ok: false,
@@ -330,6 +360,9 @@ export async function runSkillCommand(
   }
 
   const insight = formatInsight(skillName, result.data);
+  // #region agent log
+  fetch("http://127.0.0.1:7848/ingest/394e6945-2750-434f-bb8d-31c4f129abe1",{method:"POST",headers:{"Content-Type":"application/json","X-Debug-Session-Id":"6491c8"},body:JSON.stringify({sessionId:"6491c8",runId:"cmd-ui-check",hypothesisId:"H5",location:"src/wrapper/runSkillCommand.ts:365",message:"runSkillCommand success",data:{skillName,mode:useRaw ? "raw" : "insight",artifactPath:artifactPath ?? null},timestamp:Date.now()})}).catch(()=>{});
+  // #endregion
   return {
     ok: true,
     mode: "insight",

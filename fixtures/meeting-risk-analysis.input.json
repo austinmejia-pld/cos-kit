@@ -1,0 +1,36 @@
+{
+  "meeting_id": "mtg_20260310_product_strategy",
+  "meeting_title": "Q2 Platform Migration Strategy Review",
+  "meeting_date": "2026-03-10",
+  "domain": "product-engineering",
+  "participants": [
+    "Priya Sharma (VP Engineering)",
+    "Marcus Chen (Director of Product)",
+    "Dana Okafor (Staff Engineer, Platform)",
+    "Leo Petrov (Engineering Manager, Payments)"
+  ],
+  "objectives": [
+    "Decide migration approach for payments service to new platform",
+    "Align on Q2 timeline and staffing",
+    "Identify blockers before sprint planning next week"
+  ],
+  "transcript": "Priya Sharma: Alright, let's get into it. We need to lock down the migration plan for payments before sprint planning next Monday. Marcus, where are we on the product side?\n\nMarcus Chen: So the product requirements are mostly final. We've scoped the core flows — checkout, refunds, subscription billing. The one open question is whether we support the legacy webhook format during the transition or cut over cleanly.\n\nDana Okafor: I'd strongly recommend we do a clean cut. Supporting both webhook formats doubles our integration testing surface and we'd need to maintain two serialization paths for months. The legacy format has quirks that don't map well to the new event schema.\n\nLeo Petrov: I hear you, but the reality is that Meridian Partners and at least two other enterprise clients are on the legacy webhooks. If we cut them off without a migration window, we're looking at contract issues. Sales flagged this last week.\n\nMarcus Chen: Yeah, that's the tension. Product wants a clean migration, but we have contractual obligations. Can we give a 90-day deprecation window?\n\nDana Okafor: Technically we could, but that means my team is maintaining two paths through all of Q2. I only have three engineers on platform right now — one is already allocated to the observability rollout.\n\nPriya Sharma: Let me push on the staffing question. Leo, could you lend one engineer from payments to platform for the quarter?\n\nLeo Petrov: Possibly, but payments has its own deliverables. We committed to the fraud detection v2 release for mid-April. If I move someone, that slips.\n\nPriya Sharma: What's the impact if fraud detection slips two weeks?\n\nLeo Petrov: Honestly, probably manageable from a product perspective. But Compliance has been breathing down our necks — they want it before the audit window opens May 1st.\n\nMarcus Chen: We could descope fraud detection v2 to ship the critical rules only and push the ML-based scoring to Q3.\n\nLeo Petrov: That's a conversation I'd need to have with the compliance team. I don't want to commit to that without their sign-off.\n\nPriya Sharma: Fair. Let's make that an action item. Now on timeline — Dana, if you get one extra engineer and we go with the 90-day dual webhook support, can you hit the June 30 cutover?\n\nDana Okafor: June 30 is tight. The new platform API isn't fully documented yet. We've been discovering edge cases in the batch processing layer that aren't covered in the spec. I'd be more comfortable with July 15.\n\nMarcus Chen: July 15 pushes us into Q3, which creates a reporting problem. Leadership is expecting this to land in Q2.\n\nPriya Sharma: Let's keep June 30 as the target and build in a two-week buffer. If we slip to July 15, we slip, but we plan for June 30.\n\nDana Okafor: I can work with that, but I want it on record that the API spec gaps are a real risk. If we hit more undocumented edge cases in batch processing, that two-week buffer evaporates fast.\n\nPriya Sharma: Noted. Dana, can you do a spike this week to catalog the known spec gaps?\n\nDana Okafor: Yes, I can have that by Thursday.\n\nMarcus Chen: One more thing — who owns the client communication about the webhook deprecation? Product or engineering?\n\nPriya Sharma: Good question. We need to figure that out. It's part sales, part product, part engineering. Let's not let it fall through the cracks.\n\nLeo Petrov: I'd say product owns the messaging and timeline, engineering owns the technical migration guide, and sales handles the individual client conversations.\n\nMarcus Chen: That works conceptually, but we need a single DRI or this will stall.\n\nPriya Sharma: Agreed. Let's figure out the DRI offline. Okay, I think we have enough to move forward. Let's reconvene Thursday after Dana's spike results are in.",
+  "context": {
+    "prior_decisions": [
+      "Q1 decision to migrate payments service to new platform by end of Q2",
+      "Legacy webhook format to be deprecated (timeline TBD)",
+      "Fraud detection v2 committed to compliance team for April delivery"
+    ],
+    "known_constraints": [
+      "Platform team has 3 engineers, one allocated to observability",
+      "Enterprise clients on legacy webhooks have active contracts",
+      "Compliance audit window opens May 1",
+      "Leadership expects Q2 delivery"
+    ],
+    "strategic_goals": [
+      "Complete platform migration to reduce operational overhead",
+      "Maintain enterprise client satisfaction during transition",
+      "Meet compliance requirements for fraud detection"
+    ]
+  }
+}
