@@ -33,3 +33,20 @@ Requires [`ajv-cli`](https://github.com/ajv-validator/ajv-cli). Install with:
 ```bash
 npm install -g ajv-cli
 ```
+
+## Adding a New Skill (Auto-Visibility)
+
+After creating a new `skills/<name>/SKILL.md` and schemas, run:
+
+```bash
+npm run sync:skills
+```
+
+This regenerates:
+
+- `orchestration/skill-registry.yaml`
+- `state/skill-command-map.json` (IDE-agnostic mapping artifact)
+- `config/skill-wrapper.config.json`
+- `.claude/commands/*.md`
+
+Use `npm run sync:skills:core` when you only need the IDE-agnostic map (for non-Claude runtimes).

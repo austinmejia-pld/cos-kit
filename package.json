@@ -6,6 +6,11 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
+    "generate:skill-registry": "bash scripts/generate-skill-registry.sh",
+    "sync:skill-commands-core": "tsx scripts/sync-skill-commands-core.ts",
+    "sync:claude-commands": "tsx scripts/sync-claude-commands.ts",
+    "sync:skills": "npm run generate:skill-registry && npm run sync:skill-commands-core && npm run sync:claude-commands",
+    "sync:skills:core": "npm run generate:skill-registry && npm run sync:skill-commands-core",
     "validate:redteam": "bash scripts/validate-redteam.sh",
     "validate:all": "bash scripts/validate-interview-schema.sh && bash scripts/validate-meeting-risk-analysis.sh && bash scripts/validate-redteam.sh",
     "eval:commitment-extractor": "npx vitest run tests/commitmentExtractor.e2e.test.ts",

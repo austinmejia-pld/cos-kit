@@ -4,15 +4,20 @@
 # The front door agent reads this file to discover available skills.
 # Each entry is extracted from the SKILL.md frontmatter in skills/<name>/.
 
-generated_at: "2026-03-12T22:17:57Z"
+generated_at: "2026-03-13T07:19:21Z"
 skills:
   - name: "commitment-extractor"
-    description: "Extract explicit and implied commitments from meeting transcripts/emails, normalize owner/date/artifact fields, and output an accountability-ready action list with evidence citations. Use when preparing follow-ups, weekly reviews, execution tracking, or decision accountability."
+    description: "Identify explicit and implied commitments from meeting transcripts/emails, normalize owner/date/artifact fields, and output an accountability-ready action list with evidence citations. Use when preparing follow-ups, weekly reviews, execution tracking, or decision accountability."
     path: "skills/commitment-extractor/SKILL.md"
     input_schema: "skills/commitment-extractor/schemas/input.schema.json"
     output_schema: "skills/commitment-extractor/schemas/output.schema.json"
+  - name: "decision-quality-audit"
+    description: "Audit the quality of decision-making from a single meeting transcript by scoring clarity, evidence, alternatives, risk analysis, and accountability; then produce concrete decision-hygiene upgrades. Use when teams need to improve decision rigor, avoid rework, and increase execution confidence."
+    path: "skills/decision-quality-audit/SKILL.md"
+    input_schema: "skills/decision-quality-audit/schemas/input.schema.json"
+    output_schema: "skills/decision-quality-audit/schemas/output.schema.json"
   - name: "execution-friction-xray"
-    description: "Diagnose execution drag from a single meeting transcript by identifying friction hotspots (ownership, dependencies, timelines, handoffs, and scope ambiguity), scoring severity/likelihood, and producing a concrete 7-day friction-kill plan with evidence citations. Use when momentum is slipping, launches are at risk, or cross-functional delivery is stalling."
+    description: "Diagnose execution drag (aka any "friction" in a meeting) from a single meeting transcript by identifying friction hotspots (ownership, dependencies, timelines, handoffs, and scope ambiguity), scoring severity/likelihood, and producing a concrete 7-day friction-kill plan with evidence citations. Use when momentum is slipping, launches are at risk, or cross-functional delivery is stalling."
     path: "skills/execution-friction-xray/SKILL.md"
     input_schema: "skills/execution-friction-xray/schemas/input.schema.json"
     output_schema: "skills/execution-friction-xray/schemas/output.schema.json"
@@ -36,8 +41,3 @@ skills:
     path: "skills/stakeholder-analysis/SKILL.md"
     input_schema: "skills/stakeholder-analysis/schemas/input.schema.json"
     output_schema: "skills/stakeholder-analysis/schemas/output.schema.json"
-  - name: "decision-quality-audit"
-    description: "Audit the quality of decision-making from a single meeting transcript by scoring clarity, evidence, alternatives, risk analysis, and accountability; then produce concrete decision-hygiene upgrades. Use when teams need to improve decision rigor, avoid rework, and increase execution confidence."
-    path: "skills/decision-quality-audit/SKILL.md"
-    input_schema: "schemas/decision-quality-audit.input.schema.json"
-    output_schema: "schemas/decision-quality-audit.output.schema.json"

@@ -1,0 +1,8 @@
+{
+  "execution-friction-xray": "friction",
+  "commitment-extractor": "commitments",
+  "stakeholder-analysis": "stakeholders",
+  "decision-quality-audit": "decision-audit",
+  "meeting-risk-analysis": "risks",
+  "interview-analysis": "interview"
+}

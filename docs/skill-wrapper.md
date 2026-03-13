@@ -33,12 +33,45 @@ The wrapper is controlled by `config/skill-wrapper.config.json`:
 | `/xray` | execution-friction-xray | Active |
 | `/commitments` | commitment-extractor | Active |
 | `/stakeholders` | stakeholder-analysis | Active |
-| `/decision-audit` | decision-quality-audit | Pending runtime |
-| `/risks` | meeting-risk-analysis | Pending runtime |
-| `/redteam` | redteam | Pending runtime |
-| `/interview` | interview-analysis | Pending runtime |
+| `/decision-audit` | decision-quality-audit | Active |
+| `/risks` | meeting-risk-analysis | Active |
+| `/redteam` | redteam | Active |
+| `/interview` | interview-analysis | Active |
 
-Commands marked "Pending runtime" are registered but return an error until their TypeScript runtimes are implemented.
+## Self-Maintaining Command Sync
+
+Skill visibility is generated, not hand-maintained.
+
+### Scripts
+
+- `npm run generate:skill-registry` → rebuilds `orchestration/skill-registry.yaml`
+- `npm run sync:skill-commands-core` → builds IDE-agnostic `state/skill-command-map.json`
+- `npm run sync:claude-commands` → generates:
+  - `config/skill-wrapper.config.json` command map
+  - `.claude/commands/*.md` command files for Claude Desktop/Claude Code
+- `npm run sync:skills` → full pipeline (`registry -> core map -> claude commands`)
+- `npm run sync:skills:core` → non-Claude pipeline (`registry -> core map` only)
+
+### Alias Overrides
+
+Friendly command aliases live in `orchestration/skill-command-aliases.json`.
+
+- If a skill has an alias (for example `execution-friction-xray -> xray`), that alias is used.
+- If no alias exists, the default command is the skill name (for example `new-skill -> /new-skill`).
+
+### Modularity Boundary
+
+Claude-native command generation is isolated to the adapter script (`scripts/sync-claude-commands.ts`) and `.claude/commands` artifacts.
+
+- Core mapping logic (`scripts/sync-skill-commands-core.ts`) is IDE-agnostic and reusable by other runtimes (for example OpenClaw).
+- Other runtimes can consume `state/skill-command-map.json` without requiring `.claude/commands` files.
+
+### Registry-Driven Command Listing Descriptions
+
+Claude command listing descriptions are generated from each skill's `description` in `orchestration/skill-registry.yaml` (which comes from `SKILL.md` frontmatter).
+
+- Improving a skill description in `SKILL.md` automatically improves the command listing after `npm run sync:skills`.
+- New skills inherit detailed listing descriptions automatically; no manual command file edits are required.
 
 ## Flags
 

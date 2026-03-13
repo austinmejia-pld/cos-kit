@@ -1,6 +1,6 @@
 ---
 name: commitment-extractor
-description: Extract explicit and implied commitments from meeting transcripts/emails, normalize owner/date/artifact fields, and output an accountability-ready action list with evidence citations. Use when preparing follow-ups, weekly reviews, execution tracking, or decision accountability.
+description: Identify explicit and implied commitments from meeting transcripts/emails, normalize owner/date/artifact fields, and output an accountability-ready action list with evidence citations. Use when preparing follow-ups, weekly reviews, execution tracking, or decision accountability.
 ---
 
 ## 1. Purpose

@@ -1,6 +1,6 @@
 ---
 name: execution-friction-xray
-description: Diagnose execution drag from a single meeting transcript by identifying friction hotspots (ownership, dependencies, timelines, handoffs, and scope ambiguity), scoring severity/likelihood, and producing a concrete 7-day friction-kill plan with evidence citations. Use when momentum is slipping, launches are at risk, or cross-functional delivery is stalling.
+description: Diagnose execution drag (aka any "friction" in a meeting) from a single meeting transcript by identifying friction hotspots (ownership, dependencies, timelines, handoffs, and scope ambiguity), scoring severity/likelihood, and producing a concrete 7-day friction-kill plan with evidence citations. Use when momentum is slipping, launches are at risk, or cross-functional delivery is stalling.
 ---
 
 ## 1. Purpose
