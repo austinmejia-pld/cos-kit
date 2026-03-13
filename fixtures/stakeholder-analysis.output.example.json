@@ -1,0 +1,322 @@
+{
+  "executive_summary": "The APAC expansion initiative has strong executive sponsorship from Ravi Patel but faces material execution risks from unresolved infrastructure, compliance, and payments dependencies. Sophie Laurent (CFO) is the most influential skeptic — her concerns about unit economics and compliance are well-founded and must be addressed before the steering committee. Kenji Tanaka is the primary champion but has over-indexed on commercial planning at the expense of legal and technical readiness. The Singapore-first pivot has broad alignment, but Japan timeline ambiguity creates a narrative risk for the board.",
+  "decision_surface": "Launch Singapore as lead APAC market in Q4, with Japan as phased follow-on in Q2 next year",
+  "stakeholders": [
+    {
+      "name": "Ravi Patel",
+      "role": "VP of Strategy",
+      "influence_level": "critical",
+      "stance": "supportive",
+      "evidence": [
+        "We've been circling this for two quarters and leadership wants a decision by end of month.",
+        "Let's reconvene in two weeks with the revised plan, infra estimates, and a legal review status update."
+      ],
+      "goals": [
+        "Deliver a board-ready APAC expansion decision by end of month",
+        "De-risk the proposal before presenting to leadership"
+      ],
+      "concerns": [
+        "Timeline feasibility for Q4 GA",
+        "Lack of legal review on Japanese invoicing requirements"
+      ],
+      "hidden_incentives_or_constraints": [
+        "Board pressure for APAC presence to support Series C narrative likely drives urgency",
+        "May need to show decisive leadership to maintain credibility with the board"
+      ],
+      "alignment_score": 80,
+      "change_readiness": "high"
+    },
+    {
+      "name": "Kenji Tanaka",
+      "role": "Head of APAC GTM",
+      "influence_level": "medium",
+      "stance": "supportive",
+      "evidence": [
+        "The proposal is to launch in Japan and Singapore first, using our existing SaaS platform with localization.",
+        "That's why I'd argue we should lead with Singapore and fast-follow with Japan once infrastructure and certifications are in place."
+      ],
+      "goals": [
+        "Launch APAC markets as quickly as possible",
+        "Preserve the Nomura Digital partnership for Japan entry"
+      ],
+      "concerns": [
+        "Losing momentum on Japan if the timeline slips too far",
+        "Nomura relationship cooling if Japan launch is delayed"
+      ],
+      "hidden_incentives_or_constraints": [
+        "Career trajectory likely tied to APAC launch success",
+        "May be under-reporting technical risks to keep commercial momentum"
+      ],
+      "alignment_score": 90,
+      "change_readiness": "high"
+    },
+    {
+      "name": "Sophie Laurent",
+      "role": "CFO",
+      "influence_level": "high",
+      "stance": "skeptical",
+      "evidence": [
+        "Manual currency conversion is a compliance nightmare. Japan has strict invoicing requirements under the Qualified Invoice System.",
+        "SMB-only in Japan is a tough market. The enterprise segment is where the revenue is."
+      ],
+      "goals": [
+        "Ensure unit economics viability before committing budget",
+        "Avoid compliance exposure in new markets"
+      ],
+      "concerns": [
+        "Multi-currency billing readiness",
+        "Japanese Qualified Invoice System compliance",
+        "Revenue model assumptions breaking under SMB-only scenario"
+      ],
+      "hidden_incentives_or_constraints": [
+        "As CFO, personally liable for financial controls in new jurisdictions",
+        "Series C fundraising timeline creates pressure to show international traction but also to avoid financial missteps"
+      ],
+      "alignment_score": 45,
+      "change_readiness": "medium"
+    },
+    {
+      "name": "Diana Osei",
+      "role": "VP of Engineering",
+      "influence_level": "high",
+      "stance": "neutral",
+      "evidence": [
+        "I want to flag the infrastructure question. Our current platform runs on US-East and EU-West.",
+        "Singapore is easier — we can serve from our existing infrastructure with acceptable latency."
+      ],
+      "goals": [
+        "Provide accurate technical feasibility assessment",
+        "Avoid over-committing engineering resources"
+      ],
+      "concerns": [
+        "8-10 week APAC region buildout timeline",
+        "4-6 month ISMAP certification process",
+        "No APAC-based engineering staff"
+      ],
+      "hidden_incentives_or_constraints": [
+        "Engineering team of 45 is already stretched; APAC work competes with core product roadmap",
+        "May prefer Singapore-first because it requires less infrastructure investment"
+      ],
+      "alignment_score": 55,
+      "change_readiness": "medium"
+    }
+  ],
+  "power_interest_map": [
+    {
+      "name": "Ravi Patel",
+      "power": 5,
+      "interest": 5,
+      "quadrant": "manage_closely"
+    },
+    {
+      "name": "Kenji Tanaka",
+      "power": 2,
+      "interest": 5,
+      "quadrant": "keep_informed"
+    },
+    {
+      "name": "Sophie Laurent",
+      "power": 4,
+      "interest": 4,
+      "quadrant": "manage_closely"
+    },
+    {
+      "name": "Diana Osei",
+      "power": 4,
+      "interest": 3,
+      "quadrant": "keep_satisfied"
+    }
+  ],
+  "coalition_dynamics": {
+    "likely_allies": [
+      "Ravi Patel — executive sponsor driving the initiative",
+      "Kenji Tanaka — commercial champion with strongest APAC conviction"
+    ],
+    "likely_blockers": [
+      "Sophie Laurent — will block if compliance and unit economics concerns are unresolved"
+    ],
+    "swing_stakeholders": [
+      "Diana Osei — neutral on strategy, but her infrastructure assessment is gate-keeping the timeline"
+    ],
+    "relationship_risks": [
+      "Kenji's commercial optimism may clash with Sophie's financial conservatism, creating a trust gap if projections miss",
+      "Diana's engineering team is a shared resource — APAC buildout may create friction with other product priorities"
+    ]
+  },
+  "risks": [
+    {
+      "id": "SR-001",
+      "title": "CFO blocks budget without compliance resolution",
+      "severity": 5,
+      "likelihood": 4,
+      "owner_recommendation": "Ravi Patel",
+      "early_signals": [
+        "Sophie requests formal legal opinion before next meeting",
+        "Finance team asks for separate compliance budget line item",
+        "Sophie escalates invoicing concerns to the board"
+      ],
+      "mitigation": "Commission expedited legal review of Japanese Qualified Invoice System requirements and present findings to Sophie before the steering committee."
+    },
+    {
+      "id": "SR-002",
+      "title": "Engineering capacity conflict delays APAC infrastructure",
+      "severity": 4,
+      "likelihood": 3,
+      "owner_recommendation": "Diana Osei",
+      "early_signals": [
+        "Infrastructure estimate slips past Wednesday deadline",
+        "Competing priorities surface in engineering sprint planning",
+        "Diana flags resource contention in next standup"
+      ],
+      "mitigation": "Schedule a dedicated 30-minute session with Diana to scope Singapore-only infrastructure needs separately from Japan, confirming it can be served from existing regions."
+    },
+    {
+      "id": "SR-003",
+      "title": "Board perceives Singapore-only launch as insufficient APAC commitment",
+      "severity": 3,
+      "likelihood": 3,
+      "owner_recommendation": "Ravi Patel",
+      "early_signals": [
+        "Board members ask about Japan timeline in pre-meeting communications",
+        "Series C investors specifically mention Japan market size expectations",
+        "Leadership pushes back on revised scope at steering committee"
+      ],
+      "mitigation": "Prepare a two-phase narrative for the board: Singapore as proof-of-concept with concrete Japan milestones (ISMAP certification, Nomura formalization) that demonstrate serious commitment without over-promising."
+    }
+  ],
+  "engagement_plan": [
+    {
+      "stakeholder": "Sophie Laurent",
+      "objective": "Convert skepticism to conditional support by addressing compliance and unit economics concerns",
+      "message_frame": "We've heard your compliance concerns and are prioritizing legal review before committing to launch. Here's what we know about Singapore-only unit economics.",
+      "ask": "Review the revised Singapore-standalone financial model and flag any remaining blockers before steering committee",
+      "channel": "1:1",
+      "timing": "Before Thursday's steering committee — ideally Tuesday",
+      "owner": "Ravi Patel",
+      "success_signal": "Sophie agrees the Singapore model is viable pending legal review completion"
+    },
+    {
+      "stakeholder": "Diana Osei",
+      "objective": "Confirm Singapore can launch on existing infrastructure without new region buildout",
+      "message_frame": "Singapore-first significantly reduces your team's scope. We want to validate that the infra path is straightforward so we can de-risk the proposal.",
+      "ask": "Provide written confirmation that Singapore can be served from existing infrastructure with acceptable latency",
+      "channel": "1:1",
+      "timing": "By Wednesday, aligned with her infrastructure estimate commitment",
+      "owner": "Kenji Tanaka",
+      "success_signal": "Diana provides written infrastructure assessment confirming Singapore feasibility"
+    },
+    {
+      "stakeholder": "Kenji Tanaka",
+      "objective": "Ensure the revised plan addresses financial and technical gaps, not just commercial opportunity",
+      "message_frame": "The Singapore-first pivot is a win. Let's make the revised plan bulletproof by including compliance timelines and infrastructure confirmation alongside the GTM plan.",
+      "ask": "Include legal review status, infrastructure confirmation, and revised unit economics in the Friday draft",
+      "channel": "1:1",
+      "timing": "Monday, to give him a full week for the revised plan",
+      "owner": "Ravi Patel",
+      "success_signal": "Friday draft includes sections on compliance, infrastructure, and financial model — not just GTM"
+    },
+    {
+      "stakeholder": "Ravi Patel",
+      "objective": "Align on board narrative and ensure steering committee deck addresses all open concerns",
+      "message_frame": "The team is converging on Singapore-first. Here's a synthesis of remaining risks and the two-phase board narrative.",
+      "ask": "Approve the two-phase board narrative and confirm the steering committee agenda covers compliance, infrastructure, and financial model",
+      "channel": "doc",
+      "timing": "Wednesday, after Diana's infrastructure estimate and before steering committee prep",
+      "owner": "Kenji Tanaka",
+      "success_signal": "Ravi signs off on the steering committee deck structure and board narrative framing"
+    }
+  ],
+  "next_7_day_actions": [
+    {
+      "action": "Commission expedited legal review of Japanese Qualified Invoice System and Singapore regulatory requirements",
+      "owner": "Ravi Patel",
+      "due": "Monday EOD",
+      "proof_artifact": "Legal team confirms engagement and provides estimated completion date via email"
+    },
+    {
+      "action": "Deliver firm infrastructure estimate for APAC region buildout and ISMAP certification timeline",
+      "owner": "Diana Osei",
+      "due": "Wednesday EOD",
+      "proof_artifact": "Written estimate shared in #apac-expansion Slack channel or email to Ravi"
+    },
+    {
+      "action": "Deliver revised GTM plan with Singapore as lead market, including compliance and infrastructure sections",
+      "owner": "Kenji Tanaka",
+      "due": "Friday EOD",
+      "proof_artifact": "Draft document shared with Ravi, Sophie, and Diana for review"
+    },
+    {
+      "action": "Schedule 1:1 with Sophie Laurent to review Singapore-standalone unit economics before steering committee",
+      "owner": "Ravi Patel",
+      "due": "Tuesday",
+      "proof_artifact": "Calendar invite sent and accepted"
+    }
+  ],
+  "open_questions": [
+    "What is the board's minimum acceptable APAC milestone for Series C fundraising?",
+    "Does the payments team have bandwidth for the lightweight multi-currency layer given current sprint commitments?",
+    "Has anyone validated Singapore market demand independently of the Japan-Singapore bundle assumption?",
+    "Who on the legal team would own the Qualified Invoice System review, and what is their current capacity?"
+  ],
+  "citations": [
+    {
+      "quote": "We've been circling this for two quarters and leadership wants a decision by end of month.",
+      "speaker": "Ravi Patel",
+      "approximate_location": "opening remarks"
+    },
+    {
+      "quote": "Manual currency conversion is a compliance nightmare. Japan has strict invoicing requirements under the Qualified Invoice System.",
+      "speaker": "Sophie Laurent",
+      "approximate_location": "mid-discussion, during payments debate"
+    },
+    {
+      "quote": "The infra team estimates 8-10 weeks to stand up a new region, and that doesn't include security certification for the Japanese market.",
+      "speaker": "Diana Osei",
+      "approximate_location": "infrastructure discussion segment"
+    },
+    {
+      "quote": "The revenue model assumes 30% enterprise mix by month six. If we're SMB-only, we'd need to roughly double the customer count.",
+      "speaker": "Kenji Tanaka",
+      "approximate_location": "unit economics discussion"
+    },
+    {
+      "quote": "Singapore is easier — we can serve from our existing infrastructure with acceptable latency.",
+      "speaker": "Diana Osei",
+      "approximate_location": "Singapore vs Japan comparison"
+    }
+  ],
+  "recommended_path": {
+    "status": "actionable",
+    "overall_recommendation": "Lead with the Singapore-first narrative. Secure Sophie's conditional support by addressing her compliance concerns before the steering committee. Use Ravi's executive sponsorship to frame the board narrative. Monitor Kenji's timeline claims against Diana's engineering estimates.",
+    "leverage": [
+      {
+        "stakeholder": "Ravi Patel",
+        "why": "Executive sponsor with board access and decision authority; his endorsement legitimizes the Singapore-first pivot",
+        "how": "Co-author the two-phase board narrative doc and have him present it at steering committee"
+      }
+    ],
+    "improve_relations": [
+      {
+        "stakeholder": "Sophie Laurent",
+        "why": "Highest-power skeptic whose compliance and unit economics concerns are legitimate and currently unaddressed",
+        "how": "Commission expedited legal review of Qualified Invoice System requirements and present findings in a 1:1 before steering committee"
+      },
+      {
+        "stakeholder": "Diana Osei",
+        "why": "Neutral but her infrastructure assessment is gate-keeping the timeline; engineering bandwidth is a shared resource at risk of contention",
+        "how": "Schedule a focused 30-minute session to scope Singapore-only infra needs separately from Japan, confirming existing regions suffice"
+      }
+    ],
+    "watch_list": [
+      {
+        "stakeholder": "Kenji Tanaka",
+        "signal": "Continues quoting aggressive timelines without validation from engineering or legal",
+        "contingency": "Cross-check every timeline claim with Diana's infrastructure estimates and Sophie's compliance review before including in the revised plan"
+      }
+    ]
+  },
+  "metadata": {
+    "mode_used": "transcript_plus_context",
+    "generated_at": "2026-03-12T10:30:00Z"
+  }
+}

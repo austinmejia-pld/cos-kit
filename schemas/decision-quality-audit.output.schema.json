@@ -1,0 +1,260 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "decision-quality-audit/output/v1",
+  "title": "DecisionQualityAuditOutput",
+  "description": "Output of a decision quality audit. Provides a composite quality score with dimensional breakdown, identified gaps and assumptions, accountability mapping, and actionable improvement recommendations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "executive_summary",
+    "decision_surface",
+    "decision_status",
+    "decision_quality_score",
+    "score_breakdown",
+    "strengths",
+    "gaps",
+    "assumptions",
+    "alternatives_missing",
+    "risks_underweighted",
+    "accountability_snapshot",
+    "decision_hygiene_upgrades_next_meeting",
+    "single_most_important_upgrade",
+    "citations",
+    "metadata"
+  ],
+  "properties": {
+    "executive_summary": {
+      "type": "string",
+      "description": "2-4 sentence overview of the decision quality audit findings: what was decided (or not), how well, and the single biggest gap."
+    },
+    "decision_surface": {
+      "type": "string",
+      "description": "Concise statement of the decision or decision area being audited, as extracted from the transcript."
+    },
+    "decision_status": {
+      "type": "string",
+      "enum": ["clear_decision", "tentative_decision", "no_decision"],
+      "description": "Whether a clear decision was reached, a tentative direction was set, or no decision was made."
+    },
+    "decision_quality_score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Composite decision quality score (0-100). Weighted average of the score_breakdown dimensions."
+    },
+    "score_breakdown": {
+      "$ref": "#/definitions/score_breakdown",
+      "description": "Dimensional scores contributing to the composite decision_quality_score."
+    },
+    "strengths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "What the group did well in this decision process."
+    },
+    "gaps": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/definitions/gap" },
+      "description": "Decision quality gaps identified in the transcript. Each gap includes evidence, impact level, and a suggested fix."
+    },
+    "assumptions": {
+      "type": "array",
+      "minItems": 3,
+      "items": { "$ref": "#/definitions/assumption" },
+      "description": "Assumptions underpinning the decision — both explicit and implicit. Each includes validation status and a fast test."
+    },
+    "alternatives_missing": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Alternatives or options that were not discussed but should have been considered."
+    },
+    "risks_underweighted": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Risks that were mentioned but insufficiently explored, or not mentioned at all."
+    },
+    "accountability_snapshot": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/accountability_entry" },
+      "description": "Who owns what coming out of this decision, with confidence levels and proof artifacts."
+    },
+    "decision_hygiene_upgrades_next_meeting": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Process improvements the group should adopt in the next meeting to improve decision quality."
+    },
+    "single_most_important_upgrade": {
+      "$ref": "#/definitions/single_upgrade",
+      "description": "The single highest-leverage improvement to decision quality, with owner and deadline."
+    },
+    "citations": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/definitions/citation" },
+      "description": "Verbatim transcript quotes supporting the audit findings."
+    },
+    "metadata": {
+      "$ref": "#/definitions/metadata",
+      "description": "Processing metadata including mode used and generation timestamp."
+    }
+  },
+  "definitions": {
+    "score_breakdown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "clarity_of_decision",
+        "evidence_quality",
+        "alternatives_considered",
+        "risk_assessment_quality",
+        "ownership_and_accountability",
+        "reversibility_and_checkpoints"
+      ],
+      "properties": {
+        "clarity_of_decision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "How clearly the decision was articulated and understood by participants."
+        },
+        "evidence_quality": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Quality and relevance of data, analysis, and evidence cited during discussion."
+        },
+        "alternatives_considered": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Breadth and depth of alternative options explored before deciding."
+        },
+        "risk_assessment_quality": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "How thoroughly risks were identified, weighted, and mitigated."
+        },
+        "ownership_and_accountability": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Clarity of who owns the decision, next steps, and follow-through mechanisms."
+        },
+        "reversibility_and_checkpoints": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Whether the group established checkpoints, kill criteria, or reversal plans."
+        }
+      }
+    },
+    "evidence_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["speaker", "quote", "approximate_location"],
+      "properties": {
+        "speaker": { "type": "string", "description": "Name of the person who said this." },
+        "quote": { "type": "string", "description": "Verbatim quote from the transcript." },
+        "approximate_location": { "type": "string", "description": "Where in the transcript this quote appears (e.g. 'opening remarks', 'mid-discussion')." }
+      }
+    },
+    "gap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gap", "why_it_matters", "impact_level", "evidence", "fix"],
+      "properties": {
+        "gap": { "type": "string", "description": "Description of the decision quality gap." },
+        "why_it_matters": { "type": "string", "description": "Why this gap is consequential for the decision." },
+        "impact_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"],
+          "description": "Severity of the gap's impact on decision quality."
+        },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/evidence_entry" },
+          "description": "Transcript evidence supporting this gap identification."
+        },
+        "fix": { "type": "string", "description": "Recommended action to close this gap." }
+      }
+    },
+    "assumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assumption", "explicit_or_implicit", "validated", "how_to_test_fast"],
+      "properties": {
+        "assumption": { "type": "string", "description": "The assumption underlying the decision." },
+        "explicit_or_implicit": {
+          "type": "string",
+          "enum": ["explicit", "implicit"],
+          "description": "Whether this assumption was stated aloud or inferred from context."
+        },
+        "validated": {
+          "type": "string",
+          "enum": ["yes", "partial", "no", "unknown"],
+          "description": "Whether this assumption has been validated with evidence."
+        },
+        "how_to_test_fast": {
+          "type": "string",
+          "description": "A quick, low-cost way to validate or invalidate this assumption."
+        }
+      }
+    },
+    "accountability_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "commitment", "due_or_window", "proof_artifact", "confidence"],
+      "properties": {
+        "owner": { "type": "string", "description": "Person responsible for this commitment." },
+        "commitment": { "type": "string", "description": "What they committed to deliver or do." },
+        "due_or_window": { "type": "string", "description": "When this is due or the expected delivery window." },
+        "proof_artifact": { "type": "string", "description": "Tangible output that proves this commitment was fulfilled." },
+        "confidence": {
+          "type": "string",
+          "enum": ["low", "medium", "high"],
+          "description": "Confidence that this commitment will be met on time."
+        }
+      }
+    },
+    "single_upgrade": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["upgrade", "why", "owner", "deadline", "success_signal"],
+      "properties": {
+        "upgrade": { "type": "string", "description": "The single most impactful improvement to decision quality." },
+        "why": { "type": "string", "description": "Why this upgrade matters more than others." },
+        "owner": { "type": "string", "description": "Who should drive this upgrade." },
+        "deadline": { "type": "string", "description": "When this should be completed." },
+        "success_signal": { "type": "string", "description": "How to know this upgrade has been successfully implemented." }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["quote", "speaker", "approximate_location"],
+      "properties": {
+        "quote": { "type": "string", "description": "Verbatim quote from the transcript." },
+        "speaker": { "type": "string", "description": "Name of the person who said this." },
+        "approximate_location": { "type": "string", "description": "Where in the transcript this quote appears." }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode_used", "generated_at"],
+      "properties": {
+        "mode_used": {
+          "type": "string",
+          "enum": ["transcript_only", "transcript_plus_context"],
+          "description": "Which analysis mode was used."
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 datetime when this output was generated."
+        }
+      }
+    }
+  }
+}

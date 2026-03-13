@@ -1,0 +1,231 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "commitment-extractor/output/v1",
+  "title": "CommitmentExtractorOutput",
+  "description": "Structured commitment extraction output: summary, individual commitments with owners and evidence, unassigned actions, missing-field diagnostics, owner rollup, and metadata — all grounded in transcript evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "summary",
+    "commitments",
+    "unassigned_actions",
+    "missing_fields",
+    "owner_rollup",
+    "metadata"
+  ],
+  "properties": {
+    "summary": {
+      "type": "string",
+      "description": "2-4 sentence overview of extracted commitments: total count, key owners, critical items, and any notable gaps or risks."
+    },
+    "commitments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/commitment"
+      },
+      "description": "Extracted commitments from the transcript, each with owner attribution, evidence, and classification."
+    },
+    "unassigned_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Action items mentioned in the transcript that could not be attributed to a specific owner."
+    },
+    "missing_fields": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/missing_field_entry"
+      },
+      "description": "Diagnostics for commitments that are missing key fields (owner, due date, artifact, scope clarity). Each entry suggests a follow-up question."
+    },
+    "owner_rollup": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/owner_rollup_entry"
+      },
+      "description": "Aggregated commitment counts per owner, including critical-priority count."
+    },
+    "metadata": {
+      "$ref": "#/definitions/metadata",
+      "description": "Extraction metadata: which input mode was used and when the output was generated."
+    }
+  },
+  "definitions": {
+    "commitment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "commitment_text",
+        "commitment_type",
+        "owner",
+        "owner_confidence",
+        "due_date_raw",
+        "due_date_normalized",
+        "status",
+        "priority",
+        "proof_artifact_expected",
+        "dependencies",
+        "blockers",
+        "source_evidence",
+        "confidence_score"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this commitment. Format: CMT-001, CMT-002, etc."
+        },
+        "commitment_text": {
+          "type": "string",
+          "description": "Concise, normalized description of the commitment in action-oriented language."
+        },
+        "commitment_type": {
+          "type": "string",
+          "enum": ["deliverable", "decision", "follow_up", "coordination", "investigation"],
+          "description": "Classification of the commitment. 'deliverable' = a tangible output. 'decision' = a choice that was made. 'follow_up' = an action to take after the meeting. 'coordination' = alignment or handoff between people/teams. 'investigation' = research or information gathering."
+        },
+        "owner": {
+          "type": "string",
+          "description": "Person responsible for this commitment. Set to 'UNKNOWN' when extraction_mode=inclusive and owner cannot be determined."
+        },
+        "owner_confidence": {
+          "type": "string",
+          "enum": ["low", "medium", "high"],
+          "description": "Confidence in owner attribution. 'high' = explicitly stated. 'medium' = strongly implied. 'low' = inferred or ambiguous."
+        },
+        "due_date_raw": {
+          "type": "string",
+          "description": "Due date as stated in the transcript. Verbatim or near-verbatim. Example: 'next Friday', 'by end of next week', 'in two weeks'."
+        },
+        "due_date_normalized": {
+          "type": "string",
+          "description": "ISO 8601 date or datetime if determinable from context, otherwise empty string. Requires meeting_datetime in input for relative date resolution."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["new", "carried", "unclear"],
+          "description": "'new' = first mentioned in this meeting. 'carried' = follow-up from a previous discussion. 'unclear' = cannot determine if new or carried."
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"],
+          "description": "Assessed priority based on urgency language, speaker authority, and dependency impact."
+        },
+        "proof_artifact_expected": {
+          "type": "string",
+          "description": "Tangible output that proves this commitment was fulfilled. Example: 'Revised plan document shared in Slack', 'Email with infra estimates'."
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Other commitments or external factors this commitment depends on. Reference by commitment ID or free-text description."
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Known blockers that could prevent completion. Empty array if none identified."
+        },
+        "source_evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/source_evidence_entry"
+          },
+          "description": "Verbatim transcript evidence supporting this commitment. At least one entry required."
+        },
+        "confidence_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Overall confidence in this commitment extraction. 0.0 = highly uncertain. 1.0 = explicitly stated with clear owner, due date, and scope."
+        }
+      }
+    },
+    "source_evidence_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["speaker", "quote", "approximate_location"],
+      "properties": {
+        "speaker": {
+          "type": "string",
+          "description": "Who said it."
+        },
+        "quote": {
+          "type": "string",
+          "description": "Verbatim quote from the transcript."
+        },
+        "approximate_location": {
+          "type": "string",
+          "description": "Where in the transcript this appears. Examples: 'opening remarks', 'during infrastructure discussion', 'closing action items'."
+        }
+      }
+    },
+    "missing_field_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commitment_id", "missing", "suggested_followup_question"],
+      "properties": {
+        "commitment_id": {
+          "type": "string",
+          "description": "ID of the commitment with missing fields. Must reference a valid commitment ID."
+        },
+        "missing": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["owner", "due_date", "artifact", "scope_clarity"]
+          },
+          "description": "List of missing or underspecified fields on this commitment."
+        },
+        "suggested_followup_question": {
+          "type": "string",
+          "description": "A concrete question to ask in order to fill the missing field(s)."
+        }
+      }
+    },
+    "owner_rollup_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "count", "critical_count"],
+      "properties": {
+        "owner": {
+          "type": "string",
+          "description": "Owner name matching commitment owner fields."
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of commitments assigned to this owner."
+        },
+        "critical_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of critical-priority commitments assigned to this owner."
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode_used", "generated_at"],
+      "properties": {
+        "mode_used": {
+          "type": "string",
+          "enum": ["transcript_only", "transcript_plus_context"],
+          "description": "Which input mode was detected. 'transcript_only' if no optional context fields were provided; 'transcript_plus_context' otherwise."
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of when this extraction was generated."
+        }
+      }
+    }
+  }
+}

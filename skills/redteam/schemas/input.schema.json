@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "redteam/input/v1",
+  "title": "RedteamInput",
+  "description": "Input for adversarial red-team analysis of a meeting transcript. Supports two modes: transcript-only (broad risk scan) or transcript + focus (targeted stress-test of a specific idea or proposal). All optional fields improve analysis quality when provided.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["transcript"],
+  "properties": {
+    "transcript": {
+      "type": "string",
+      "minLength": 50,
+      "description": "Full meeting transcript text. Must include enough content for meaningful analysis (minimum 50 characters). Speaker-attributed transcripts produce higher-confidence output."
+    },
+    "context": {
+      "type": "string",
+      "description": "Background context for the analysis: project history, market situation, org dynamics, or any information that helps interpret the transcript. Improves risk identification accuracy. Example: 'Series B startup, 18-month runway, entering enterprise market for the first time.'"
+    },
+    "audience": {
+      "type": "string",
+      "description": "Who will read this analysis. Adjusts language and detail level. Examples: 'CEO', 'engineering team', 'board of directors', 'product council'."
+    },
+    "risk_tolerance": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Caller's risk tolerance. 'low' = flag everything, conservative thresholds. 'medium' = balanced, flag material risks. 'high' = only flag serious and likely risks. Defaults to medium behavior if omitted."
+    },
+    "focus_idea": {
+      "type": "string",
+      "minLength": 5,
+      "description": "A specific thesis, proposal, or decision to stress-test. When provided, the analysis focuses failure modes and adversarial questions on this idea rather than scanning broadly. Triggers transcript_plus_focus mode. Example: 'We should launch in APAC by Q4 using existing infrastructure.'"
+    },
+    "focus_questions": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "description": "Specific questions to investigate. Each should be a concrete concern or angle to probe. Triggers transcript_plus_focus mode. Example items: 'Can the current payments stack handle multi-currency?', 'Do we have regulatory clearance for the target markets?'"
+    },
+    "constraints": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "string"
+      },
+      "description": "Known constraints the analysis must respect. Failure modes and recommendations will be evaluated against these. Examples: 'Budget capped at $500K', 'Must ship before regulatory deadline March 1', 'Cannot hire additional headcount this quarter'."
+    }
+  }
+}

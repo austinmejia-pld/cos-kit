@@ -57,3 +57,22 @@ routes:
       I need at least a description of the action item to track.
     run_policy:
       reactive_only: true
+
+  - id: decision-quality-audit
+    status: active
+    trigger_examples:
+      - "audit this decision"
+      - "decision quality"
+      - "did we make a good decision"
+      - "decision hygiene"
+    required_inputs:
+      - transcript
+    target:
+      skill: skills/decision-quality-audit/SKILL.md
+      output_schema: schemas/decision-quality-audit.output.schema.json
+    fallback_prompt: >
+      I need a meeting transcript to audit decision quality.
+      Optionally provide: decision_focus, strategic_context,
+      risk_tolerance, participant_directory, key_questions.
+    run_policy:
+      reactive_only: true

@@ -1,0 +1,26 @@
+{
+  "name": "cos-kit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "validate:redteam": "bash scripts/validate-redteam.sh",
+    "validate:all": "bash scripts/validate-interview-schema.sh && bash scripts/validate-meeting-risk-analysis.sh && bash scripts/validate-redteam.sh",
+    "eval:commitment-extractor": "npx vitest run tests/commitmentExtractor.e2e.test.ts",
+    "eval:stakeholder-analysis": "tsx evals/stakeholder-analysis/run.ts",
+    "eval:execution-friction-xray": "npx vitest run tests/executionFrictionXray.e2e.test.ts",
+    "test:execution-friction-xray": "npx vitest run tests/executionFrictionXray.validators.test.ts tests/executionFrictionXray.e2e.test.ts",
+    "eval:decision-quality-audit": "npx vitest run tests/decisionQualityAudit.e2e.test.ts",
+    "test:decision-quality-audit": "npx vitest run tests/decisionQualityAudit.validators.test.ts tests/decisionQualityAudit.runtime.test.ts tests/decisionQualityAudit.e2e.test.ts",
+    "wrapper:test": "vitest run tests/wrapper.*.test.ts"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "decision-quality-audit/input/v1",
+  "title": "DecisionQualityAuditInput",
+  "description": "Input for decision quality audit of a meeting transcript. Supports two modes: transcript-only (broad audit of all decisions surfaced) or transcript + context (targeted audit of a specific decision with strategic background, participant directory, and risk tolerance). All optional fields improve audit quality when provided.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["transcript"],
+  "properties": {
+    "transcript": {
+      "type": "string",
+      "minLength": 100,
+      "description": "Full meeting transcript text. Must include enough content for meaningful decision quality analysis (minimum 100 characters). Speaker-attributed transcripts produce higher-confidence output."
+    },
+    "meeting_title": {
+      "type": "string",
+      "description": "Title or subject of the meeting. Helps contextualize decisions. Example: 'APAC Expansion Planning — Week 12'."
+    },
+    "meeting_datetime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 datetime of when the meeting occurred. Used to normalize relative deadlines and anchor temporal references."
+    },
+    "decision_focus": {
+      "type": "string",
+      "description": "A specific decision to audit. When provided, the analysis centers on this decision's quality rather than scanning all decisions in the transcript. Example: 'Launch Singapore as lead APAC market with Japan as phased follow-on'."
+    },
+    "strategic_context": {
+      "type": "string",
+      "description": "Organizational or strategic background that helps interpret decision quality: company stage, competitive pressures, board expectations, recent pivots. Example: 'Series B SaaS company; board expects international revenue by Q4 for Series C narrative.'."
+    },
+    "risk_tolerance": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Organization's risk tolerance level. Adjusts how aggressively the audit flags gaps and underweighted risks. 'low' = flag everything, 'high' = only flag material gaps."
+    },
+    "analysis_depth": {
+      "type": "string",
+      "enum": ["quick", "standard", "deep"],
+      "default": "standard",
+      "description": "Controls analysis thoroughness. 'quick' = high-level score and top gaps only. 'standard' = full audit with assumptions and accountability. 'deep' = exhaustive analysis with maximum evidence citation."
+    },
+    "participant_directory": {
+      "type": "array",
+      "description": "Known participants to seed owner and accountability resolution. The auditor will still discover additional participants from the transcript.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "role", "team"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Full name of the participant as they appear in the transcript."
+          },
+          "role": {
+            "type": "string",
+            "description": "Job title or organizational role. Example: 'VP Engineering', 'Product Lead'."
+          },
+          "team": {
+            "type": "string",
+            "description": "Team, department, or business unit. Example: 'Platform', 'Product', 'Finance'."
+          }
+        }
+      }
+    },
+    "key_questions": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
+      "description": "Specific questions the audit should address. Each should be a concrete concern about decision quality. Example items: 'Did we consider the compliance risk before committing?', 'Were alternatives to the phased rollout discussed?'."
+    }
+  }
+}

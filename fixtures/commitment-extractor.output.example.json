@@ -1,0 +1,166 @@
+{
+  "summary": "5 commitments extracted across 3 owners. Kenji Tanaka owns the highest-priority deliverable (revised Singapore-first plan). Diana Osei has 2 investigation items with near-term deadlines. One action item (legal review of Japanese invoicing requirements) has no clear owner. Two commitments lack normalized due dates.",
+  "commitments": [
+    {
+      "id": "CMT-001",
+      "commitment_text": "Prepare revised go-to-market plan with Singapore as lead market and Japan as phased follow-on, including standalone Singapore unit economics",
+      "commitment_type": "deliverable",
+      "owner": "Kenji Tanaka",
+      "owner_confidence": "high",
+      "due_date_raw": "next Friday",
+      "due_date_normalized": "2026-03-20",
+      "status": "new",
+      "priority": "critical",
+      "proof_artifact_expected": "Revised plan document with Singapore standalone unit economics shared with team",
+      "dependencies": [],
+      "blockers": [],
+      "source_evidence": [
+        {
+          "speaker": "Ravi Patel",
+          "quote": "Kenji, can you put together a revised plan with Singapore as the lead market and Japan as a phased follow-on? I want to see the revised unit economics for Singapore standalone.",
+          "approximate_location": "closing action items"
+        },
+        {
+          "speaker": "Kenji Tanaka",
+          "quote": "I can have a draft by next Friday.",
+          "approximate_location": "closing action items"
+        }
+      ],
+      "confidence_score": 0.95
+    },
+    {
+      "id": "CMT-002",
+      "commitment_text": "Obtain firm estimate from infrastructure team on APAC region buildout timeline",
+      "commitment_type": "investigation",
+      "owner": "Diana Osei",
+      "owner_confidence": "high",
+      "due_date_raw": "by Wednesday",
+      "due_date_normalized": "2026-03-18",
+      "status": "new",
+      "priority": "high",
+      "proof_artifact_expected": "Written infra estimate shared with Ravi and team",
+      "dependencies": [],
+      "blockers": [],
+      "source_evidence": [
+        {
+          "speaker": "Ravi Patel",
+          "quote": "Diana, can you get a firm estimate from infra on the APAC region buildout and ISMAP certification timeline?",
+          "approximate_location": "closing action items"
+        },
+        {
+          "speaker": "Diana Osei",
+          "quote": "I'll have the infra estimate by Wednesday.",
+          "approximate_location": "closing action items"
+        }
+      ],
+      "confidence_score": 0.93
+    },
+    {
+      "id": "CMT-003",
+      "commitment_text": "Check with compliance team on ISMAP certification timeline for Japanese market",
+      "commitment_type": "investigation",
+      "owner": "Diana Osei",
+      "owner_confidence": "high",
+      "due_date_raw": "by end of next week",
+      "due_date_normalized": "2026-03-20",
+      "status": "new",
+      "priority": "high",
+      "proof_artifact_expected": "ISMAP certification timeline estimate shared with team",
+      "dependencies": [],
+      "blockers": ["Compliance team availability"],
+      "source_evidence": [
+        {
+          "speaker": "Diana Osei",
+          "quote": "ISMAP timeline I'll need to check with the compliance team — probably by end of next week.",
+          "approximate_location": "closing action items"
+        }
+      ],
+      "confidence_score": 0.88
+    },
+    {
+      "id": "CMT-004",
+      "commitment_text": "Reconvene team in two weeks to review revised plan, infrastructure estimates, and legal review status",
+      "commitment_type": "coordination",
+      "owner": "Ravi Patel",
+      "owner_confidence": "high",
+      "due_date_raw": "in two weeks",
+      "due_date_normalized": "2026-03-24",
+      "status": "new",
+      "priority": "medium",
+      "proof_artifact_expected": "Calendar invite sent to all participants for follow-up meeting",
+      "dependencies": ["CMT-001", "CMT-002", "CMT-003"],
+      "blockers": [],
+      "source_evidence": [
+        {
+          "speaker": "Ravi Patel",
+          "quote": "Let's reconvene in two weeks with the revised plan, infra estimates, and a legal review status update.",
+          "approximate_location": "closing remarks"
+        }
+      ],
+      "confidence_score": 0.90
+    },
+    {
+      "id": "CMT-005",
+      "commitment_text": "Keep Nomura Digital partnership conversation active; formalize when Japan launch date is set",
+      "commitment_type": "follow_up",
+      "owner": "Kenji Tanaka",
+      "owner_confidence": "medium",
+      "due_date_raw": "",
+      "due_date_normalized": "",
+      "status": "carried",
+      "priority": "low",
+      "proof_artifact_expected": "Status update on Nomura relationship in next review meeting",
+      "dependencies": ["CMT-001"],
+      "blockers": [],
+      "source_evidence": [
+        {
+          "speaker": "Kenji Tanaka",
+          "quote": "I wouldn't want to lose momentum on that relationship. I'd suggest we keep the conversation warm and formalize when we have a Japan launch date.",
+          "approximate_location": "during Nomura partnership discussion"
+        },
+        {
+          "speaker": "Ravi Patel",
+          "quote": "Agreed.",
+          "approximate_location": "during Nomura partnership discussion"
+        }
+      ],
+      "confidence_score": 0.72
+    }
+  ],
+  "unassigned_actions": [
+    "Legal review of Japanese Qualified Invoice System invoicing requirements — mentioned as needed but no owner assigned"
+  ],
+  "missing_fields": [
+    {
+      "commitment_id": "CMT-005",
+      "missing": ["due_date", "scope_clarity"],
+      "suggested_followup_question": "What specific next step should Kenji take with Nomura, and by when should he provide a status update?"
+    },
+    {
+      "commitment_id": "CMT-003",
+      "missing": ["artifact"],
+      "suggested_followup_question": "In what format should Diana share the ISMAP timeline — email, shared doc, or Slack update?"
+    }
+  ],
+  "owner_rollup": [
+    {
+      "owner": "Kenji Tanaka",
+      "count": 2,
+      "critical_count": 1
+    },
+    {
+      "owner": "Diana Osei",
+      "count": 2,
+      "critical_count": 0
+    },
+    {
+      "owner": "Ravi Patel",
+      "count": 1,
+      "critical_count": 0
+    }
+  ],
+  "metadata": {
+    "mode_used": "transcript_only",
+    "generated_at": "2026-03-12T10:30:00Z"
+  }
+}

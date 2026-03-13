@@ -1,0 +1,533 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "stakeholder-analysis/output/v1",
+  "title": "StakeholderAnalysisOutput",
+  "description": "Structured stakeholder analysis output: stakeholder profiles, power-interest mapping, coalition dynamics, risks, engagement plans, and next actions — all grounded in transcript evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "executive_summary",
+    "decision_surface",
+    "stakeholders",
+    "power_interest_map",
+    "coalition_dynamics",
+    "risks",
+    "engagement_plan",
+    "next_7_day_actions",
+    "open_questions",
+    "citations",
+    "metadata"
+  ],
+  "properties": {
+    "executive_summary": {
+      "type": "string",
+      "description": "2-4 sentence overview of the stakeholder landscape: who matters most, key alignments and tensions, and the single biggest engagement risk."
+    },
+    "decision_surface": {
+      "type": "string",
+      "description": "The core decision or initiative that the stakeholder analysis is oriented around, inferred from the transcript or provided via focal_decision."
+    },
+    "stakeholders": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/stakeholder"
+      },
+      "description": "Profiled stakeholders identified from the transcript and/or stakeholder_directory. Each includes stance, influence, evidence, and engagement-relevant attributes."
+    },
+    "power_interest_map": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/power_interest_entry"
+      },
+      "description": "Power-interest grid mapping for each stakeholder. Determines engagement strategy quadrant."
+    },
+    "coalition_dynamics": {
+      "$ref": "#/definitions/coalition_dynamics",
+      "description": "Analysis of likely alliances, blockers, swing stakeholders, and relationship risks across the stakeholder group."
+    },
+    "risks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/risk"
+      },
+      "description": "Stakeholder-related risks that could derail the decision or initiative. Each includes severity, likelihood, early signals, and mitigation."
+    },
+    "engagement_plan": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/engagement_step"
+      },
+      "description": "Tailored engagement actions for key stakeholders. Each specifies messaging, channel, timing, and success criteria."
+    },
+    "next_7_day_actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/action_item"
+      },
+      "description": "Concrete actions for the next 7 days to advance stakeholder alignment. Each has an owner, due date, and proof artifact."
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Unresolved questions about stakeholder positions, motivations, or dynamics that require further investigation."
+    },
+    "citations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/citation"
+      },
+      "description": "Verbatim quotes from the transcript that ground the analysis. Referenced by stakeholder profiles, risks, and engagement plans."
+    },
+    "metadata": {
+      "$ref": "#/definitions/metadata",
+      "description": "Analysis metadata: which input mode was used and when the output was generated."
+    },
+    "recommended_path": {
+      "$ref": "#/definitions/recommended_path",
+      "description": "Optional best-path recommendation. Populated with the 'actionable' variant when the analysis has high confidence (3+ evidence-backed stakeholders and 2+ risks with early signals). Uses the 'insufficient_information' variant when evidence gaps prevent a clear recommendation, explaining what additional context is needed."
+    }
+  },
+  "definitions": {
+    "stakeholder": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "role",
+        "influence_level",
+        "stance",
+        "evidence",
+        "goals",
+        "concerns",
+        "hidden_incentives_or_constraints",
+        "alignment_score",
+        "change_readiness"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Stakeholder's name as identified in the transcript."
+        },
+        "role": {
+          "type": "string",
+          "description": "Job title or organizational role inferred from the transcript or stakeholder_directory."
+        },
+        "influence_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"],
+          "description": "Assessed organizational influence over the decision. 'critical' = can unilaterally block or approve."
+        },
+        "stance": {
+          "type": "string",
+          "enum": ["supportive", "neutral", "skeptical", "opposed", "unknown"],
+          "description": "Stakeholder's apparent position on the focal decision based on transcript evidence."
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Verbatim quotes or near-verbatim evidence from the transcript supporting the stance and influence assessment."
+        },
+        "goals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "What this stakeholder is trying to achieve, inferred from their statements and behavior in the transcript."
+        },
+        "concerns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Explicit or implicit worries, objections, or reservations expressed by this stakeholder."
+        },
+        "hidden_incentives_or_constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Inferred motivations, political pressures, or constraints not explicitly stated but suggested by context or behavior."
+        },
+        "alignment_score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "0-100 score reflecting how aligned this stakeholder is with the focal decision. 0 = fully opposed, 100 = fully supportive."
+        },
+        "change_readiness": {
+          "type": "string",
+          "enum": ["low", "medium", "high"],
+          "description": "How ready this stakeholder is to accept and act on the proposed change. Considers both willingness and capacity."
+        }
+      }
+    },
+    "power_interest_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "power", "interest", "quadrant"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Stakeholder name, matching a name in the stakeholders array."
+        },
+        "power": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Organizational power to influence or block the decision. 1 = minimal, 5 = decisive authority."
+        },
+        "interest": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Level of active interest in the decision outcome. 1 = indifferent, 5 = deeply invested."
+        },
+        "quadrant": {
+          "type": "string",
+          "enum": ["manage_closely", "keep_satisfied", "keep_informed", "monitor"],
+          "description": "Engagement quadrant derived from power and interest. manage_closely = high power + high interest. keep_satisfied = high power + low interest. keep_informed = low power + high interest. monitor = low power + low interest."
+        }
+      }
+    },
+    "coalition_dynamics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "likely_allies",
+        "likely_blockers",
+        "swing_stakeholders",
+        "relationship_risks"
+      ],
+      "properties": {
+        "likely_allies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Stakeholders likely to support and champion the decision."
+        },
+        "likely_blockers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Stakeholders likely to resist or actively block the decision."
+        },
+        "swing_stakeholders": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Stakeholders whose position is uncertain and could tip either way. High-value engagement targets."
+        },
+        "relationship_risks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Interpersonal or inter-team dynamics that pose risk to alignment or execution."
+        }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "severity",
+        "likelihood",
+        "owner_recommendation",
+        "early_signals",
+        "mitigation"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this risk. Format: SR-001, SR-002, etc."
+        },
+        "title": {
+          "type": "string",
+          "description": "Concise, specific risk title tied to concrete stakeholder dynamics."
+        },
+        "severity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Impact magnitude if this risk materializes. 1 = minor friction, 5 = project failure or political crisis."
+        },
+        "likelihood": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Probability of occurrence given current stakeholder dynamics. 1 = very unlikely, 5 = near certain."
+        },
+        "owner_recommendation": {
+          "type": "string",
+          "description": "Who should own mitigation of this risk."
+        },
+        "early_signals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Observable signals that this risk is materializing. Specific enough to monitor week-over-week."
+        },
+        "mitigation": {
+          "type": "string",
+          "description": "Concrete, actionable step to reduce severity or likelihood. Not a restatement of the risk."
+        }
+      }
+    },
+    "engagement_step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stakeholder",
+        "objective",
+        "message_frame",
+        "ask",
+        "channel",
+        "timing",
+        "owner",
+        "success_signal"
+      ],
+      "properties": {
+        "stakeholder": {
+          "type": "string",
+          "description": "Name of the stakeholder this engagement targets."
+        },
+        "objective": {
+          "type": "string",
+          "description": "What you want to achieve in this engagement. Example: 'Secure budget approval', 'Surface hidden concerns'."
+        },
+        "message_frame": {
+          "type": "string",
+          "description": "How to frame the message for this stakeholder given their stance, goals, and concerns."
+        },
+        "ask": {
+          "type": "string",
+          "description": "The specific request or call-to-action for this stakeholder."
+        },
+        "channel": {
+          "type": "string",
+          "enum": ["1:1", "group", "email", "doc", "async"],
+          "description": "Recommended communication channel for this engagement."
+        },
+        "timing": {
+          "type": "string",
+          "description": "When this engagement should happen. Example: 'Before Thursday's steering committee', 'Within 48 hours'."
+        },
+        "owner": {
+          "type": "string",
+          "description": "Who is responsible for executing this engagement step."
+        },
+        "success_signal": {
+          "type": "string",
+          "description": "Observable indicator that the engagement achieved its objective."
+        }
+      }
+    },
+    "action_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action", "owner", "due", "proof_artifact"],
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "Specific action to take within the next 7 days."
+        },
+        "owner": {
+          "type": "string",
+          "description": "Person responsible for completing this action."
+        },
+        "due": {
+          "type": "string",
+          "description": "Due date or time window. Example: 'Monday EOD', '2026-03-15', 'Before steering committee'."
+        },
+        "proof_artifact": {
+          "type": "string",
+          "description": "Tangible output proving this action was completed. Example: 'Shared doc link in #channel', 'Email confirmation from VP'."
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["quote", "speaker", "approximate_location"],
+      "properties": {
+        "quote": {
+          "type": "string",
+          "description": "Verbatim quote from the transcript."
+        },
+        "speaker": {
+          "type": "string",
+          "description": "Who said it."
+        },
+        "approximate_location": {
+          "type": "string",
+          "description": "Where in the transcript this appears. Examples: 'opening remarks', 'during budget discussion', 'closing action items'."
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode_used", "generated_at"],
+      "properties": {
+        "mode_used": {
+          "type": "string",
+          "enum": ["transcript_only", "transcript_plus_context"],
+          "description": "Which input mode was detected. transcript_only if no optional context fields were provided; transcript_plus_context otherwise."
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of when this analysis was generated."
+        }
+      }
+    },
+    "recommended_path": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "overall_recommendation", "leverage", "improve_relations", "watch_list"],
+          "properties": {
+            "status": {
+              "type": "string",
+              "const": "actionable",
+              "description": "Indicates the analysis has sufficient confidence to recommend a concrete path forward."
+            },
+            "overall_recommendation": {
+              "type": "string",
+              "description": "1-3 sentence synthesis of the best path forward: who to engage first, what to prioritize, and the key unlock."
+            },
+            "leverage": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/definitions/leverage_entry"
+              },
+              "description": "Stakeholders to lean on and amplify. These are allies or sponsors whose support accelerates the decision."
+            },
+            "improve_relations": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/definitions/improve_relations_entry"
+              },
+              "description": "Stakeholders where investing relationship capital will yield the highest return. Typically skeptics or swing voters with legitimate concerns."
+            },
+            "watch_list": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/definitions/watch_list_entry"
+              },
+              "description": "Stakeholders to monitor for early warning signals. Not necessarily adversaries — may be allies at risk of disengagement."
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "overall_recommendation", "information_gaps", "suggested_next_steps"],
+          "properties": {
+            "status": {
+              "type": "string",
+              "const": "insufficient_information",
+              "description": "Indicates the analysis lacks sufficient confidence to recommend a clear path forward."
+            },
+            "overall_recommendation": {
+              "type": "string",
+              "description": "Explains why a clear path cannot be recommended and what the primary evidence gaps are."
+            },
+            "information_gaps": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              },
+              "description": "Specific pieces of missing information or context that prevent a confident recommendation."
+            },
+            "suggested_next_steps": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              },
+              "description": "Actions the user should take to close the information gaps and enable a confident recommendation on re-run."
+            }
+          }
+        }
+      ]
+    },
+    "leverage_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stakeholder", "why", "how"],
+      "properties": {
+        "stakeholder": {
+          "type": "string",
+          "description": "Name of the stakeholder to leverage."
+        },
+        "why": {
+          "type": "string",
+          "description": "Why this stakeholder is a leverage point — their power, access, or credibility."
+        },
+        "how": {
+          "type": "string",
+          "description": "Specific action to activate this stakeholder's support."
+        }
+      }
+    },
+    "improve_relations_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stakeholder", "why", "how"],
+      "properties": {
+        "stakeholder": {
+          "type": "string",
+          "description": "Name of the stakeholder to invest in."
+        },
+        "why": {
+          "type": "string",
+          "description": "Why this relationship needs investment — unaddressed concerns, trust deficit, or strategic importance."
+        },
+        "how": {
+          "type": "string",
+          "description": "Specific action to improve the relationship — what to do, say, or deliver."
+        }
+      }
+    },
+    "watch_list_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stakeholder", "signal", "contingency"],
+      "properties": {
+        "stakeholder": {
+          "type": "string",
+          "description": "Name of the stakeholder to monitor."
+        },
+        "signal": {
+          "type": "string",
+          "description": "Observable behavior or event that indicates a risk is materializing with this stakeholder."
+        },
+        "contingency": {
+          "type": "string",
+          "description": "What to do if the signal fires."
+        }
+      }
+    }
+  }
+}

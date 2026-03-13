@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "commitment-extractor/input/v1",
+  "title": "CommitmentExtractorInput",
+  "description": "Input for commitment extraction from a meeting transcript. Supports two modes: transcript-only (broad extraction) or transcript + context (targeted extraction with participant directory, focus person, and meeting metadata). All optional fields improve extraction quality when provided.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["transcript"],
+  "properties": {
+    "transcript": {
+      "type": "string",
+      "minLength": 80,
+      "description": "Full meeting transcript text. Must include enough content for meaningful commitment extraction (minimum 80 characters). Speaker-attributed transcripts produce higher-confidence output."
+    },
+    "meeting_title": {
+      "type": "string",
+      "description": "Title or subject of the meeting. Helps contextualize commitments. Example: 'APAC Expansion Planning — Week 12'."
+    },
+    "meeting_datetime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 datetime of when the meeting occurred. Used to normalize relative due dates (e.g. 'next Friday') into absolute dates."
+    },
+    "default_timezone": {
+      "type": "string",
+      "description": "IANA timezone identifier for interpreting relative dates when no explicit timezone is given. Example: 'America/Los_Angeles', 'Asia/Tokyo'."
+    },
+    "participant_directory": {
+      "type": "array",
+      "description": "Known participants to seed owner resolution. The extractor will still discover additional owners from the transcript.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "role", "team"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Full name of the participant as they appear in the transcript."
+          },
+          "role": {
+            "type": "string",
+            "description": "Job title or organizational role. Example: 'VP Engineering', 'Product Lead'."
+          },
+          "team": {
+            "type": "string",
+            "description": "Team, department, or business unit. Example: 'Platform', 'Product', 'Finance'."
+          }
+        }
+      }
+    },
+    "focus_person": {
+      "type": "string",
+      "description": "Filter or highlight commitments relevant to a specific person. When set, the output prioritizes commitments owned by or dependent on this person."
+    },
+    "extraction_mode": {
+      "type": "string",
+      "enum": ["strict", "balanced", "inclusive"],
+      "default": "balanced",
+      "description": "Controls extraction sensitivity. 'strict' = only explicit, unambiguous commitments with clear owners. 'balanced' = explicit commitments plus high-confidence implied ones. 'inclusive' = all potential commitments including tentative and implied, may include UNKNOWN owners."
+    },
+    "include_non_actionable": {
+      "type": "boolean",
+      "default": false,
+      "description": "When true, includes non-actionable items such as decisions, observations, and contextual notes alongside actionable commitments."
+    }
+  }
+}

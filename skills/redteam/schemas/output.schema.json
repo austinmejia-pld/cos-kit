@@ -1,0 +1,227 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "redteam/output/v1",
+  "title": "RedteamOutput",
+  "description": "Structured adversarial analysis output: failure modes, assumptions, adversarial questions, decision recommendation, and extracted commitments — all grounded in transcript evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "summary",
+    "overall_risk_level",
+    "thesis_under_test",
+    "key_assumptions",
+    "failure_modes",
+    "adversarial_questions",
+    "decision_recommendation",
+    "commitments_extracted",
+    "citations",
+    "metadata"
+  ],
+  "properties": {
+    "summary": {
+      "type": "string",
+      "description": "Executive summary of the red-team analysis. 2-4 sentences covering the most critical failure modes, the decision recommendation, and overall risk posture."
+    },
+    "overall_risk_level": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"],
+      "description": "Aggregate risk level reflecting the combined severity and likelihood of identified failure modes."
+    },
+    "thesis_under_test": {
+      "type": "string",
+      "description": "The core thesis or proposal being stress-tested. In transcript_only mode, this is inferred from the transcript's central discussion. In transcript_plus_focus mode, this is derived from focus_idea."
+    },
+    "key_assumptions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/key_assumption"
+      },
+      "description": "Implicit or explicit assumptions underlying the thesis. Each is assessed for confidence and grounded in transcript evidence."
+    },
+    "failure_modes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/failure_mode"
+      },
+      "description": "Specific ways the thesis, plan, or decision could fail. Each includes severity, likelihood, leading indicators, and mitigation."
+    },
+    "adversarial_questions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      },
+      "description": "Sharp, specific questions that challenge the thesis. Designed to surface blind spots the team has not addressed."
+    },
+    "decision_recommendation": {
+      "$ref": "#/definitions/decision_recommendation",
+      "description": "Overall recommendation on whether to proceed, pause, or stop, with rationale and required next checks."
+    },
+    "commitments_extracted": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/commitment"
+      },
+      "description": "Promises, deadlines, and deliverables extracted from the transcript. Each includes an owner, timeline, and proof artifact."
+    },
+    "citations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/citation"
+      },
+      "description": "Verbatim quotes from the transcript that ground the analysis. Referenced by failure modes, assumptions, and recommendations."
+    },
+    "metadata": {
+      "$ref": "#/definitions/metadata",
+      "description": "Analysis metadata: which input mode was used and when the output was generated."
+    }
+  },
+  "definitions": {
+    "key_assumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assumption", "confidence", "evidence_from_transcript"],
+      "properties": {
+        "assumption": {
+          "type": "string",
+          "description": "The assumption stated clearly."
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confidence that this assumption is true, based on transcript evidence. 0.0 = no support, 1.0 = strongly supported."
+        },
+        "evidence_from_transcript": {
+          "type": "string",
+          "description": "Verbatim or near-verbatim quote from the transcript supporting or undermining this assumption."
+        }
+      }
+    },
+    "failure_mode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "severity", "likelihood", "why_it_fails", "leading_indicators", "mitigation"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this failure mode. Format: FM-001, FM-002, etc."
+        },
+        "title": {
+          "type": "string",
+          "description": "Concise, specific title. Avoid generic labels — tie to concrete meeting content."
+        },
+        "severity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Impact magnitude if this failure occurs. 1 = minor inconvenience, 5 = existential/catastrophic."
+        },
+        "likelihood": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Probability of occurrence given current evidence. 1 = very unlikely, 5 = near certain."
+        },
+        "why_it_fails": {
+          "type": "string",
+          "description": "Explanation of the causal mechanism: what specifically goes wrong and why."
+        },
+        "leading_indicators": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Observable signals that this failure mode is materializing. Should be specific enough to monitor."
+        },
+        "mitigation": {
+          "type": "string",
+          "description": "Specific, actionable mitigation. Not a restatement of the risk — a concrete step to reduce severity or likelihood."
+        }
+      }
+    },
+    "decision_recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recommendation", "rationale", "required_next_checks"],
+      "properties": {
+        "recommendation": {
+          "type": "string",
+          "enum": ["proceed", "proceed_with_guards", "pause", "stop"],
+          "description": "proceed = green light. proceed_with_guards = go but with specific safeguards. pause = hold until checks complete. stop = do not proceed."
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Why this recommendation, grounded in the failure modes and assumptions identified."
+        },
+        "required_next_checks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Specific checks or validations that must happen before or alongside proceeding."
+        }
+      }
+    },
+    "commitment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "due_date_or_window", "commitment", "proof_artifact"],
+      "properties": {
+        "owner": {
+          "type": "string",
+          "description": "Person who made the commitment, as identified in the transcript."
+        },
+        "due_date_or_window": {
+          "type": "string",
+          "description": "When the commitment is due. Exact date or time window as stated in the transcript."
+        },
+        "commitment": {
+          "type": "string",
+          "description": "What was promised or agreed to."
+        },
+        "proof_artifact": {
+          "type": "string",
+          "description": "Tangible output that would prove this commitment was fulfilled."
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["quote", "speaker", "approximate_location"],
+      "properties": {
+        "quote": {
+          "type": "string",
+          "description": "Verbatim quote from the transcript."
+        },
+        "speaker": {
+          "type": "string",
+          "description": "Who said it."
+        },
+        "approximate_location": {
+          "type": "string",
+          "description": "Where in the transcript this appears. Examples: 'early in discussion', 'during staffing debate', 'closing remarks'."
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode_used", "generated_at"],
+      "properties": {
+        "mode_used": {
+          "type": "string",
+          "enum": ["transcript_only", "transcript_plus_focus"],
+          "description": "Which input mode was detected. transcript_only if no focus_idea or focus_questions were provided; transcript_plus_focus otherwise."
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of when this analysis was generated."
+        }
+      }
+    }
+  }
+}

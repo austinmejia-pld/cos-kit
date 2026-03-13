@@ -1,0 +1,138 @@
+{
+  "summary": "The APAC expansion carries medium-high risk due to unvalidated compliance requirements in Japan, a revenue model dependent on an enterprise segment the team cannot access without ISMAP certification, and a payments timeline with no margin for slippage. Singapore is lower risk but the standalone unit economics have not been validated. Recommend proceeding with guards: greenlight Singapore planning but gate Japan commitment on legal review and certification timeline.",
+  "overall_risk_level": "medium",
+  "thesis_under_test": "The company can launch in Japan and Singapore by Q4 using the existing SaaS platform with localization and a distribution partner in Japan.",
+  "key_assumptions": [
+    {
+      "assumption": "The payments team can deliver a lightweight multi-currency layer (USD, JPY, SGD) in three months",
+      "confidence": 0.4,
+      "evidence_from_transcript": "They think they can do a lightweight multi-currency layer in three months if we limit to USD, JPY, and SGD only."
+    },
+    {
+      "assumption": "The revenue model works with 30% enterprise mix by month six in Japan",
+      "confidence": 0.25,
+      "evidence_from_transcript": "The revenue model assumes 30% enterprise mix by month six. If we're SMB-only, we'd need to roughly double the customer count to hit the same revenue target."
+    },
+    {
+      "assumption": "Singapore can be served from existing US-East and EU-West infrastructure with acceptable latency",
+      "confidence": 0.8,
+      "evidence_from_transcript": "Singapore is easier — we can serve from our existing infrastructure with acceptable latency."
+    }
+  ],
+  "failure_modes": [
+    {
+      "id": "FM-001",
+      "title": "Japanese invoicing non-compliance blocks enterprise sales",
+      "severity": 4,
+      "likelihood": 4,
+      "why_it_fails": "Japan's Qualified Invoice System imposes strict requirements on invoicing. The legal team has not reviewed these requirements. If invoices are non-compliant, enterprise buyers cannot claim tax credits, making the product commercially unviable for the target enterprise segment. The team has no legal review underway and the Q4 timeline leaves no room to remediate.",
+      "leading_indicators": [
+        "Legal review has not started by end of month",
+        "Legal review reveals requirements that conflict with current billing system architecture",
+        "First Japanese enterprise prospect raises invoicing compliance during sales process"
+      ],
+      "mitigation": "Start legal review of Qualified Invoice System requirements this week. Make Japan launch gate on legal sign-off. Do not commit to Japan timeline until invoicing compliance is confirmed feasible within the billing system."
+    },
+    {
+      "id": "FM-002",
+      "title": "ISMAP certification timeline makes Japan enterprise market inaccessible until mid next year",
+      "severity": 4,
+      "likelihood": 5,
+      "why_it_fails": "ISMAP certification requires 4-6 months. Without it, the company can only sell to SMB customers in Japan. The revenue model assumes 30% enterprise mix — without enterprise, customer count must roughly double to hit targets. SMB-only Japan is a fundamentally different business case than what was proposed.",
+      "leading_indicators": [
+        "ISMAP certification process not initiated within 30 days",
+        "Compliance team estimates timeline longer than 6 months",
+        "Revised SMB-only revenue projections show negative unit economics"
+      ],
+      "mitigation": "Decouple Japan timeline from Singapore. Begin ISMAP certification process immediately as a background workstream. Remodel Japan revenue projections for SMB-only scenario and present to leadership as the realistic base case."
+    },
+    {
+      "id": "FM-003",
+      "title": "Lightweight multi-currency payments layer slips past July, forcing USD-only Japan launch",
+      "severity": 3,
+      "likelihood": 3,
+      "why_it_fails": "The three-month estimate for the payments layer is based on 'preliminary conversations' — not a committed engineering plan. If the payments team has competing priorities or the scope grows, the July target slips. A USD-only launch in Japan triggers the compliance issues with manual currency conversion that Sophie flagged.",
+      "leading_indicators": [
+        "Payments team has not committed engineering resources by end of next sprint",
+        "Scope of multi-currency layer expands beyond USD/JPY/SGD",
+        "Payments team reports competing priorities that delay start date"
+      ],
+      "mitigation": "Get a firm commitment from the payments team lead this week: staffing, start date, and milestones. If they cannot commit, plan for USD-only billing and assess whether Japan launch is viable under that constraint."
+    },
+    {
+      "id": "FM-004",
+      "title": "Singapore standalone unit economics do not justify expansion without Japan enterprise revenue",
+      "severity": 3,
+      "likelihood": 3,
+      "why_it_fails": "The original proposal bundled Japan and Singapore. If Japan is delayed to Q2+ next year and Singapore goes alone, the combined revenue projection no longer applies. Singapore-only unit economics have not been modeled. If they don't stand up, leadership may reject the expansion entirely, including the Series C narrative benefit.",
+      "leading_indicators": [
+        "Revised Singapore-only projections show payback period beyond 18 months",
+        "Board feedback indicates APAC presence requires Japan, not just Singapore",
+        "Customer pipeline in Singapore is thinner than projected"
+      ],
+      "mitigation": "Kenji's revised plan (due next Friday) must include Singapore standalone P&L with realistic customer acquisition timeline. If the numbers don't work, present leadership with a phased plan that shows Singapore as a beachhead with Japan as the revenue driver."
+    }
+  ],
+  "adversarial_questions": [
+    "If the payments team's three-month estimate is based on 'preliminary conversations,' what happens when it becomes a committed project with real scope review — does the timeline survive?",
+    "The revenue model assumes 30% enterprise in Japan by month six, but enterprise requires ISMAP certification that takes 4-6 months. How was that model built without accounting for certification lead time?",
+    "If Singapore standalone doesn't justify the expansion economically, are we spending Q3-Q4 engineering effort on a market that only makes sense as a precursor to Japan — which is 6+ months away?",
+    "The Nomura partnership is unsigned and Japan-specific. If Japan slips to Q2 next year, will Nomura still be available and interested, or have we lost that window?",
+    "What is the actual incremental engineering cost of this expansion — not just infra, but localization, compliance, support, and payments — and does leadership understand that number?"
+  ],
+  "decision_recommendation": {
+    "recommendation": "proceed_with_guards",
+    "rationale": "Singapore is viable with existing infrastructure and no special certifications. However, the Japan component of the proposal has multiple blocking dependencies (ISMAP, legal review, payments) that make Q4 unrealistic. Proceeding with Singapore-first is reasonable if the standalone economics justify it. Japan should be re-evaluated once legal review, ISMAP timeline, and payments commitment are confirmed.",
+    "required_next_checks": [
+      "Kenji delivers revised Singapore-standalone plan with unit economics by next Friday",
+      "Diana provides firm APAC region buildout estimate by Wednesday and ISMAP certification timeline by end of next week",
+      "Legal review of Japan Qualified Invoice System requirements initiated this week",
+      "Payments team provides committed timeline and staffing for lightweight multi-currency layer"
+    ]
+  },
+  "commitments_extracted": [
+    {
+      "owner": "Kenji Tanaka",
+      "due_date_or_window": "Next Friday",
+      "commitment": "Deliver revised plan with Singapore as lead market, Japan as phased follow-on, including revised unit economics for Singapore standalone",
+      "proof_artifact": "Written plan document with Singapore standalone P&L and phased Japan timeline"
+    },
+    {
+      "owner": "Diana Osei",
+      "due_date_or_window": "Wednesday (infra estimate); end of next week (ISMAP timeline)",
+      "commitment": "Provide firm estimate for APAC region buildout and ISMAP certification timeline from compliance team",
+      "proof_artifact": "Written estimates shared with Ravi: infra buildout weeks/cost and ISMAP certification month estimate"
+    }
+  ],
+  "citations": [
+    {
+      "quote": "Manual currency conversion is a compliance nightmare. Japan has strict invoicing requirements under the Qualified Invoice System. If we get that wrong, our Japanese clients can't claim tax credits on our invoices. That's a deal-breaker for enterprise buyers.",
+      "speaker": "Sophie Laurent",
+      "approximate_location": "Mid-discussion, during payments fallback debate"
+    },
+    {
+      "quote": "At minimum, ISMAP certification for selling to Japanese government and large enterprise. That's a 4-6 month process. If we skip it, we're limited to SMB customers only.",
+      "speaker": "Diana Osei",
+      "approximate_location": "Infrastructure discussion section"
+    },
+    {
+      "quote": "The revenue model assumes 30% enterprise mix by month six. If we're SMB-only, we'd need to roughly double the customer count to hit the same revenue target.",
+      "speaker": "Kenji Tanaka",
+      "approximate_location": "Revenue model discussion, after ISMAP revelation"
+    },
+    {
+      "quote": "They think they can do a lightweight multi-currency layer in three months if we limit to USD, JPY, and SGD only.",
+      "speaker": "Kenji Tanaka",
+      "approximate_location": "Early discussion, responding to Sophie's payments question"
+    },
+    {
+      "quote": "Not yet. We've been focused on the commercial side. Legal review is on the roadmap but hasn't started.",
+      "speaker": "Kenji Tanaka",
+      "approximate_location": "After Ravi asks about legal review of invoicing requirements"
+    }
+  ],
+  "metadata": {
+    "mode_used": "transcript_only",
+    "generated_at": "2026-03-12T09:00:00Z"
+  }
+}

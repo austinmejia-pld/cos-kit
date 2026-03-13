@@ -1,0 +1,182 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "meeting-risk-analysis/output/v1",
+  "title": "MeetingRiskAnalysisOutput",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "executive_summary",
+    "overall_risk_level",
+    "risks",
+    "unresolved_tensions",
+    "hidden_assumptions",
+    "decision_gaps",
+    "recommended_actions",
+    "confidence"
+  ],
+  "properties": {
+    "executive_summary": {
+      "type": "string",
+      "minLength": 30
+    },
+    "overall_risk_level": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "risks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/risk"
+      }
+    },
+    "unresolved_tensions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/unresolved_tension"
+      }
+    },
+    "hidden_assumptions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/hidden_assumption"
+      }
+    },
+    "decision_gaps": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/decision_gap"
+      }
+    },
+    "recommended_actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/recommended_action"
+      }
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  },
+  "definitions": {
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "severity", "likelihood", "evidence_quotes", "impact", "owner", "mitigation"],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "likelihood": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "evidence_quotes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "impact": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "mitigation": {
+          "type": "string"
+        }
+      }
+    },
+    "unresolved_tension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tension", "sides", "evidence_quotes", "why_it_matters"],
+      "properties": {
+        "tension": {
+          "type": "string"
+        },
+        "sides": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence_quotes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "why_it_matters": {
+          "type": "string"
+        }
+      }
+    },
+    "hidden_assumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assumption", "risk_if_false", "evidence_quotes"],
+      "properties": {
+        "assumption": {
+          "type": "string"
+        },
+        "risk_if_false": {
+          "type": "string"
+        },
+        "evidence_quotes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "decision_gap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["missing_decision", "blocker", "suggested_decision_owner"],
+      "properties": {
+        "missing_decision": {
+          "type": "string"
+        },
+        "blocker": {
+          "type": "string"
+        },
+        "suggested_decision_owner": {
+          "type": "string"
+        }
+      }
+    },
+    "recommended_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action", "owner", "due_date", "success_artifact"],
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "due_date": {
+          "type": "string"
+        },
+        "success_artifact": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "execution-friction-xray/input/v1",
+  "title": "ExecutionFrictionXrayInput",
+  "description": "Input for execution friction analysis of a meeting transcript. Supports two modes: transcript-only (broad friction scan) or transcript + context (targeted analysis with team context, focus area, and participant directory). All optional fields improve analysis quality when provided.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["transcript"],
+  "properties": {
+    "transcript": {
+      "type": "string",
+      "minLength": 100,
+      "description": "Full meeting transcript text. Must include enough content for meaningful friction analysis (minimum 100 characters). Speaker-attributed transcripts produce higher-confidence output."
+    },
+    "meeting_title": {
+      "type": "string",
+      "description": "Title or subject of the meeting. Helps contextualize friction points. Example: 'APAC Expansion Planning — Week 12'."
+    },
+    "meeting_datetime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 datetime of when the meeting occurred. Used to anchor timeline-based friction analysis."
+    },
+    "team_context": {
+      "type": "string",
+      "description": "Background on the team, project, or organization. Improves friction detection by grounding analysis in real constraints. Example: 'Series B startup, 60-person eng org, shipping v2 platform migration while maintaining v1 SLAs.'"
+    },
+    "focus_area": {
+      "type": "string",
+      "description": "Specific execution concern to prioritize in the analysis. When provided, friction hotspots related to this area are weighted higher. Examples: 'launch readiness', 'cross-team handoff', 'resourcing constraints'."
+    },
+    "urgency_level": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"],
+      "description": "How time-sensitive the execution context is. 'critical' = imminent deadline or launch, tightest scrutiny. 'low' = exploratory or long-horizon. Adjusts severity weighting."
+    },
+    "analysis_depth": {
+      "type": "string",
+      "enum": ["quick", "standard", "deep"],
+      "default": "standard",
+      "description": "Controls thoroughness of analysis. 'quick' = top friction points only. 'standard' = balanced coverage. 'deep' = exhaustive analysis with more hotspots and granular evidence."
+    },
+    "participant_directory": {
+      "type": "array",
+      "description": "Known participants to improve owner attribution and cross-team friction detection.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "role", "team"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Full name of the participant as they appear in the transcript."
+          },
+          "role": {
+            "type": "string",
+            "description": "Job title or organizational role. Example: 'VP Engineering', 'Product Lead'."
+          },
+          "team": {
+            "type": "string",
+            "description": "Team, department, or business unit. Example: 'Platform', 'Product', 'Finance'."
+          }
+        }
+      }
+    },
+    "key_questions": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "string"
+      },
+      "description": "Specific execution questions the analysis should address. Each should be a concrete concern. Example items: 'Is the launch timeline realistic given current dependencies?', 'Who owns the cross-team handoff for payments integration?'"
+    }
+  }
+}

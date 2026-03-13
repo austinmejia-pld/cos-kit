@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "stakeholder-analysis/input/v1",
+  "title": "StakeholderAnalysisInput",
+  "description": "Input for stakeholder analysis of a meeting transcript. Supports two modes: transcript-only (broad stakeholder scan) or transcript + additional context (targeted analysis with known stakeholders, a focal decision, and organizational background). All optional fields improve analysis quality when provided.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["transcript"],
+  "properties": {
+    "transcript": {
+      "type": "string",
+      "minLength": 80,
+      "description": "Full meeting transcript text. Must include enough content for meaningful stakeholder analysis (minimum 80 characters). Speaker-attributed transcripts produce higher-confidence output.",
+      "examples": ["Alice Chen: Let's discuss the platform migration timeline. Bob Park: I think Q3 is realistic if we get buy-in from infrastructure..."]
+    },
+    "analysis_goal": {
+      "type": "string",
+      "description": "The purpose of this stakeholder analysis. Adjusts depth, framing, and emphasis of the output. Example: 'prep for exec review', 'identify blockers before launch', 'map decision-makers for budget approval'.",
+      "examples": ["prep for exec review", "identify blockers before launch"]
+    },
+    "focal_decision": {
+      "type": "string",
+      "description": "A specific decision or proposal the analysis should center on. When provided, stakeholder stances, risks, and engagement plans are evaluated relative to this decision. Example: 'ship v1 in Q2', 'migrate to microservices', 'expand into APAC'.",
+      "examples": ["ship v1 in Q2", "migrate to microservices by year-end"]
+    },
+    "org_context": {
+      "type": "string",
+      "description": "Organizational background that helps interpret transcript dynamics: company stage, culture, recent changes, political landscape. Example: 'Post-acquisition integration; two engineering orgs merging, competing roadmaps.'",
+      "examples": ["Series B SaaS, 200 employees, recently hired new CTO from enterprise background"]
+    },
+    "stakeholder_directory": {
+      "type": "array",
+      "description": "Pre-known stakeholders to seed the analysis. The analyzer will still discover additional stakeholders from the transcript. Each entry provides name, role, team, and an optional power hint.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "role", "team"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Full name of the stakeholder as they appear in the transcript."
+          },
+          "role": {
+            "type": "string",
+            "description": "Job title or organizational role. Example: 'VP Engineering', 'Product Lead'."
+          },
+          "team": {
+            "type": "string",
+            "description": "Team, department, or business unit. Example: 'Platform', 'Product', 'Finance'."
+          },
+          "power_hint": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"],
+            "description": "Optional hint about this person's organizational power level. Helps calibrate influence analysis when transcript evidence alone is insufficient."
+          }
+        }
+      }
+    },
+    "key_questions": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
+      "description": "Specific questions the analysis should address. Each should be a concrete concern about stakeholder dynamics. Example items: 'Who has veto power over the budget?', 'Is the infrastructure team aligned with the timeline?'",
+      "examples": [["Who has veto power over the budget?", "Is the infrastructure team aligned with the timeline?"]]
+    },
+    "time_horizon": {
+      "type": "string",
+      "enum": ["immediate", "30d", "quarter", "6-12m"],
+      "description": "Time frame for the analysis. Affects urgency of engagement plans and risk assessment. 'immediate' = this week. '30d' = next month. 'quarter' = this quarter. '6-12m' = multi-quarter strategic horizon."
+    },
+    "confidence_threshold": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Minimum confidence level for including a stakeholder finding. 0.0 = include everything (even speculative). 1.0 = only include findings with strong transcript evidence. Default behavior if omitted: 0.5."
+    }
+  }
+}

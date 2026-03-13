@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "exposeRawJsonByDefault": false,
+  "artifactDir": ".artifacts/skill-runs",
+  "commands": {
+    "/xray": "execution-friction-xray",
+    "/commitments": "commitment-extractor",
+    "/stakeholders": "stakeholder-analysis",
+    "/decision-audit": "decision-quality-audit",
+    "/risks": "meeting-risk-analysis",
+    "/redteam": "redteam",
+    "/interview": "interview-analysis"
+  }
+}
