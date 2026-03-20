@@ -1,0 +1,33 @@
+{
+  "transcript": "Marcus Chen: Alright, let's jump into the platform migration update. We've got 30 minutes and I know everyone's calendar is packed, so let's be efficient. Priya, where are we on the data layer cutover?\n\nPriya Sharma: Yeah, so, um, we've been making progress. I think we're in a pretty good place, actually. The team has been, you know, working through the schema migration scripts and I think we've gotten through maybe like 60 percent of the tables? It's hard to say exactly. There are some edge cases that are sort of tricky, but I think we can probably handle them. Hopefully by end of next week we'll have a better picture.\n\nMarcus Chen: Okay. When you say 60 percent, is that 60 percent of the tables migrated and tested, or just scripted?\n\nPriya Sharma: Um, scripted mostly. Testing is... we haven't really started the full integration test suite yet. We've done some spot checks. I was going to say, I think we might need to push the timeline a little bit? But I'm not sure by how much. Maybe a week? It's hard to tell right now.\n\nMarcus Chen: That's concerning. Leadership is expecting a go/no-go decision on March 28th. If we're only 60 percent scripted with no integration testing, that feels like we're behind. What's blocking the testing?\n\nPriya Sharma: Well, it's a few things. The staging environment has been flaky — DevOps is working on it but it keeps going down. And also, I think the team is a little stretched because we pulled two engineers onto the auth service incident last week. So basically we lost about 10 person-days.\n\nJordan Wells: I can speak to the staging issue. We identified the root cause yesterday — it's a memory leak in the connection pooler. We have a fix deployed to staging as of this morning. Should be stable now, but I'd want 24 hours of monitoring before we call it resolved.\n\nMarcus Chen: Good. That helps. Priya, given that staging should be back, can you put together a revised timeline? I need something I can take to leadership that's honest about where we are.\n\nPriya Sharma: Yeah, I can try to put something together. I mean, I think the issue is that there are a lot of unknowns still. Like, we don't know how long the edge cases will take until we actually dig into them. And I don't want to commit to a date that we might miss.\n\nMarcus Chen: I understand the uncertainty, but we need to give leadership something. Even a range would be better than nothing. Can you give me a best-case and worst-case?\n\nPriya Sharma: I guess best case would be... maybe April 4th for all scripts done and basic integration tests passing? Worst case, if the edge cases are really bad, maybe April 18th? But I really don't know. Those are sort of rough estimates.\n\nLena Kowalski: Can I jump in? I've been looking at this from the product side. We have three enterprise clients who were promised the new platform by end of Q1. If we slip to April 18th, that's a month past our external commitment. Have we thought about what we tell those clients?\n\nPriya Sharma: That's a good question. I hadn't really thought about the client communication piece. I've been kind of heads down on the technical work.\n\nMarcus Chen: That's fair, but it's something we need to address. Lena, can you draft a client communication plan for both scenarios — on-time and delayed?\n\nLena Kowalski: Already started one. I'll have it ready by Thursday.\n\nMarcus Chen: Perfect. Jordan, the staging fix — is there anything the migration team needs to do differently once staging is stable?\n\nJordan Wells: No, they should be able to pick up where they left off. The connection pooler fix is backward compatible. One thing I'd flag though — we should probably set up dedicated staging monitoring for the migration window so we catch issues early rather than losing another week.\n\nMarcus Chen: Agreed. Can you own that?\n\nJordan Wells: Yes, I'll have the monitoring dashboard up by end of day tomorrow.\n\nMarcus Chen: Great. So to summarize — Priya, revised timeline by Wednesday. Lena, client comms plan by Thursday. Jordan, staging monitoring by tomorrow EOD. Let's reconvene Friday with a clear picture for leadership. Anything else?\n\nPriya Sharma: I think we're good. I just want to say, I know this is behind where we wanted to be, and I'm sorry about that. The team is working really hard.\n\nMarcus Chen: I appreciate that, Priya. No one's questioning the team's effort. We just need to get the communication to leadership right so we can manage expectations. Okay, let's wrap.",
+  "meeting_title": "Platform Migration — Weekly Status Update",
+  "meeting_datetime": "2026-03-11T10:00:00-07:00",
+  "user_name": "Priya Sharma",
+  "communication_goal": "align",
+  "audience_context": "Cross-functional status meeting with engineering lead (Marcus), DevOps lead (Jordan), and product manager (Lena). Marcus reports directly to the CTO and needs crisp updates to relay upward.",
+  "tone_target": "executive",
+  "analysis_depth": "deep",
+  "participant_directory": [
+    {
+      "name": "Marcus Chen",
+      "role": "Engineering Director",
+      "team": "Engineering"
+    },
+    {
+      "name": "Priya Sharma",
+      "role": "Tech Lead, Data Platform",
+      "team": "Engineering"
+    },
+    {
+      "name": "Jordan Wells",
+      "role": "DevOps Lead",
+      "team": "Infrastructure"
+    },
+    {
+      "name": "Lena Kowalski",
+      "role": "Senior Product Manager",
+      "team": "Product"
+    }
+  ],
+  "focus_areas": ["clarity", "brevity", "executive_presence", "ownership_language"]
+}

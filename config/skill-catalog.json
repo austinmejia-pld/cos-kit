@@ -1,0 +1,174 @@
+{
+  "generated_at": "2026-03-20T04:49:53.720Z",
+  "skills": [
+    {
+      "id": "commitment-extractor",
+      "description": "Identify explicit and implied commitments from meeting transcripts/emails, normalize owner/date/artifact fields, and output an accountability-ready action list with evidence citations. Use when preparing follow-ups, weekly reviews, execution tracking, or decision accountability.",
+      "command": "/commitments",
+      "status": "active",
+      "triggerExamples": [
+        "extract commitments from this meeting",
+        "what did people commit to",
+        "pull action items and owners",
+        "who owes what after this meeting",
+        "list the follow-ups from this transcript"
+      ],
+      "requiredInputs": [
+        "transcript"
+      ],
+      "fallbackPrompt": "I need a meeting transcript to extract commitments. Optionally provide: participant_directory, focus_person, meeting_datetime, extraction_mode."
+    },
+    {
+      "id": "decision-quality-audit",
+      "description": "Audit the quality of decision-making from a single meeting transcript by scoring clarity, evidence, alternatives, risk analysis, and accountability; then produce concrete decision-hygiene upgrades. Use when teams need to improve decision rigor, avoid rework, and increase execution confidence.",
+      "command": "/decision-audit",
+      "status": "active",
+      "triggerExamples": [
+        "audit this decision",
+        "decision quality",
+        "did we make a good decision",
+        "decision hygiene",
+        "score the decision rigor"
+      ],
+      "requiredInputs": [
+        "transcript"
+      ],
+      "fallbackPrompt": "I need a meeting transcript to audit decision quality. Optionally provide: decision_focus, strategic_context, risk_tolerance, participant_directory, key_questions."
+    },
+    {
+      "id": "execution-friction-xray",
+      "description": "Diagnose execution drag (aka any \"friction\" in a meeting) from a single meeting transcript by identifying friction hotspots (ownership, dependencies, timelines, handoffs, and scope ambiguity), scoring severity/likelihood, and producing a concrete 7-day friction-kill plan with evidence citations. Use when momentum is slipping, launches are at risk, or cross-functional delivery is stalling.",
+      "command": "/friction",
+      "status": "active",
+      "triggerExamples": [
+        "what's slowing us down",
+        "diagnose execution friction",
+        "find the bottlenecks in this meeting",
+        "why is this project stalling",
+        "friction analysis"
+      ],
+      "requiredInputs": [
+        "transcript"
+      ],
+      "fallbackPrompt": "I need a meeting transcript to diagnose execution friction. Optionally provide: team_context, focus_area, urgency_level, participant_directory, key_questions."
+    },
+    {
+      "id": "interview-analysis",
+      "description": "Analyze an interview transcript against a role rubric to produce evidence-backed dimension scores, a hire recommendation, and interviewer coaching feedback. Use when you have a structured transcript and rubric and need a consistent, schema-valid evaluation output.",
+      "command": "/interview",
+      "status": "active",
+      "triggerExamples": [
+        "evaluate this interview transcript",
+        "interview analysis for candidate",
+        "score this interview",
+        "assess candidate performance",
+        "how did the candidate do"
+      ],
+      "requiredInputs": [
+        "transcript",
+        "role",
+        "stage",
+        "rubric"
+      ],
+      "fallbackPrompt": "I need a few things to run an interview analysis: 1. The interview transcript (full text) 2. The role the candidate is interviewing for 3. The interview stage (recruiter_screen, hiring_manager, onsite, panel, or final) 4. A rubric with at least one scoring dimension (name, description, scale 1-4)"
+    },
+    {
+      "id": "meeting-risk-analysis",
+      "description": "Analyze a meeting transcript to surface risks, unresolved tensions, hidden assumptions, decision gaps, and recommended actions with evidence-backed citations. Use when you have a meeting transcript and need a structured risk assessment.",
+      "command": "/risks",
+      "status": "active",
+      "triggerExamples": [
+        "what are the risks from this meeting",
+        "surface risks in this transcript",
+        "risk assessment for this meeting",
+        "find hidden assumptions",
+        "what tensions came up in this meeting"
+      ],
+      "requiredInputs": [
+        "transcript"
+      ],
+      "fallbackPrompt": "I need a meeting transcript to surface risks and tensions. Optionally provide: meeting_title, meeting_datetime, participant_directory, key_questions."
+    },
+    {
+      "id": "redteam",
+      "description": "Adversarial analysis of a meeting transcript to surface failure modes, hidden assumptions, and decision risks. Use when stress-testing a strategy, proposal, or plan discussed in a meeting. Supports two modes: transcript-only (broad scan) or transcript + focus (targeted stress-test of a specific idea). Optional inputs: context, audience, risk_tolerance, focus_idea, focus_questions, constraints.",
+      "command": "/redteam",
+      "status": "active",
+      "triggerExamples": [
+        "stress test this idea",
+        "red team this proposal",
+        "poke holes in this plan",
+        "adversarial analysis of this decision",
+        "what could go wrong with this strategy"
+      ],
+      "requiredInputs": [
+        "transcript"
+      ],
+      "fallbackPrompt": "I need a meeting transcript to red-team. Optionally provide: context, audience, risk_tolerance, focus_idea, focus_questions, constraints."
+    },
+    {
+      "id": "stakeholder-analysis",
+      "description": "Analyze meeting transcripts and decision context to map stakeholders, infer stances/incentives, identify coalition dynamics and execution risks, and produce an actionable engagement plan. Use when preparing decisions, alignment plans, launches, roadmap changes, or cross-functional initiatives where stakeholder buy-in is critical.",
+      "command": "/stakeholders",
+      "status": "active",
+      "triggerExamples": [
+        "map the stakeholders for this decision",
+        "stakeholder analysis",
+        "who has influence over this",
+        "what are the coalition dynamics",
+        "engagement plan for this initiative"
+      ],
+      "requiredInputs": [
+        "transcript"
+      ],
+      "fallbackPrompt": "I need a meeting transcript to map stakeholders. Optionally provide: focal_decision, analysis_goal, org_context, stakeholder_directory, time_horizon."
+    },
+    {
+      "id": "effective-communication",
+      "description": "",
+      "command": "/comms",
+      "status": "active",
+      "triggerExamples": [
+        "how well did I communicate",
+        "coach my communication",
+        "communication feedback on this meeting",
+        "how can I be more effective in meetings",
+        "rate my speaking style"
+      ],
+      "requiredInputs": [
+        "transcript"
+      ],
+      "fallbackPrompt": "I need a meeting transcript to coach your communication. Optionally provide: user_name, communication_goal, audience_context, tone_target, focus_areas."
+    },
+    {
+      "id": "transcript-decision-extraction",
+      "description": "",
+      "command": "/transcript-decision-extraction",
+      "status": "planned",
+      "triggerExamples": [
+        "extract decisions from this transcript",
+        "what was decided in this meeting",
+        "pull action items from transcript"
+      ],
+      "requiredInputs": [
+        "transcript"
+      ],
+      "fallbackPrompt": "I need the meeting transcript to extract decisions and action items."
+    },
+    {
+      "id": "action-tracker",
+      "description": "",
+      "command": "/action-tracker",
+      "status": "planned",
+      "triggerExamples": [
+        "track this action item",
+        "what actions are outstanding",
+        "update action status"
+      ],
+      "requiredInputs": [
+        "action_description"
+      ],
+      "fallbackPrompt": "I need at least a description of the action item to track."
+    }
+  ]
+}

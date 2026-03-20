@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "effective-communication/input/v1",
+  "title": "EffectiveCommunicationInput",
+  "description": "Input for communication effectiveness analysis of a meeting transcript. Supports two modes: transcript-only (broad coaching scan) or transcript + context (targeted coaching with user identity, communication goal, and focus areas). All optional fields improve coaching specificity when provided.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["transcript"],
+  "properties": {
+    "transcript": {
+      "type": "string",
+      "minLength": 150,
+      "description": "Full meeting transcript text. Must include enough dialogue for meaningful communication analysis (minimum 150 characters). Speaker-attributed transcripts produce higher-quality coaching output."
+    },
+    "meeting_title": {
+      "type": "string",
+      "description": "Title or subject of the meeting. Helps contextualize communication dynamics. Example: 'Q3 Budget Review — Executive Committee'."
+    },
+    "meeting_datetime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 datetime of when the meeting occurred."
+    },
+    "user_name": {
+      "type": "string",
+      "description": "Name of the person being coached. When provided, analysis focuses on this person's communication patterns, strengths, and improvement areas."
+    },
+    "communication_goal": {
+      "type": "string",
+      "description": "The primary communication objective the user had for this meeting. Shapes the coaching lens. Examples: 'align', 'persuade', 'decide', 'unblock'."
+    },
+    "audience_context": {
+      "type": "string",
+      "description": "Background on the audience — seniority, familiarity with topic, known concerns. Helps calibrate audience-alignment scoring."
+    },
+    "tone_target": {
+      "type": "string",
+      "enum": ["neutral", "warm", "assertive", "executive"],
+      "description": "Desired communication tone. 'neutral' = balanced and professional. 'warm' = empathetic and collaborative. 'assertive' = direct and decisive. 'executive' = crisp, high-signal, time-aware."
+    },
+    "analysis_depth": {
+      "type": "string",
+      "enum": ["quick", "standard", "deep"],
+      "default": "standard",
+      "description": "Controls analysis thoroughness. 'quick' = headline-level coaching. 'standard' = balanced analysis with rewrites. 'deep' = comprehensive analysis with extended missed-opportunity coverage and detailed drills."
+    },
+    "participant_directory": {
+      "type": "array",
+      "description": "Known meeting participants to improve speaker attribution and audience-alignment analysis.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "role", "team"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Full name of the participant as they appear in the transcript."
+          },
+          "role": {
+            "type": "string",
+            "description": "Job title or organizational role. Example: 'VP Engineering', 'Product Lead'."
+          },
+          "team": {
+            "type": "string",
+            "description": "Team, department, or business unit. Example: 'Platform', 'Product', 'Finance'."
+          }
+        }
+      }
+    },
+    "focus_areas": {
+      "type": "array",
+      "description": "Specific communication dimensions to prioritize in the analysis. When provided, these areas receive deeper coverage in priority_improvements.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "clarity",
+          "brevity",
+          "executive_presence",
+          "structure",
+          "listening",
+          "ownership_language",
+          "handling_pushback",
+          "closing"
+        ]
+      }
+    },
+    "key_questions": {
+      "type": "array",
+      "description": "Specific questions the user wants answered about their communication. Maximum 8 questions.",
+      "maxItems": 8,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

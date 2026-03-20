@@ -42,6 +42,7 @@ const FORMATTERS: Record<string, (data: unknown) => string> = {
   "meeting-risk-analysis": formatMeetingRiskAnalysisInsight,
   redteam: formatRedteamInsight,
   "interview-analysis": formatInterviewAnalysisInsight,
+  "effective-communication": formatEffectiveCommunicationInsight,
 };
 
 export function formatInsight(skillName: string, data: unknown): string {
@@ -513,6 +514,94 @@ function formatInterviewAnalysisInsight(data: unknown): string {
     lines.push(
       `→ **Address top concern:** ${String(concerns[0]).slice(0, 200)}`,
     );
+  }
+
+  return lines.join("\n");
+}
+
+// ── Effective Communication ─────────────────────────────────────────
+
+function formatEffectiveCommunicationInsight(data: unknown): string {
+  const lines: string[] = [];
+
+  const score = num(data, "overall_effectiveness_score");
+  const status = str(data, "communication_status", "unknown");
+  const improvements = arr(data, "priority_improvements");
+
+  lines.push("## Communication Coaching");
+  lines.push("");
+  lines.push(
+    `**Effectiveness: ${score}/100** — ${status.replace(/_/g, " ")} — ${improvements.length} improvement${improvements.length !== 1 ? "s" : ""} identified`,
+  );
+
+  const breakdown = field(data, "score_breakdown") as Obj | undefined;
+  if (breakdown) {
+    const dims = [
+      ["Clarity", num(breakdown, "clarity")] as const,
+      ["Brevity", num(breakdown, "brevity")] as const,
+      ["Structure", num(breakdown, "structure")] as const,
+      ["Audience Alignment", num(breakdown, "audience_alignment")] as const,
+      ["Executive Presence", num(breakdown, "executive_presence")] as const,
+      ["Action Orientation", num(breakdown, "action_orientation")] as const,
+      ["Listening", num(breakdown, "listening_and_responsiveness")] as const,
+    ];
+    const sorted = [...dims].sort((a, b) => a[1] - b[1]);
+
+    const insights: string[] = [];
+    insights.push(
+      bullet(`Weakest: **${sorted[0][0]}** (${sorted[0][1]}/100)`),
+    );
+    insights.push(
+      bullet(
+        `Strongest: **${sorted[sorted.length - 1][0]}** (${sorted[sorted.length - 1][1]}/100)`,
+      ),
+    );
+
+    const coachTake = str(data, "coach_take");
+    if (coachTake) {
+      insights.push(
+        bullet(
+          `Coach: ${coachTake.slice(0, 150)}${coachTake.length > 150 ? "…" : ""}`,
+        ),
+      );
+    }
+
+    lines.push("");
+    lines.push(section("Top Insights", insights));
+  }
+
+  const impactOrder: Record<string, number> = {
+    critical: 0,
+    high: 1,
+    medium: 2,
+    low: 3,
+  };
+  const sortedImprovements = [...improvements].sort(
+    (a, b) =>
+      (impactOrder[str(a, "impact_level")] ?? 4) -
+      (impactOrder[str(b, "impact_level")] ?? 4),
+  );
+  const actionItems = sortedImprovements.slice(0, 3).map((i) =>
+    bullet(
+      `**${str(i, "theme")}** (${str(i, "impact_level")}) — ${str(i, "diagnosis").slice(0, 100)}${str(i, "diagnosis").length > 100 ? "…" : ""}`,
+    ),
+  );
+  if (actionItems.length > 0) {
+    lines.push("");
+    lines.push(section("Priority Improvements", actionItems));
+  }
+
+  const oneThing = field(data, "one_thing_to_change_next_meeting");
+  if (oneThing) {
+    lines.push("");
+    lines.push("### One Thing to Change");
+    lines.push(
+      `→ **${str(oneThing, "change")}** — ${str(oneThing, "why").slice(0, 200)}${str(oneThing, "why").length > 200 ? "…" : ""}`,
+    );
+    const signal = str(oneThing, "success_signal");
+    if (signal) {
+      lines.push(`  Success signal: ${signal}`);
+    }
   }
 
   return lines.join("\n");

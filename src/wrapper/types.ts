@@ -33,6 +33,10 @@ export interface WrapperConfig {
   exposeRawJsonByDefault: boolean;
   artifactDir: string;
   commands: Record<string, string>;
+  /** Enable the skill routing engine for natural-language suggestions */
+  routerEnabled?: boolean;
+  /** Whether to escalate uncertain v0 scores to an LLM call */
+  routerLLMEscalation?: boolean;
 }
 
 export interface WrapperOptions {

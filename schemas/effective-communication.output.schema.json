@@ -1,0 +1,420 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "effective-communication/output/v1",
+  "title": "EffectiveCommunicationOutput",
+  "description": "Structured communication coaching output: effectiveness scores, priority improvements with rewrites, missed opportunities, filler/hedging patterns, talk-time signal, next-meeting gameplan, and evidence citations — all grounded in transcript evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "executive_summary",
+    "overall_effectiveness_score",
+    "communication_status",
+    "coach_take",
+    "score_breakdown",
+    "what_worked",
+    "priority_improvements",
+    "missed_opportunities",
+    "filler_or_hedging_patterns",
+    "talk_time_signal",
+    "next_meeting_gameplan",
+    "one_thing_to_change_next_meeting",
+    "citations",
+    "metadata"
+  ],
+  "properties": {
+    "executive_summary": {
+      "type": "string",
+      "description": "2-4 sentence overview of communication effectiveness: overall impression, key strengths, and the most impactful area for improvement."
+    },
+    "overall_effectiveness_score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Composite communication effectiveness score. 0 = ineffective, 100 = exceptional."
+    },
+    "communication_status": {
+      "type": "string",
+      "enum": ["excellent", "strong_with_gaps", "mixed", "needs_improvement"],
+      "description": "Categorical assessment of overall communication quality."
+    },
+    "coach_take": {
+      "type": "string",
+      "description": "Candid, direct coaching perspective — what a trusted advisor would say privately. Actionable and specific."
+    },
+    "score_breakdown": {
+      "$ref": "#/definitions/score_breakdown",
+      "description": "Granular scores across seven communication dimensions."
+    },
+    "what_worked": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Specific things the speaker did well. Each entry is a concrete, evidence-grounded observation."
+    },
+    "priority_improvements": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "$ref": "#/definitions/priority_improvement"
+      },
+      "description": "Top communication improvements ranked by impact. Each includes diagnosis, evidence, a before/after rewrite, and a practice drill."
+    },
+    "missed_opportunities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/missed_opportunity"
+      },
+      "description": "Moments in the conversation where a different approach would have been more effective."
+    },
+    "filler_or_hedging_patterns": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/filler_pattern"
+      },
+      "description": "Recurring filler words, hedge phrases, or verbal tics that undermine authority or clarity."
+    },
+    "talk_time_signal": {
+      "$ref": "#/definitions/talk_time_signal",
+      "description": "Assessment of the user's share of speaking time and whether it was appropriate for their role."
+    },
+    "next_meeting_gameplan": {
+      "$ref": "#/definitions/next_meeting_gameplan",
+      "description": "Concrete preparation plan for the next similar meeting."
+    },
+    "one_thing_to_change_next_meeting": {
+      "$ref": "#/definitions/one_thing_to_change",
+      "description": "The single highest-leverage behavior change to implement immediately."
+    },
+    "citations": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "$ref": "#/definitions/citation"
+      },
+      "description": "Verbatim transcript quotes supporting the analysis. At least three required."
+    },
+    "metadata": {
+      "$ref": "#/definitions/metadata",
+      "description": "Analysis metadata: which input mode and analysis depth were used, and when the output was generated."
+    }
+  },
+  "if": {
+    "properties": {
+      "metadata": {
+        "properties": {
+          "analysis_depth_used": {
+            "const": "deep"
+          }
+        }
+      }
+    }
+  },
+  "then": {
+    "properties": {
+      "missed_opportunities": {
+        "minItems": 3
+      }
+    }
+  },
+  "definitions": {
+    "score_breakdown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "clarity",
+        "brevity",
+        "structure",
+        "audience_alignment",
+        "executive_presence",
+        "action_orientation",
+        "listening_and_responsiveness"
+      ],
+      "properties": {
+        "clarity": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "How clear and unambiguous the communication was."
+        },
+        "brevity": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Economy of words — saying what needs to be said without excess."
+        },
+        "structure": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Logical organization of points, use of framing and signposting."
+        },
+        "audience_alignment": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "How well the communication was calibrated to the audience's needs, seniority, and context."
+        },
+        "executive_presence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Confidence, authority, and gravitas in delivery."
+        },
+        "action_orientation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Driving toward decisions, next steps, and clear ownership."
+        },
+        "listening_and_responsiveness": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Acknowledging others' points, building on input, adapting in real time."
+        }
+      }
+    },
+    "priority_improvement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "theme",
+        "diagnosis",
+        "why_it_costs_you",
+        "impact_level",
+        "evidence",
+        "rewrite",
+        "drill"
+      ],
+      "properties": {
+        "theme": {
+          "type": "string",
+          "description": "Short label for the improvement area. Example: 'Hedging undermines recommendations'."
+        },
+        "diagnosis": {
+          "type": "string",
+          "description": "What the speaker is doing and why it's a problem."
+        },
+        "why_it_costs_you": {
+          "type": "string",
+          "description": "Concrete impact on credibility, outcomes, or perception."
+        },
+        "impact_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"],
+          "description": "How much fixing this would improve overall effectiveness."
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/evidence_entry"
+          },
+          "description": "Verbatim transcript evidence demonstrating the pattern."
+        },
+        "rewrite": {
+          "$ref": "#/definitions/rewrite",
+          "description": "Before/after example showing how to improve."
+        },
+        "drill": {
+          "type": "string",
+          "description": "A specific practice exercise to build the new habit."
+        }
+      }
+    },
+    "evidence_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["speaker", "quote", "approximate_location"],
+      "properties": {
+        "speaker": {
+          "type": "string",
+          "description": "Who said it."
+        },
+        "quote": {
+          "type": "string",
+          "description": "Verbatim quote from the transcript."
+        },
+        "approximate_location": {
+          "type": "string",
+          "description": "Where in the transcript this appears. Examples: 'opening remarks', 'during budget discussion', 'closing'."
+        }
+      }
+    },
+    "rewrite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["before", "after", "why_better"],
+      "properties": {
+        "before": {
+          "type": "string",
+          "description": "The original statement or paraphrase from the transcript."
+        },
+        "after": {
+          "type": "string",
+          "description": "Improved version demonstrating the coaching point."
+        },
+        "why_better": {
+          "type": "string",
+          "description": "Explanation of what changed and why it's more effective."
+        }
+      }
+    },
+    "missed_opportunity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["moment", "what_happened", "better_move", "sample_line"],
+      "properties": {
+        "moment": {
+          "type": "string",
+          "description": "When in the conversation the opportunity occurred."
+        },
+        "what_happened": {
+          "type": "string",
+          "description": "What the speaker actually did or said."
+        },
+        "better_move": {
+          "type": "string",
+          "description": "What they should have done instead and why."
+        },
+        "sample_line": {
+          "type": "string",
+          "description": "Example script the speaker could have used."
+        }
+      }
+    },
+    "filler_pattern": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pattern", "count_estimate", "replacement_pattern"],
+      "properties": {
+        "pattern": {
+          "type": "string",
+          "description": "The filler word, hedge phrase, or verbal tic. Example: 'I think maybe we should...', 'sort of', 'basically'."
+        },
+        "count_estimate": {
+          "type": "string",
+          "description": "Approximate frequency in the transcript. Example: '4-5 times', 'throughout'."
+        },
+        "replacement_pattern": {
+          "type": "string",
+          "description": "What to say instead. Example: 'We should...' (drop the hedge)."
+        }
+      }
+    },
+    "talk_time_signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["user_share_estimate", "balance_assessment", "note"],
+      "properties": {
+        "user_share_estimate": {
+          "type": "string",
+          "description": "Estimated percentage of total talk time. Example: '~35%', '~60%'."
+        },
+        "balance_assessment": {
+          "type": "string",
+          "enum": ["under_talking", "balanced", "over_talking", "unknown"],
+          "description": "Whether the user's share was appropriate for their role and goal."
+        },
+        "note": {
+          "type": "string",
+          "description": "Context on why the balance is appropriate or problematic."
+        }
+      }
+    },
+    "next_meeting_gameplan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "opening_script",
+        "three_non_negotiables",
+        "pushback_response_template",
+        "closing_script"
+      ],
+      "properties": {
+        "opening_script": {
+          "type": "string",
+          "description": "Suggested opening statement for the next similar meeting."
+        },
+        "three_non_negotiables": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "string"
+          },
+          "description": "Three communication behaviors to commit to in the next meeting. Exactly three required."
+        },
+        "pushback_response_template": {
+          "type": "string",
+          "description": "A template for handling pushback or disagreement gracefully."
+        },
+        "closing_script": {
+          "type": "string",
+          "description": "Suggested closing statement to end the meeting with clarity and ownership."
+        }
+      }
+    },
+    "one_thing_to_change": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["change", "why", "success_signal"],
+      "properties": {
+        "change": {
+          "type": "string",
+          "description": "The single behavior change to implement."
+        },
+        "why": {
+          "type": "string",
+          "description": "Why this specific change will have the most impact."
+        },
+        "success_signal": {
+          "type": "string",
+          "description": "How the user will know they've successfully made the change."
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["quote", "speaker", "approximate_location"],
+      "properties": {
+        "quote": {
+          "type": "string",
+          "description": "Verbatim quote from the transcript."
+        },
+        "speaker": {
+          "type": "string",
+          "description": "Who said it."
+        },
+        "approximate_location": {
+          "type": "string",
+          "description": "Where in the transcript this appears."
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode_used", "analysis_depth_used", "generated_at"],
+      "properties": {
+        "mode_used": {
+          "type": "string",
+          "enum": ["transcript_only", "transcript_plus_context"],
+          "description": "Which input mode was detected. 'transcript_only' if no optional context fields were provided; 'transcript_plus_context' otherwise."
+        },
+        "analysis_depth_used": {
+          "type": "string",
+          "enum": ["quick", "standard", "deep"],
+          "description": "Which analysis depth was applied. Mirrors the input analysis_depth field; defaults to 'standard' if not specified."
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of when this analysis was generated."
+        }
+      }
+    }
+  }
+}

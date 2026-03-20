@@ -6,6 +6,7 @@ routes:
       - "interview analysis for candidate"
       - "score this interview"
       - "assess candidate performance"
+      - "how did the candidate do"
     required_inputs:
       - transcript
       - role
@@ -23,6 +24,148 @@ routes:
       4. A rubric with at least one scoring dimension (name, description, scale 1-4)
     run_policy:
       reactive_only: true
+
+  - id: meeting-risk-analysis
+    status: active
+    trigger_examples:
+      - "what are the risks from this meeting"
+      - "surface risks in this transcript"
+      - "risk assessment for this meeting"
+      - "find hidden assumptions"
+      - "what tensions came up in this meeting"
+    required_inputs:
+      - transcript
+    target:
+      skill: skills/meeting-risk-analysis/SKILL.md
+      output_schema: skills/meeting-risk-analysis/schemas/output.schema.json
+    fallback_prompt: >
+      I need a meeting transcript to surface risks and tensions.
+      Optionally provide: meeting_title, meeting_datetime,
+      participant_directory, key_questions.
+    run_policy:
+      reactive_only: true
+
+  - id: redteam
+    status: active
+    trigger_examples:
+      - "stress test this idea"
+      - "red team this proposal"
+      - "poke holes in this plan"
+      - "adversarial analysis of this decision"
+      - "what could go wrong with this strategy"
+    required_inputs:
+      - transcript
+    target:
+      skill: skills/redteam/SKILL.md
+      output_schema: skills/redteam/schemas/output.schema.json
+    fallback_prompt: >
+      I need a meeting transcript to red-team.
+      Optionally provide: context, audience, risk_tolerance,
+      focus_idea, focus_questions, constraints.
+    run_policy:
+      reactive_only: true
+
+  - id: commitment-extractor
+    status: active
+    trigger_examples:
+      - "extract commitments from this meeting"
+      - "what did people commit to"
+      - "pull action items and owners"
+      - "who owes what after this meeting"
+      - "list the follow-ups from this transcript"
+    required_inputs:
+      - transcript
+    target:
+      skill: skills/commitment-extractor/SKILL.md
+      output_schema: skills/commitment-extractor/schemas/output.schema.json
+    fallback_prompt: >
+      I need a meeting transcript to extract commitments.
+      Optionally provide: participant_directory, focus_person,
+      meeting_datetime, extraction_mode.
+    run_policy:
+      reactive_only: true
+
+  - id: stakeholder-analysis
+    status: active
+    trigger_examples:
+      - "map the stakeholders for this decision"
+      - "stakeholder analysis"
+      - "who has influence over this"
+      - "what are the coalition dynamics"
+      - "engagement plan for this initiative"
+    required_inputs:
+      - transcript
+    target:
+      skill: skills/stakeholder-analysis/SKILL.md
+      output_schema: skills/stakeholder-analysis/schemas/output.schema.json
+    fallback_prompt: >
+      I need a meeting transcript to map stakeholders.
+      Optionally provide: focal_decision, analysis_goal,
+      org_context, stakeholder_directory, time_horizon.
+    run_policy:
+      reactive_only: true
+
+  - id: decision-quality-audit
+    status: active
+    trigger_examples:
+      - "audit this decision"
+      - "decision quality"
+      - "did we make a good decision"
+      - "decision hygiene"
+      - "score the decision rigor"
+    required_inputs:
+      - transcript
+    target:
+      skill: skills/decision-quality-audit/SKILL.md
+      output_schema: schemas/decision-quality-audit.output.schema.json
+    fallback_prompt: >
+      I need a meeting transcript to audit decision quality.
+      Optionally provide: decision_focus, strategic_context,
+      risk_tolerance, participant_directory, key_questions.
+    run_policy:
+      reactive_only: true
+
+  - id: execution-friction-xray
+    status: active
+    trigger_examples:
+      - "what's slowing us down"
+      - "diagnose execution friction"
+      - "find the bottlenecks in this meeting"
+      - "why is this project stalling"
+      - "friction analysis"
+    required_inputs:
+      - transcript
+    target:
+      skill: skills/execution-friction-xray/SKILL.md
+      output_schema: schemas/execution-friction-xray.output.schema.json
+    fallback_prompt: >
+      I need a meeting transcript to diagnose execution friction.
+      Optionally provide: team_context, focus_area,
+      urgency_level, participant_directory, key_questions.
+    run_policy:
+      reactive_only: true
+
+  - id: effective-communication
+    status: active
+    trigger_examples:
+      - "how well did I communicate"
+      - "coach my communication"
+      - "communication feedback on this meeting"
+      - "how can I be more effective in meetings"
+      - "rate my speaking style"
+    required_inputs:
+      - transcript
+    target:
+      skill: skills/effective-communication/SKILL.md
+      output_schema: schemas/effective-communication.output.schema.json
+    fallback_prompt: >
+      I need a meeting transcript to coach your communication.
+      Optionally provide: user_name, communication_goal,
+      audience_context, tone_target, focus_areas.
+    run_policy:
+      reactive_only: true
+
+  # ── Planned (not yet implemented) ──
 
   - id: transcript-decision-extraction
     status: planned
@@ -55,24 +198,5 @@ routes:
       output_schema: null
     fallback_prompt: >
       I need at least a description of the action item to track.
-    run_policy:
-      reactive_only: true
-
-  - id: decision-quality-audit
-    status: active
-    trigger_examples:
-      - "audit this decision"
-      - "decision quality"
-      - "did we make a good decision"
-      - "decision hygiene"
-    required_inputs:
-      - transcript
-    target:
-      skill: skills/decision-quality-audit/SKILL.md
-      output_schema: schemas/decision-quality-audit.output.schema.json
-    fallback_prompt: >
-      I need a meeting transcript to audit decision quality.
-      Optionally provide: decision_focus, strategic_context,
-      risk_tolerance, participant_directory, key_questions.
     run_policy:
       reactive_only: true

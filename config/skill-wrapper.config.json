@@ -2,6 +2,8 @@
   "enabled": true,
   "exposeRawJsonByDefault": false,
   "artifactDir": ".artifacts/skill-runs",
+  "routerEnabled": true,
+  "routerLLMEscalation": false,
   "commands": {
     "/commitments": "commitment-extractor",
     "/decision-audit": "decision-quality-audit",
@@ -9,6 +11,7 @@
     "/interview": "interview-analysis",
     "/redteam": "redteam",
     "/risks": "meeting-risk-analysis",
-    "/stakeholders": "stakeholder-analysis"
+    "/stakeholders": "stakeholder-analysis",
+    "/comms": "effective-communication"
   }
 }

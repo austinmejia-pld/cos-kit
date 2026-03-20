@@ -89,6 +89,12 @@ async function defaultResolveRunner(
       );
       return (input, client) => runInterviewAnalysis(input, client);
     }
+    case "effective-communication": {
+      const { runEffectiveCommunication } = await import(
+        "../skills/effective-communication/index.js"
+      );
+      return (input, client) => runEffectiveCommunication(input, client);
+    }
     default:
       return null;
   }
@@ -204,6 +210,7 @@ const FOCUS_FIELD_MAP: Record<string, string> = {
   "decision-quality-audit": "decision_focus",
   "meeting-risk-analysis": "focus_area",
   "interview-analysis": "focus_area",
+  "effective-communication": "user_name",
 };
 
 function mapFlagsToInput(
