@@ -281,6 +281,16 @@ body {
   cursor: default;
 }
 
+.thinking-skill-slow-hint {
+  margin: 0;
+  padding: 0 0 4px;
+  font-size: 11px;
+  line-height: 1.45;
+  font-weight: 400;
+  color: var(--text-tertiary);
+  opacity: 0.72;
+}
+
 .thinking-toggle {
   width: 18px;
   height: 18px;

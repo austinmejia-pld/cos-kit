@@ -12,7 +12,7 @@ import {
   routeSkill,
 } from "../../src/wrapper/index.js";
 import type { RouterInput, ScoredSkill } from "../../src/wrapper/index.js";
-import { createClaudeLLMClient, CLAUDE_MODEL } from "./geminiAdapter.js";
+import { createClaudeLLMClient, CLAUDE_MODEL } from "./claudeAdapter.js";
 import AnthropicVertex from "@anthropic-ai/vertex-sdk";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -215,7 +215,7 @@ app.get("/api/config", (_req, res) => {
   res.json({ model: CLAUDE_MODEL, auth: "gcloud-adc" });
 });
 
-// Upload — extract text, triage with Gemini, return personalized greeting + skills
+// Upload — extract text, triage with Claude, return personalized greeting + skills
 app.post("/api/upload", upload.array("files", 5), async (req, res) => {
   try {
     const files = req.files as Express.Multer.File[] | undefined;
@@ -312,7 +312,7 @@ app.post("/api/upload", upload.array("files", 5), async (req, res) => {
   }
 });
 
-// Chat — route through cos-kit wrapper, fall back to Gemini
+// Chat — route through cos-kit wrapper, fall back to Claude
 app.post("/api/chat", async (req, res) => {
   try {
     const { sessionId, message, type } = req.body;
@@ -416,7 +416,7 @@ app.post("/api/chat", async (req, res) => {
       return;
     }
 
-    // Unknown type — treat as freetext Gemini fallback
+    // Unknown type — treat as freetext Claude fallback
     res.status(400).json({ error: `Unknown message type: ${type}` });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);

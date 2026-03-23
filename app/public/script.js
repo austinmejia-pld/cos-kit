@@ -4,7 +4,7 @@
 // Extends the Ask Plaud Live UI with cos-kit skill routing.
 // Upload a transcript → see available skills as buttons →
 // click to run → get structured analysis results.
-// Gemini fallback for general questions about the transcript.
+// Claude fallback for general questions about the transcript.
 // ============================================================
 
 (function () {
@@ -347,7 +347,7 @@
     appFrame.classList.add('processing');
 
     renderUserMessage(label);
-    const pendingThinkingState = renderThinkingPending();
+    const pendingThinkingState = renderThinkingPending({ skillSlowHint: true });
 
     try {
       const response = await apiChat(command, 'skill');
@@ -498,6 +498,9 @@
       } = pendingState;
 
       clearTimeout(pendingState.wordTimeout);
+      const slowHintNode = block.querySelector('.thinking-skill-slow-hint');
+      if (slowHintNode) slowHintNode.remove();
+      if (pendingState.slowHintEl) pendingState.slowHintEl = null;
       toggle.style.visibility = 'visible';
       header.classList.remove('thinking-header-pending');
       block.classList.add('thinking-promote');
@@ -562,7 +565,8 @@
     { text: 'Synthesizing', delay: 3000 },
   ];
 
-  function renderThinkingPending() {
+  function renderThinkingPending(options) {
+    const opts = options || {};
     const wrapper = createEl('div', 'msg msg-ai');
     const block = createEl('div', 'thinking-block');
     const header = createEl('div', 'thinking-header');
@@ -583,6 +587,13 @@
     header.appendChild(timer);
     block.appendChild(header);
     block.appendChild(stepsContainer);
+    let slowHintEl = null;
+    if (opts.skillSlowHint) {
+      slowHintEl = createEl('p', 'thinking-skill-slow-hint');
+      slowHintEl.textContent =
+        "I'm taking extra time to best answer your question. This may take a minute";
+      block.appendChild(slowHintEl);
+    }
     wrapper.appendChild(block);
     messagesEl.appendChild(wrapper);
     const timerInterval = setInterval(() => {
@@ -617,13 +628,23 @@
       timerInterval,
       wordTimeout,
       hasBoundToggle: false,
+      slowHintEl,
     };
   }
 
   // ---------- Thinking cleanup helpers ----------
 
+  function removeSkillSlowHint(pendingState) {
+    if (!pendingState || !pendingState.slowHintEl) return;
+    if (pendingState.slowHintEl.parentNode) {
+      pendingState.slowHintEl.remove();
+    }
+    pendingState.slowHintEl = null;
+  }
+
   function clearThinkingPending(pendingState) {
     if (!pendingState) return;
+    removeSkillSlowHint(pendingState);
     clearTimeout(pendingState.wordTimeout);
     clearInterval(pendingState.timerInterval);
     if (pendingState.wrapper && pendingState.wrapper.parentNode) {
@@ -633,6 +654,7 @@
 
   function cleanupThinkingOnError(pendingState) {
     if (!pendingState) return;
+    removeSkillSlowHint(pendingState);
     clearInterval(pendingState.timerInterval);
     clearTimeout(pendingState.wordTimeout);
     if (pendingState.wrapper && pendingState.wrapper.parentNode) {
@@ -640,7 +662,7 @@
     }
   }
 
-  // ---------- Render: AI answer (Gemini fallback) ----------
+  // ---------- Render: AI answer (Claude fallback) ----------
 
   function renderAnswer(answerHtml, followUps) {
     const wrapper = createEl('div', 'msg msg-ai');
@@ -763,7 +785,7 @@
           break;
 
         case 'chat':
-          // Gemini fallback — standard thinking + answer flow
+          // Claude fallback — standard thinking + answer flow
           if (response.thinking && response.thinking.length > 0) {
             await renderThinking(pendingThinkingState, response.thinking);
           } else {

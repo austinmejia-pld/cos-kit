@@ -23,11 +23,13 @@ export function createClaudeLLMClient(): LLMClient {
       const response = await client.messages.create({
         model: CLAUDE_MODEL,
         max_tokens: 16384,
+        thinking: { type: "enabled", budget_tokens: 10000 },
         ...(system ? { system } : {}),
         messages: [{ role: "user", content: userContent }],
       });
 
-      return response.content[0].type === "text" ? response.content[0].text : "";
+      const textBlock = response.content.find((b: { type: string }) => b.type === "text");
+      return textBlock && "text" in textBlock ? (textBlock as { type: "text"; text: string }).text : "";
     },
   };
 }
