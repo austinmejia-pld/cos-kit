@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Plaud Coach</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-frame">
+
+    <!-- Header -->
+    <header class="header">
+      <span class="header-spacer" aria-hidden="true"></span>
+      <h1 class="header-title">Plaud Coach</h1>
+      <span class="header-spacer" aria-hidden="true"></span>
+    </header>
+
+    <!-- Upload Screen -->
+    <div class="upload-screen" id="upload-screen">
+      <div class="upload-content">
+        <div class="upload-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <path d="M14 30V34C14 35.1046 14.8954 36 16 36H32C33.1046 36 34 35.1046 34 34V30" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18 20L24 14L30 20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M24 14V30" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2 class="upload-title">Upload your transcript</h2>
+        <p class="upload-subtitle">Drop a PDF or TXT file of your meeting notes to get started</p>
+
+        <div class="upload-dropzone" id="upload-dropzone">
+          <input type="file" id="file-input" accept=".pdf,.txt" multiple hidden>
+          <p class="dropzone-label">Drag files here or <button class="dropzone-browse" id="btn-browse">browse</button></p>
+          <p class="dropzone-hint">PDF, TXT — up to 10 MB</p>
+        </div>
+
+        <div class="upload-file-list" id="upload-file-list"></div>
+
+        <button class="upload-btn" id="btn-analyze" disabled>
+          <span class="upload-btn-text">Analyze transcript</span>
+          <span class="upload-btn-loading" hidden>
+            <span class="thinking-dots"><span></span><span></span><span></span></span>
+            Analyzing...
+          </span>
+        </button>
+
+        <a href="/config.html" class="upload-config-link">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 9a2 2 0 100-4 2 2 0 000 4z" stroke="currentColor" stroke-width="1.2"/><path d="M5.7 1.75l-.35 1.1a4.5 4.5 0 00-.9.52l-1.1-.25-1.3 2.25.75.85a4.5 4.5 0 000 1.06l-.75.85 1.3 2.25 1.1-.25c.28.2.58.38.9.52l.35 1.1h2.6l.35-1.1c.32-.14.62-.32.9-.52l1.1.25 1.3-2.25-.75-.85a4.5 4.5 0 000-1.06l.75-.85-1.3-2.25-1.1.25a4.5 4.5 0 00-.9-.52l-.35-1.1H5.7z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          Settings
+        </a>
+      </div>
+    </div>
+
+    <!-- Chat Area (hidden until upload completes) -->
+    <div class="chat-area" id="chat-area" hidden>
+      <div class="messages" id="messages"></div>
+    </div>
+
+    <!-- Chip Bar (dynamically populated after upload) -->
+    <div class="chip-bar" id="chip-bar" hidden>
+      <div class="chip-scroll" id="chip-scroll"></div>
+    </div>
+
+    <!-- Input Bar (hidden until upload completes) -->
+    <div class="input-bar" id="input-bar" hidden>
+      <div class="input-wrapper">
+        <textarea
+          id="input-field"
+          class="input-field"
+          placeholder="Ask about this transcript"
+          rows="1"
+        ></textarea>
+        <button class="send-btn" id="btn-send" aria-label="Send" disabled>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Clear Message Modal -->
+    <div class="modal-overlay" id="modal-overlay" hidden>
+      <div class="modal">
+        <h2 class="modal-title">Clear message?</h2>
+        <p class="modal-body">Clear existing messages cannot be undone.</p>
+        <div class="modal-actions">
+          <button class="modal-btn modal-btn-danger" id="btn-confirm-clear">Clear</button>
+          <button class="modal-btn modal-btn-cancel" id="btn-cancel-clear">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast" hidden></div>
+
+    <!-- More Actions Menu -->
+    <div class="actions-menu-overlay" id="actions-menu-overlay" hidden>
+      <div class="actions-menu" id="actions-menu">
+        <button class="actions-menu-item" data-action="share">
+          <span>Share</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6.75 8.25L9 3.75l2.25 4.5M9 3.75v7.5M3.75 11.25a5.25 5.25 0 0010.5 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="actions-menu-item" data-action="add-to-summary">
+          <span>Add to summary</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9h12M9 3v12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+        <button class="actions-menu-item" data-action="expand-answer">
+          <span>Expand answer</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3.75 6.75h10.5M3.75 9h7.5M3.75 11.25h10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+        <button class="actions-menu-item" data-action="shorter-answer">
+          <span>Shorter answer</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3.75 6.75h10.5M3.75 9h5.25M3.75 11.25h8.25" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+        <div class="actions-menu-divider"></div>
+        <button class="actions-menu-item" data-action="helpful">
+          <span>Helpful</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5.25 9.75l2.25 2.25 5.25-6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="actions-menu-item" data-action="not-helpful">
+          <span>Not helpful</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5.25 5.25l7.5 7.5M12.75 5.25l-7.5 7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
