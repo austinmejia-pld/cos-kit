@@ -1,0 +1,4 @@
+{
+  "ok": false,
+  "error": "LLM returned invalid JSON: {\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"$id\": \"commitment-extractor/output/v1\",\n  \"title\": \"Commitm…"
+}

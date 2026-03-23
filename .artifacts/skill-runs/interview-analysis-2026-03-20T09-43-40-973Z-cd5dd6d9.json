@@ -1,0 +1,82 @@
+{
+  "ok": true,
+  "data": {
+    "recommendation": "mixed",
+    "confidence": 0.52,
+    "decision_summary": "Rainie demonstrates genuine intellectual curiosity, a human-centered product philosophy, and meaningful cross-functional collaboration experience. However, evidence for the must-have competencies—especially structured problem-solving under uncertainty and driving ambiguous 0-to-1 execution—is thin and inconsistently demonstrated. The TikTok role shows solid execution within a defined scope, but her 0-to-1 work at Pleas AI lacks evidence of clear ownership of outcomes. The role and seniority level are also unspecified, making calibration difficult. Strong signals on communication and stakeholder navigation, but insufficient evidence on depth of product judgment and independent execution to confidently recommend a hire without additional evaluation rounds.",
+    "dimension_scores": [
+      {
+        "dimension": "Problem Solving",
+        "score": 2,
+        "rationale": "Rainie shows some structured thinking, particularly when diagnosing the account recovery SOP failure modes into three root causes and when exploring the Pod summary engagement problem with clarifying questions and a user behavior analogy. However, her analysis often remains surface-level and she needed significant scaffolding from the interviewer to go deeper. When asked to prioritize among root causes in a vacuum, her rationale was reasonable but not highly rigorous—she selected content clarity primarily on frequency and ease arguments rather than a more comprehensive impact analysis. The Pod hypothetical showed genuine curiosity but her hypothesis (users want a knowledge base, not per-conversation insight) was directionally interesting without being validated with data or structured frameworks.",
+        "evidence_quotes": [
+          "I drill down to see what are the pattern of those failure modes, and I realize there are actually three root causes. One is the hallucination on the first routing node. The second is that currently we don't have the OCR capacity for uploaded images. And the third is that the content delivered to the user itself is not clear enough for the human, for the user to understand what it's saying.",
+          "I would say the content is where it appeared the most in all similar interactions. So if we're able to, and also the content means the backend technology is actually in good shape just because we don't have a good content delivery. Doesn't mean the technology is bad.",
+          "I feel like, um, based on the current context that I get and also my personal experiences... I do feel first of all the purpose of summary is to provide a clear structure to the user about the previous conversation they are having. And if they are not using the summary, which means the previous conversation insights are not that important to the user."
+        ]
+      },
+      {
+        "dimension": "Execution",
+        "score": 2,
+        "rationale": "Rainie's TikTok work demonstrates real delivery—she achieved 99% inter-rater reliability across eight annotators in three weeks, managed two collaboration tracks, and drove a quick two-day iteration cycle that improved AI performance enough to launch an SOP. These are concrete outcomes. However, her Pleas AI 0-to-1 experience, which is critical for the must-have requirement, lacks clarity on what she personally drove versus what was decided by the CEO. She was also initially scoped to user testing and feature improvement before expanding her mandate. Her self-described contribution was providing insights, not owning the pivot decision. Evidence of managing risk, scope, or driving delivery through full ambiguity is limited.",
+        "evidence_quotes": [
+          "Within three weeks, I am able to let the eight annotators to achieve 99% inter-rater reliability so that we can scale our future SOP processes.",
+          "Within two days, the PM is able to collaborate with the content designer to improve the content copies so that it's clear enough for user to understand the instruction. While on the other side, the ML team is able to execute the prompt regression testing.",
+          "I feel like by then, at least I I didn't give like specific decision. I just I provide, I propose.",
+          "When I joined the team there is already a demo that I can show to the user. And at the beginning of it, the CEO just want me to do the user testing and improve those features."
+        ]
+      },
+      {
+        "dimension": "Communication",
+        "score": 3,
+        "rationale": "Rainie consistently demonstrates audience awareness and adapts her communication well throughout the interview. She asked clarifying questions before answering the Pod hypothetical, signaled when she needed thinking time, used accessible analogies (Beli restaurant app) to convey a complex product insight, and showed interpersonal sensitivity when describing how she approached the difficult conversation with the CEO using a 'yes and' framing. Her explanations of the annotation rubric and two-track collaboration model were clear and structured. Some answers were occasionally verbose or slightly unfocused before landing the point, but overall she communicates clearly and proactively.",
+        "evidence_quotes": [
+          "One of the strategy is to always think in the framework of yes and, cause everyone want to reach the same goal.",
+          "I used the data as the evidence to have a talk with the CEO, asking if he has any suggestion on improving um, the data beyond just user testing and iterations. And at the same time in this conversation, I mentioned about my finding of people have different needs in different industry.",
+          "May I ask a clarification question? Of course. Um, so okay, so do we have like for this problem, do we have like a specific member segment for those user what kind of industry condition?",
+          "I think it's similar to the previous content that we talked about. Probably, and because plot, we are trying to build a long term product with the user, especially it's a hardware. So definitely it's not a one time thing."
+        ]
+      }
+    ],
+    "strengths": [
+      "Strong cross-functional collaboration instincts: demonstrated ability to manage two simultaneous stakeholder tracks (annotators and engineering/product team) and drive alignment across teams with different incentives.",
+      "Genuine human-centered product philosophy backed by real methodology (qualitative coding, rubric design, inter-rater reliability work) rather than just rhetoric.",
+      "Proactive insight generation: at Pleas AI she independently identified that iteration was not improving retention and raised a strategic concern to the CEO rather than just executing on given tasks.",
+      "Communication is adaptive and clear: uses clarifying questions, accessible analogies, and interpersonal framing (yes-and) effectively.",
+      "Intellectual curiosity and learning agility: self-directed study of Scale AI and Markor workflows, rapid upskilling in annotation operations.",
+      "The Beli analogy in the Pod hypothetical showed creative product thinking and willingness to connect disparate experiences to generate user insight."
+    ],
+    "concerns": [
+      "Seniority and years of experience are unclear from the transcript; the 5+ year must-have requirement cannot be confirmed or denied from available evidence.",
+      "0-to-1 ownership is ambiguous: at Pleas AI, she joined a team with an existing demo and ultimately the CEO made the pivot decision; her contribution was research input, not full product ownership.",
+      "Problem-solving depth is inconsistent; she required multiple interviewer prompts to deepen her analysis, and her hypotheses on the Pod problem were directional but not rigorously structured.",
+      "No north star metric defined for the TikTok AI agent product: 'there's no like a specific number that we could follow because each SOPs are different' suggests possible gap in outcome-oriented thinking.",
+      "Technical depth in software/hardware product development is uncertain; she has technical fluency with ML and NLP concepts but no evidence of shipping customer-facing software features.",
+      "The pivot at Pleas AI was partially triggered by a YC partner's tweet and CEO instinct, raising questions about how much her research drove the strategic change versus external factors."
+    ],
+    "risk_flags": [
+      "Must-have: 5+ years of PM experience — total experience timeline is unclear from the transcript; the candidate may not meet this threshold. No direct question was asked about total years of PM experience.",
+      "Must-have: 0-to-1 product shipping — Pleas AI experience is described as building 'from zero' but no shipped product or launch outcome was mentioned; this must-have is unverified.",
+      "Interviewer disclosed evaluation tips and coaching to the candidate at the end of the interview ('I would really think about the ways in which you can emphasize and really clearly communicate to future interviewers...'), which may inflate performance in subsequent rounds and compromises evaluation integrity.",
+      "Interviewer led several questions and provided partial answers (e.g., the Pod summary engagement question included scaffolded product context that may have shaped the candidate's hypothesis).",
+      "The interview was conducted without a clearly defined role, making it difficult to calibrate responses against role-specific expectations."
+    ],
+    "interviewer_feedback": [
+      "You disclosed specific coaching advice to the candidate about how to perform better in future interviews ('you should really hire someone for their like, Talent and characteristics' and 'I would really think about the ways in which you can emphasize...'). This is a significant process integrity concern—it may artificially inflate her performance in future rounds and is unfair to other candidates who do not receive the same coaching.",
+      "Several questions were leading or scaffolded in a way that supplied part of the answer. For example, when exploring the Pod problem, you pre-loaded the features and the value proposition before asking the candidate to hypothesize. This reduces the signal quality for evaluating independent problem structuring.",
+      "The must-have requirements were not probed directly. You did not ask about total years of PM experience, whether she has shipped a customer-facing product to market (not just an internal evaluation framework), or asked for a specific example of leading cross-functional work without formal authority. These gaps leave critical must-haves unverified.",
+      "When the candidate gave a vague or incomplete answer (e.g., north star metric for TikTok), you accepted it and moved on. Probing further with 'what metric would you have proposed if you could design it from scratch?' would have given stronger signal on product thinking.",
+      "The conversation was warm and built good rapport, which is valuable, but the balance tipped toward casual conversation over rigorous evaluation. For a hiring manager stage, aim for at least two to three structured behavioral questions with full STAR-format exploration."
+    ],
+    "follow_up_questions": [
+      "Can you walk me through the full timeline of your product management experience? How many years have you been in formal PM roles, and what was the scope of ownership in each?",
+      "At Pleas AI, did you ship a product that real users could access? What was the outcome—how many users, what was retention, and what was the last state of the product?",
+      "Tell me about a time you led a cross-functional team—engineering, design, data—toward a product decision where you had no formal authority over any of them. What resistance did you face and how did you resolve it?",
+      "At TikTok, if you had been asked to define a single north star metric for the AI agent's success that the whole team aligned on, what would you have proposed and why?",
+      "Describe the most technically complex product problem you have personally scoped and driven to a shipped outcome. What was your role in defining the technical approach versus deferring to engineers?"
+    ]
+  },
+  "diagnostics": {
+    "warnings": []
+  }
+}

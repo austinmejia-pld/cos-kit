@@ -27,12 +27,7 @@ export function createClaudeLLMClient(): LLMClient {
         messages: [{ role: "user", content: userContent }],
       });
 
-      // #region agent log
-      const _responseText = response.content[0].type === "text" ? response.content[0].text : "";
-      fetch('http://127.0.0.1:7654/ingest/c89b62c4-2885-43a8-aa7a-3ecf0cb77ce8',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'ea1298'},body:JSON.stringify({sessionId:'ea1298',location:'geminiAdapter.ts:27',message:'LLM response metadata',data:{model:CLAUDE_MODEL,max_tokens:16384,stop_reason:response.stop_reason,response_length:_responseText.length,usage:response.usage,input_tokens:response.usage?.input_tokens,output_tokens:response.usage?.output_tokens},timestamp:Date.now(),hypothesisId:'H1_H2'})}).catch(()=>{});
-      // #endregion
-
-      return _responseText;
+      return response.content[0].type === "text" ? response.content[0].text : "";
     },
   };
 }

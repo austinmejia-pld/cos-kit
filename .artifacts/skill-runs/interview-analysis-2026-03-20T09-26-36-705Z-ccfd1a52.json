@@ -1,0 +1,79 @@
+{
+  "ok": true,
+  "data": {
+    "recommendation": "mixed",
+    "confidence": 0.52,
+    "decision_summary": "Rainie demonstrates genuine user-research instincts, a structured evaluation framework at TikTok, and interesting product thinking (e.g., the knowledge-base hypothesis for Pod's summary engagement). However, the interview surfaces meaningful gaps: years of experience are unclear and likely below the 5-year must-have threshold; 0-to-1 ownership at Pleas AI appears limited in scope and team size; problem-solving depth is promising but shallow under pressure (the north-star question revealed no concrete metric ownership); and the hypothetical problem-solving exercise was meandering until pushed. Cross-functional leadership evidence exists but is thin — she describes delegating tasks and aligning annotators but stops short of demonstrating autonomous influence over senior stakeholders or engineering prioritization. The interviewer also conducted a largely conversational, rapport-heavy session with significant self-disclosure that leaves critical must-have dimensions under-assessed.",
+    "dimension_scores": [
+      {
+        "dimension": "Problem Solving",
+        "score": 2,
+        "rationale": "Rainie shows the ability to identify root causes (three failure modes for account recovery SOP) and uses a rubric framework to structure evaluation. However, when pressed on the north-star metric she acknowledged there was no specific number and her answer was vague. The Pod hypothetical started with good clarifying questions but her analysis drifted into analogy (Bally restaurant app) rather than structured hypothesis testing. She does not proactively anticipate second-order effects or reframe problems with notable rigor.",
+        "evidence_quotes": [
+          "I drill down to see what are the pattern of those failure modes, and I realize there are actually three root causes. One is the hallucination on the first routing node. The second is that currently we don't have the OCR capacity for uploaded images. And the third is that the content delivered to the user itself is not clear enough.",
+          "I would say there's no like a specific number that we could follow because each SOPs are different. But the north star is mainly, we want to let the AI agent have at least the same rating with the human agents.",
+          "I feel like, um, based on the current context that I get and also my personal experiences, for example using granola on top... I do feel first of all the purpose of summary is to provide a clear structure to the user about the previous conversation they are having."
+        ]
+      },
+      {
+        "dimension": "Execution",
+        "score": 2,
+        "rationale": "Rainie describes tangible execution outcomes — 99% inter-rater reliability in three weeks, two-day iteration cycle that improved AI performance enough to launch an SOP — and proactively expanded her remit at TikTok. At Pleas AI her 0-to-1 contributions are described at a conceptual level (problem identification, doc coding, rapid experimentation) without clear evidence of shipping a product to real users or managing a roadmap to completion. Scope of cross-functional coordination is real but limited to a small team. No evidence of building systems or processes that scaled beyond her tenure.",
+        "evidence_quotes": [
+          "Within three weeks, I am able to let the eight annotators to achieve 99% inter-rater reliability so that we can scale our future SOP processes.",
+          "Within two days we are able to optimize those two part and then it lift up the AI performances. So we are able to make the AI perform better in terms of intent understanding than human agents, and that's how we decide to go this SOP.",
+          "I was leading the problem identification, doc coding sessions and all the rapid experimentations to build this product from zero."
+        ]
+      },
+      {
+        "dimension": "Communication",
+        "score": 3,
+        "rationale": "Rainie generally communicates clearly and structures her answers into parts (e.g., dividing collaboration into two tracks, dividing rubric into three dimensions). She asks useful clarifying questions before answering the hypothetical, and demonstrates audience awareness by adjusting her framing to the CEO using data rather than direct confrontation. Some answers wander before landing (the workflow-vs-product digression during the FlexAI question required the interviewer to redirect), and her language occasionally lacks precision, but overall she meets the communication bar for this stage.",
+        "evidence_quotes": [
+          "I divided the rubric into three parts, namely just problem identification, response quality and interactive experience. So everything is based on both the user perspective and also the operational judgment from the customer support team.",
+          "I used the data as the evidence to have a talk with the CEO, asking if he has any suggestion on improving the data beyond just user testing and iterations.",
+          "May I ask a clarification question? Of course. Um, so okay, so do we have like for this problem, do we have like a specific member segment for those user what kind of industry condition?"
+        ]
+      }
+    ],
+    "strengths": [
+      "Strong instinct for user-centered framing: proactively redefined success metrics at TikTok (GER rubric) rather than accepting lagging CSAT data alone.",
+      "Demonstrated ability to operationalize ambiguous quality standards into a scalable annotation workflow (99% inter-rater reliability in three weeks with eight annotators).",
+      "Showed intellectual honesty and courage in flagging misalignment to the CEO at Pleas AI using data rather than opinion.",
+      "Asked clarifying questions before answering the Pod hypothetical, showing disciplined problem-scoping instinct.",
+      "Draws on a broad, cross-domain mental model (multi-agent architecture, knowledge-base analogy) that signals growth potential in an AI product role."
+    ],
+    "concerns": [
+      "Years of experience appear to be below the 5-year must-have threshold — background spans a master's program, a startup, and TikTok, but total professional PM tenure is likely 2-3 years.",
+      "0-to-1 ownership at Pleas AI is described at a high level with no clear evidence of a shipped product reaching real users; it is unclear whether the startup launched.",
+      "No concrete north-star metric ownership demonstrated; when pressed she acknowledged metrics were case-by-case and could not articulate a single owned KPI.",
+      "Cross-functional leadership evidence is limited to managing annotators and delegating tasks to co-equal peers; no evidence of influencing engineering roadmap prioritization or senior stakeholder decisions autonomously.",
+      "The Pod hypothetical required interviewer redirection multiple times before landing on an interesting insight, suggesting structured thinking under novel pressure needs development."
+    ],
+    "risk_flags": [
+      "Must-have: 5+ years PM experience — insufficient evidence; total PM tenure appears to be approximately 2-3 years based on timeline described.",
+      "Must-have: 0-to-1 shipping — Pleas AI experience described at a conceptual level with no confirmation a product was shipped to users; this remains unverified.",
+      "Interviewer supplied significant context and coaching during the hypothetical (describing Pod features, reframing the question multiple times), which may have inflated the quality of Rainie's response — this should be flagged as a leading-question bias risk.",
+      "Interviewer disclosed next-step coaching to candidate at end of interview ('I would really think about the ways in which you can emphasize...'), which could compromise calibration if the candidate advances to further rounds.",
+      "The interview lacked structured behavioral questions for cross-functional leadership without authority — this must-have dimension has almost no direct evidence."
+    ],
+    "interviewer_feedback": [
+      "The session was conversational and rapport-building, which created a comfortable environment, but critical must-have dimensions (5+ years experience, 0-to-1 shipping, cross-functional leadership without authority) were not directly probed with structured behavioral questions.",
+      "The hypothetical problem (Pod summary engagement) was reframed and elaborated by the interviewer multiple times, effectively scaffolding Rainie's answer. Use open-ended problem statements and resist adding detail until the candidate has exhausted their own framing.",
+      "Avoid providing end-of-interview coaching on how to present to future interviewers — this undermines calibration across the panel and is a fairness issue for other candidates.",
+      "Ask for specific metrics on every project: 'What was the baseline, what did it move to, and what was your direct contribution?' The TikTok section had strong narrative but imprecise outcome data.",
+      "The Pleas AI section needed a direct close: 'Did this product ship? How many users? What was the outcome of the pivot?' These foundational facts were never established.",
+      "For cross-functional leadership, use a dedicated behavioral question: 'Tell me about a time you had to get an engineering team to change direction without having authority over them. What was the outcome?' This dimension was essentially unassessed."
+    ],
+    "follow_up_questions": [
+      "Walk me through your complete PM career timeline with approximate start and end dates — I want to make sure I have an accurate picture of your total years in a product management role.",
+      "At Pleas AI, did the consumer-pivoted product ship to real users? If so, what was the retention or engagement data, and what was your direct contribution to that outcome?",
+      "Tell me about a specific time you had to convince an engineering team or a technical lead to reprioritize or change direction, without having formal authority over them. What resistance did you face and how did you resolve it?",
+      "What was the single most important metric you personally owned at TikTok, and what did you move it from and to over your tenure there?",
+      "Describe the most technically complex trade-off you have had to make in a product decision. How did you evaluate it, and what was the outcome?"
+    ]
+  },
+  "diagnostics": {
+    "warnings": []
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "ok": true,
+  "data": {
+    "summary": "Two actionable commitments were extracted from this interview transcript. Austin is the sole owner of both: submitting interview feedback and coordinating next steps with William. No due dates beyond 'next week' were specified for the candidate response, and no artifact details were provided for either commitment.",
+    "commitments": [
+      {
+        "id": "CMT-001",
+        "commitment_text": "Austin will submit his interview feedback for Rainie.",
+        "commitment_type": "follow_up",
+        "owner": "Austin",
+        "owner_confidence": "high",
+        "due_date_raw": "",
+        "due_date_normalized": "",
+        "status": "new",
+        "priority": "high",
+        "proof_artifact_expected": "Submitted interview feedback in internal hiring system or shared with William and Peter.",
+        "dependencies": [],
+        "blockers": [],
+        "source_evidence": [
+          {
+            "speaker": "Austin",
+            "quote": "I will be submitting my feedback Um I'll be working with William on next steps",
+            "approximate_location": "closing / next steps discussion"
+          }
+        ],
+        "confidence_score": 0.72
+      },
+      {
+        "id": "CMT-002",
+        "commitment_text": "Austin will work with William to determine and communicate next steps to Rainie, with the candidate expected to hear back sometime next week.",
+        "commitment_type": "coordination",
+        "owner": "Austin",
+        "owner_confidence": "high",
+        "due_date_raw": "sometime next week",
+        "due_date_normalized": "",
+        "status": "new",
+        "priority": "high",
+        "proof_artifact_expected": "Rainie receives communication about next steps in the interview process.",
+        "dependencies": [
+          "CMT-001"
+        ],
+        "blockers": [],
+        "source_evidence": [
+          {
+            "speaker": "Austin",
+            "quote": "I'll be working with William on next steps We try to be pretty fast in terms of turnaround So you should hopefully hear back sometime next week.",
+            "approximate_location": "closing / next steps discussion"
+          }
+        ],
+        "confidence_score": 0.85
+      }
+    ],
+    "unassigned_actions": [],
+    "missing_fields": [
+      {
+        "commitment_id": "CMT-001",
+        "missing": [
+          "due_date",
+          "artifact",
+          "scope_clarity"
+        ],
+        "suggested_followup_question": "By what date will Austin submit feedback, and where will it be submitted (e.g., Greenhouse, internal Slack channel, email to Peter)?"
+      },
+      {
+        "commitment_id": "CMT-002",
+        "missing": [
+          "due_date",
+          "artifact"
+        ],
+        "suggested_followup_question": "What specific day next week is the target for Rainie to receive next-steps communication, and who will send it — Austin, William, or a recruiter?"
+      }
+    ],
+    "owner_rollup": [
+      {
+        "owner": "Austin",
+        "count": 2,
+        "critical_count": 0
+      }
+    ],
+    "metadata": {
+      "mode_used": "transcript_only",
+      "generated_at": "2026-03-20T09:40:24.217Z"
+    }
+  },
+  "diagnostics": {
+    "warnings": [],
+    "low_confidence_commitments": []
+  }
+}

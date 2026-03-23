@@ -1,4 +1,9 @@
-import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
+import {
+  readFileSync,
+  mkdirSync,
+  writeFileSync,
+  appendFileSync,
+} from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
@@ -12,6 +17,8 @@ import { formatInsight } from "./insightFormatter.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(__dirname, "../..");
+const DEBUG_LOG =
+  "/Users/austinmejia/OpenClaw Custom App/.cursor/debug-b71ae0.log";
 
 // ── Config ──────────────────────────────────────────────────────────
 
@@ -232,6 +239,63 @@ function mapFlagsToInput(
   return merged;
 }
 
+/** Plaud Coach (and CLI) often pass only `transcript`; fill schema-required fields from the canonical sample rubric. */
+function applyInterviewCoachDefaults(
+  merged: Record<string, unknown>,
+): Record<string, unknown> {
+  const samplePath = resolve(
+    PROJECT_ROOT,
+    "skills/interview-analysis/examples/sample-input.json",
+  );
+  const sample = JSON.parse(readFileSync(samplePath, "utf-8")) as Record<
+    string,
+    unknown
+  >;
+
+  const validStages = new Set([
+    "recruiter_screen",
+    "hiring_manager",
+    "onsite",
+    "panel",
+    "final",
+  ]);
+
+  const rubricOk =
+    merged.rubric &&
+    typeof merged.rubric === "object" &&
+    Array.isArray(
+      (merged.rubric as { dimensions?: unknown }).dimensions,
+    ) &&
+    ((merged.rubric as { dimensions: unknown[] }).dimensions?.length ?? 0) >
+      0;
+
+  const out: Record<string, unknown> = { ...sample };
+  for (const [k, v] of Object.entries(merged)) {
+    if (v !== undefined) out[k] = v;
+  }
+
+  if (
+    typeof merged.candidate_name !== "string" ||
+    !merged.candidate_name.trim()
+  ) {
+    out.candidate_name = "Unknown candidate";
+  }
+  if (typeof merged.role !== "string" || !merged.role.trim()) {
+    out.role = "Role not specified";
+  }
+  if (
+    typeof merged.stage !== "string" ||
+    !validStages.has(merged.stage)
+  ) {
+    out.stage = "hiring_manager";
+  }
+  if (!rubricOk) {
+    out.rubric = sample.rubric;
+  }
+
+  return out;
+}
+
 // ── Artifact persistence ────────────────────────────────────────────
 
 function persistArtifact(
@@ -315,7 +379,42 @@ export async function runSkillCommand(
     };
   }
 
-  const mergedInput = mapFlagsToInput(skillName, flags, baseInput);
+  let mergedInput = mapFlagsToInput(skillName, flags, baseInput);
+  if (skillName === "interview-analysis") {
+    mergedInput = applyInterviewCoachDefaults(mergedInput);
+  }
+
+  // #region agent log
+  const _tLen = typeof mergedInput.transcript === 'string' ? mergedInput.transcript.length : 0;
+  fetch('http://127.0.0.1:7654/ingest/c89b62c4-2885-43a8-aa7a-3ecf0cb77ce8',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'ea1298'},body:JSON.stringify({sessionId:'ea1298',location:'runSkillCommand.ts:merged',message:'merged input for skill',data:{skillName,transcriptLength:_tLen,inputKeys:Object.keys(mergedInput),hasRubric:!!mergedInput.rubric},timestamp:Date.now(),hypothesisId:'H5'})}).catch(()=>{});
+  // #endregion
+
+  // #region agent log
+  try {
+    const tr = mergedInput.transcript;
+    appendFileSync(
+      DEBUG_LOG,
+      `${JSON.stringify({
+        sessionId: "b71ae0",
+        hypothesisId: "H1-H4",
+        location: "runSkillCommand.ts:pre-runner",
+        message: "merged skill input shape",
+        data: {
+          skillName,
+          keys: Object.keys(mergedInput),
+          transcriptLen: typeof tr === "string" ? tr.length : null,
+          hasCandidateName: "candidate_name" in mergedInput,
+          hasRole: "role" in mergedInput,
+          hasStage: "stage" in mergedInput,
+          hasRubric: "rubric" in mergedInput,
+        },
+        timestamp: Date.now(),
+      })}\n`,
+    );
+  } catch {
+    /* ignore */
+  }
+  // #endregion
 
   let result: {
     ok: boolean;

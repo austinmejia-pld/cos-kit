@@ -1,0 +1,247 @@
+{
+  "ok": true,
+  "data": {
+    "summary": "Six actionable commitments were extracted from this product discussion between Austin Mejia and Andrei Ungureanu. Austin owns three follow-up actions: writing a PRD for the Chief of Staff feature, reaching out to identify who owns memory at the company, and writing up chip/block scenarios for FlashMemo. Andrei owns two actions: working on highlight functionality for FlashMemo and continuing work on MCP calendar/email integration tools. One commitment around raising concerns about command vs. to-do disambiguation is shared/unclear in ownership. No due dates were specified for any commitments, representing a notable gap.",
+    "commitments": [
+      {
+        "id": "CMT-001",
+        "commitment_text": "Austin to write a PRD for the Chief of Staff feature, starting with one or two shippable items.",
+        "commitment_type": "deliverable",
+        "owner": "Austin Mejia",
+        "owner_confidence": "high",
+        "due_date_raw": "",
+        "due_date_normalized": "",
+        "status": "new",
+        "priority": "high",
+        "proof_artifact_expected": "Written PRD document for Chief of Staff feature",
+        "dependencies": [],
+        "blockers": [
+          "Chief of Staff feature scope is still early and undefined"
+        ],
+        "source_evidence": [
+          {
+            "speaker": "Austin Mejia",
+            "quote": "i'm going to start writing this prd is like we should be able over time to build a relationship between not just speaker labels but also matching a speaker label against like, Like an email address.",
+            "approximate_location": "early discussion about Chief of Staff feature"
+          },
+          {
+            "speaker": "Austin Mejia",
+            "quote": "my real value is like, how do we pick one or two things that we can actually ship and move as quickly as possible to like getting something out.",
+            "approximate_location": "discussion about Chief of Staff feature scope"
+          }
+        ],
+        "confidence_score": 0.72
+      },
+      {
+        "id": "CMT-002",
+        "commitment_text": "Austin to reach out and identify who is in charge of memory at the company and find any existing PRD or document on memory.",
+        "commitment_type": "investigation",
+        "owner": "Austin Mejia",
+        "owner_confidence": "high",
+        "due_date_raw": "",
+        "due_date_normalized": "",
+        "status": "new",
+        "priority": "medium",
+        "proof_artifact_expected": "Name of memory owner and link to relevant PRD or document shared with Andrei",
+        "dependencies": [],
+        "blockers": [
+          "Memory ownership and structure is currently unclear internally"
+        ],
+        "source_evidence": [
+          {
+            "speaker": "Austin Mejia",
+            "quote": "let me reach out and figure out if someone is like in charge of memory and like, if there's a PRD or a document somewhere",
+            "approximate_location": "closing discussion about memory and FlashMemo blocks"
+          }
+        ],
+        "confidence_score": 0.72
+      },
+      {
+        "id": "CMT-003",
+        "commitment_text": "Austin to write up scenarios and examples for what different chips/blocks could be in FlashMemo (e.g., memory block, insight block, date chip).",
+        "commitment_type": "deliverable",
+        "owner": "Austin Mejia",
+        "owner_confidence": "high",
+        "due_date_raw": "",
+        "due_date_normalized": "",
+        "status": "new",
+        "priority": "medium",
+        "proof_artifact_expected": "Written chip/block scenario document or notes shared with Andrei",
+        "dependencies": [
+          "CMT-002"
+        ],
+        "blockers": [
+          "Memory implementation plans are not yet defined"
+        ],
+        "source_evidence": [
+          {
+            "speaker": "Austin Mejia",
+            "quote": "let me, write up a few of these scenarios on like what I think different chips could be. Um, so that like, there's, there's, so you have like a lot more to work with in terms of here.",
+            "approximate_location": "closing discussion about memory and FlashMemo blocks"
+          },
+          {
+            "speaker": "Austin Mejia",
+            "quote": "let me do both of those um and we'll follow up",
+            "approximate_location": "closing of meeting"
+          }
+        ],
+        "confidence_score": 0.72
+      },
+      {
+        "id": "CMT-004",
+        "commitment_text": "Andrei to work on the highlight functionality for FlashMemo and follow up with Austin.",
+        "commitment_type": "deliverable",
+        "owner": "Andrei Ungureanu",
+        "owner_confidence": "high",
+        "due_date_raw": "",
+        "due_date_normalized": "",
+        "status": "new",
+        "priority": "high",
+        "proof_artifact_expected": "Working highlight feature or prototype in FlashMemo demo",
+        "dependencies": [
+          "CMT-003"
+        ],
+        "blockers": [
+          "Memory block design still needs to be thought through"
+        ],
+        "source_evidence": [
+          {
+            "speaker": "Andrei Ungureanu",
+            "quote": "i can start working on the highlight stuff and let's link up okay that sounds great i'll start working on this",
+            "approximate_location": "closing of meeting"
+          },
+          {
+            "speaker": "Andrei Ungureanu",
+            "quote": "Let me think about it a bit, and maybe let's see if I can come up with something for that.",
+            "approximate_location": "discussion about memory block in FlashMemo"
+          }
+        ],
+        "confidence_score": 0.72
+      },
+      {
+        "id": "CMT-005",
+        "commitment_text": "Andrei to continue working on MCP tools for calendar and email integration on the service/API side.",
+        "commitment_type": "deliverable",
+        "owner": "Andrei Ungureanu",
+        "owner_confidence": "high",
+        "due_date_raw": "",
+        "due_date_normalized": "",
+        "status": "carried",
+        "priority": "medium",
+        "proof_artifact_expected": "MCP tools for calendar and email integration completed or in progress",
+        "dependencies": [],
+        "blockers": [],
+        "source_evidence": [
+          {
+            "speaker": "Andrei Ungureanu",
+            "quote": "because I'm working on all the kind of integration side with the calendar and the email and all that stuff. So I'm working on those MCP tools for that side.",
+            "approximate_location": "transition from Chief of Staff discussion to FlashMemo discussion"
+          }
+        ],
+        "confidence_score": 0.65
+      },
+      {
+        "id": "CMT-006",
+        "commitment_text": "If either party sees a fundamental issue with the command vs. to-do structure in FlashMemo, raise it now before features bake further.",
+        "commitment_type": "follow_up",
+        "owner": "Austin Mejia",
+        "owner_confidence": "medium",
+        "due_date_raw": "now",
+        "due_date_normalized": "",
+        "status": "new",
+        "priority": "medium",
+        "proof_artifact_expected": "Raised concern or decision shared with relevant stakeholders",
+        "dependencies": [],
+        "blockers": [],
+        "source_evidence": [
+          {
+            "speaker": "Austin Mejia",
+            "quote": "my suggestion would be, like, if we think there's something fundamentally wrong with this structure of splitting up a command versus a to do, then we should raise it up. Now.",
+            "approximate_location": "discussion about command vs to-do distinction in FlashMemo"
+          },
+          {
+            "speaker": "Austin Mejia",
+            "quote": "if not, I think we can let these features bake a little bit more and then see if users actually find any confusion with it or actually if it's like a concern that isn't grounded.",
+            "approximate_location": "discussion about command vs to-do distinction in FlashMemo"
+          }
+        ],
+        "confidence_score": 0.5
+      }
+    ],
+    "unassigned_actions": [
+      "Decide whether automatic labels/tags for FlashMemo notes are worth pursuing as a feature (noted as potentially P2, no owner assigned)",
+      "Define the full set of agentic experiences possible via FlashMemo, potentially working backwards from known integrations",
+      "Put a FlashMemo demo in front of Peter and co as soon as possible to get traction"
+    ],
+    "missing_fields": [
+      {
+        "commitment_id": "CMT-001",
+        "missing": [
+          "due_date",
+          "scope_clarity"
+        ],
+        "suggested_followup_question": "When do you plan to have a first draft of the Chief of Staff PRD ready, and which one or two features will it focus on initially?"
+      },
+      {
+        "commitment_id": "CMT-002",
+        "missing": [
+          "due_date"
+        ],
+        "suggested_followup_question": "By when will you reach out to identify the memory owner and surface any existing documentation?"
+      },
+      {
+        "commitment_id": "CMT-003",
+        "missing": [
+          "due_date",
+          "scope_clarity"
+        ],
+        "suggested_followup_question": "When will the chip/block scenario writeup be shared with Andrei, and how many scenarios are you targeting?"
+      },
+      {
+        "commitment_id": "CMT-004",
+        "missing": [
+          "due_date",
+          "scope_clarity"
+        ],
+        "suggested_followup_question": "When do you expect to have a working prototype or design for the highlight functionality ready to show Austin?"
+      },
+      {
+        "commitment_id": "CMT-005",
+        "missing": [
+          "due_date",
+          "artifact"
+        ],
+        "suggested_followup_question": "What is the expected completion milestone for the MCP calendar and email integration tools, and what does done look like?"
+      },
+      {
+        "commitment_id": "CMT-006",
+        "missing": [
+          "owner",
+          "due_date",
+          "scope_clarity"
+        ],
+        "suggested_followup_question": "Who specifically is responsible for evaluating and raising the command vs. to-do concern, and what is the deadline before features are considered locked?"
+      }
+    ],
+    "owner_rollup": [
+      {
+        "owner": "Austin Mejia",
+        "count": 4,
+        "critical_count": 0
+      },
+      {
+        "owner": "Andrei Ungureanu",
+        "count": 2,
+        "critical_count": 0
+      }
+    ],
+    "metadata": {
+      "mode_used": "transcript_only",
+      "generated_at": "2026-03-20T09:47:12.109Z"
+    }
+  },
+  "diagnostics": {
+    "warnings": [],
+    "low_confidence_commitments": []
+  }
+}

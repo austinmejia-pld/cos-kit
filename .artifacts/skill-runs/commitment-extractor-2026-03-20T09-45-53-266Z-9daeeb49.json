@@ -1,0 +1,92 @@
+{
+  "ok": true,
+  "data": {
+    "summary": "Two actionable commitments were extracted from this interview transcript. Austin is the primary owner, committing to submit interview feedback and coordinate with William on next steps for Rainie. No due dates beyond 'next week' were specified. The transcript is primarily an interview conversation with minimal formal commitment language.",
+    "commitments": [
+      {
+        "id": "CMT-001",
+        "commitment_text": "Austin will submit his interview feedback for Rainie.",
+        "commitment_type": "follow_up",
+        "owner": "Austin",
+        "owner_confidence": "high",
+        "due_date_raw": "next week",
+        "due_date_normalized": "",
+        "status": "new",
+        "priority": "high",
+        "proof_artifact_expected": "Submitted interview feedback visible in recruiting system",
+        "dependencies": [],
+        "blockers": [],
+        "source_evidence": [
+          {
+            "speaker": "Austin",
+            "quote": "I will be submitting my feedback Um I'll be working with William on next steps We try to be pretty fast in terms of turnaround So you should hopefully hear back sometime next week.",
+            "approximate_location": "closing / next steps discussion"
+          }
+        ],
+        "confidence_score": 0.85
+      },
+      {
+        "id": "CMT-002",
+        "commitment_text": "Austin will work with William to determine and communicate next steps to Rainie, with a target response of sometime next week.",
+        "commitment_type": "coordination",
+        "owner": "Austin",
+        "owner_confidence": "high",
+        "due_date_raw": "sometime next week",
+        "due_date_normalized": "",
+        "status": "new",
+        "priority": "high",
+        "proof_artifact_expected": "Communication sent to Rainie with next steps in the hiring process",
+        "dependencies": [
+          "CMT-001"
+        ],
+        "blockers": [
+          "William's availability and alignment"
+        ],
+        "source_evidence": [
+          {
+            "speaker": "Austin",
+            "quote": "I'll be working with William on next steps We try to be pretty fast in terms of turnaround So you should hopefully hear back sometime next week.",
+            "approximate_location": "closing / next steps discussion"
+          }
+        ],
+        "confidence_score": 0.85
+      }
+    ],
+    "unassigned_actions": [
+      "William (unidentified third party) needs to coordinate with Austin on next steps for Rainie's candidacy, though no explicit commitment from William was captured in the transcript."
+    ],
+    "missing_fields": [
+      {
+        "commitment_id": "CMT-001",
+        "missing": [
+          "due_date",
+          "artifact"
+        ],
+        "suggested_followup_question": "By what specific date will Austin submit the feedback, and in which system or channel will it be submitted?"
+      },
+      {
+        "commitment_id": "CMT-002",
+        "missing": [
+          "due_date",
+          "scope_clarity"
+        ],
+        "suggested_followup_question": "What specific day next week will Rainie be contacted, and who exactly is William and what is his role in the decision?"
+      }
+    ],
+    "owner_rollup": [
+      {
+        "owner": "Austin",
+        "count": 2,
+        "critical_count": 0
+      }
+    ],
+    "metadata": {
+      "mode_used": "transcript_only",
+      "generated_at": "2026-03-20T09:45:53.264Z"
+    }
+  },
+  "diagnostics": {
+    "warnings": [],
+    "low_confidence_commitments": []
+  }
+}

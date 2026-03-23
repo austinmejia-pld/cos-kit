@@ -1,0 +1,78 @@
+{
+  "ok": true,
+  "data": {
+    "recommendation": "mixed",
+    "confidence": 0.52,
+    "decision_summary": "Rainie demonstrates genuine strengths in human-centered AI product thinking, cross-functional collaboration with diverse stakeholders, and creative analogical reasoning. However, the transcript reveals thin evidence on must-have dimensions: years of PM experience are unclear and likely below the 5-year bar, zero-to-one ownership at Pleas AI appears limited in scope and team size, and structured problem-solving under uncertainty shows promise but lacks the rigor and second-order thinking expected at a senior level. The interview itself was more conversational than behavioral, limiting signal quality across all dimensions.",
+    "dimension_scores": [
+      {
+        "dimension": "Problem Solving",
+        "score": 2,
+        "rationale": "Rainie identifies problems and applies frameworks (rubric design, root cause taxonomy, persona-based reasoning) but analysis often stays at a descriptive level. The account-recovery root-cause example shows some decomposition into three causes, but the follow-up prioritization question elicited reasoning that was largely intuitive ('not all users will upload images') rather than quantitatively grounded. The Pod hypothetical generated an interesting knowledge-base analogy but the candidate quickly moved to a solution without fully mapping the problem space. No clear evidence of anticipating second-order effects or reframing problems to surface superior options.",
+        "evidence_quotes": [
+          "I realize there are actually three root causes. One is the hallucination on the first routing node. The second is that currently we don't have the OCR capacity for uploaded images. And the third is that the content delivered to the user itself is not clear enough for the human, for the user to understand what it's saying.",
+          "I would say the content is where it appeared the most in all similar interactions. So if we're able to, and also the content means the backend technology is actually in good shape just because we don't have a good content delivery. Doesn't mean the technology is bad.",
+          "I would say there's no like a specific number that we could follow because each SOPs are different. But the north star is mainly, we want to let the AI agent have at least the same rating with the human agents."
+        ]
+      },
+      {
+        "dimension": "Execution",
+        "score": 2,
+        "rationale": "Rainie describes concrete execution wins — achieving 99% inter-rater reliability in three weeks, delegating content and ML fixes that shipped in two days, and building an annotation workflow that could run without continuous oversight. However, these examples come from a context where she was largely a PM-of-one coordinating a defined sub-project, not driving a full product lifecycle through ambiguity. At Pleas AI, the zero-to-one narrative is underdeveloped; scope and actual outcomes are vague. There is no strong evidence of proactive risk management, scope negotiation, or building systems that scaled beyond the immediate task.",
+        "evidence_quotes": [
+          "Within three weeks, I am able to let the eight annotators to achieve 99% inter-rater reliability so that we can scale our future SOP processes.",
+          "Within two days we are able to optimize those two part and then it lift up the AI performances. So we are able to make the AI perform better in terms of intent understanding than human agents, and that's how we decide to go this SOP.",
+          "I was leading the problem identification, doc coding sessions and all the rapid experimentations to build this product from zero."
+        ]
+      },
+      {
+        "dimension": "Communication",
+        "score": 3,
+        "rationale": "Rainie communicates clearly and adapts well in conversation — she asks clarifying questions before answering the Pod hypothetical, uses concrete analogies (Beli restaurant app, multi-agent orchestration) to make abstract ideas accessible, and demonstrates audience awareness when explaining technical topics to a non-technical lens. She also showed diplomatic communication skill in the CEO pivot story, framing concerns as data-driven questions rather than direct challenges. Some answers were verbose and lost structure mid-response, but overall she maintains clarity and builds rapport.",
+        "evidence_quotes": [
+          "May I ask a clarification question? Of course. Um, so okay, so do we have like for this problem, do we have like a specific member segment for those user what kind of industry condition?",
+          "I used the data as the evidence to have a talk with the CEO, asking if he has any suggestion on improving um, the data beyond just user testing and iterations. And at the same time in this conversation, I mentioned about my finding of people have different needs in different industry.",
+          "I think what they are similar is that I at the beginning of it, I only use Bally as a like a storage to store all the places that I've been to, but I will never click into any restaurant to see the recommendation rating of this restaurant. However, when I reached about like thirty or fifty restaurants that I've been to, the system started to understand me more."
+        ]
+      }
+    ],
+    "strengths": [
+      "Demonstrates genuine human-centered design sensibility and ability to translate user empathy into measurable evaluation frameworks (three-dimensional rubric: problem identification, response quality, interactive experience).",
+      "Strong cross-functional range — successfully collaborated with Malaysia-based CS annotators, ML engineers, DS teams, and content designers in a single project cycle.",
+      "Proactively challenged scope at Pleas AI: recognized that feature-level iteration wasn't moving retention metrics and surfaced a strategic direction question to the CEO rather than just executing the brief.",
+      "Thoughtful, structured use of clarifying questions in the hypothetical scenario, demonstrating audience awareness and disciplined problem scoping before generating solutions.",
+      "Creative analogical reasoning (Beli app → Pod knowledge base) that connects user behavior patterns across product contexts — a sign of strong product intuition."
+    ],
+    "concerns": [
+      "Years of full-time PM experience appear to be below the 5-year must-have threshold; background includes academic programs, a startup of unclear scale, and one corporate PM role at TikTok — total PM tenure is likely 2-3 years.",
+      "Zero-to-one ownership at Pleas AI is vague: team size, launch outcomes, and the candidate's decision rights are unclear; the pivot was described as co-driven with the CEO based partly on a YC partner tweet, limiting the signal on independent product judgment.",
+      "North star metric ownership is weak — candidate acknowledged there was no specific number and framed success primarily in relative terms ('at least the same rating as human agents'), which may indicate limited experience setting and defending ambitious product goals.",
+      "Problem-solving depth under the prioritization probe was partially intuitive rather than structured — candidate did not quantify frequency, impact, or confidence, relying on qualitative frequency arguments.",
+      "Hardware and technical product fluency is unproven; the interviewer flagged this gap directly at the end of the session."
+    ],
+    "risk_flags": [
+      "MUST-HAVE GAP — 5+ years PM experience: Transcript and background suggest total PM experience is likely 2-3 years. No direct confirmation of tenure was obtained during the interview.",
+      "MUST-HAVE GAP — 0-to-1 product ownership: Pleas AI example is the primary 0-to-1 evidence, but the scope, team authority, and actual launch outcomes remain unverified.",
+      "LEADING QUESTION RISK: Interviewer asked 'Were you doing this user research to validate prosumer and then in the middle of the research you realized, oh, actually we shouldn't be doing prosumer at all?' — candidate confirmed this framing, potentially overstating the independence of the insight.",
+      "INTERVIEWER COACHING SIGNAL: Interviewer revealed substantial coaching content at the end ('being able to emphasize a flexibility and a comfort with a technical... fluency'), which may inflate candidate performance in future rounds.",
+      "Insufficient evidence on cross-functional leadership without authority in contexts with real organizational resistance or high-stakes trade-offs — all examples involve small, cooperative teams."
+    ],
+    "interviewer_feedback": [
+      "The conversation was warm and rapport-building but functioned more as an exploratory chat than a structured behavioral evaluation. Future sessions should anchor each topic to a specific STAR-format story to extract verifiable evidence.",
+      "The leading question on the Pleas AI pivot ('Were you doing this user research to validate prosumer and then in the middle of the research you realized...') essentially supplied the candidate with the narrative. Rephrase to an open probe: 'Walk me through what changed in your thinking and what triggered it.'",
+      "No question probed the 5+ year experience requirement directly. Ask: 'How many years have you held a PM title, and what percentage of that time involved you having full decision rights over a roadmap?'",
+      "The Pod hypothetical was well-chosen but ended prematurely after the candidate gave an interesting analogy. Push further: 'How would you validate that hypothesis? What would you build first and why? What would failure look like in 90 days?'",
+      "The end-of-interview coaching segment ('I would really think about the ways in which you can emphasize...') was generous but risks creating an unfair advantage in subsequent interviews with other panel members. Keep evaluative observations internal."
+    ],
+    "follow_up_questions": [
+      "Walk me through the Pleas AI product from first commit to the last version you shipped — what was the team size, what did you personally decide versus what did the CEO decide, and what happened to the product after you left?",
+      "Tell me about a time you owned a metric for a product that wasn't hitting its goal. How did you diagnose the problem, what interventions did you run, and what was the outcome?",
+      "Describe a situation where a key engineering or design stakeholder pushed back hard on your product direction. How did you handle it, and what was the result?",
+      "At TikTok, who had final go/no-go authority on launching an SOP — you, your manager, or a committee? Walk me through a specific decision where you disagreed with the final call.",
+      "Give me an example of a product decision you made under significant time pressure where you had incomplete data. What framework did you use, and looking back, was it the right call?"
+    ]
+  },
+  "diagnostics": {
+    "warnings": []
+  }
+}

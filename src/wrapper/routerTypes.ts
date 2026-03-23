@@ -13,6 +13,8 @@ import type { LLMClient } from "./types.js";
 export interface SkillMeta {
   /** Canonical skill identifier, e.g. "commitment-extractor" */
   id: string;
+  /** Optional UI title; when absent, derive from `command` (e.g. /comms → Comms) */
+  label?: string;
   /** Human-readable description from skill registry */
   description: string;
   /** Slash command alias, e.g. "/commitments" */

@@ -1,0 +1,93 @@
+{
+  "ok": true,
+  "data": {
+    "summary": "Two actionable commitments were extracted from this interview transcript. Austin (the interviewer) committed to submitting his feedback and working with William on next steps, with a rough timeline of the following week for Rainie to hear back. The transcript is primarily a job interview conversation with minimal formal commitment language; most content consists of status sharing, opinions, and hypothetical discussions rather than actionable assignments.",
+    "commitments": [
+      {
+        "id": "CMT-001",
+        "commitment_text": "Austin will submit his interview feedback for Rainie.",
+        "commitment_type": "follow_up",
+        "owner": "Austin",
+        "owner_confidence": "high",
+        "due_date_raw": "",
+        "due_date_normalized": "",
+        "status": "new",
+        "priority": "medium",
+        "proof_artifact_expected": "Submitted interview feedback in internal recruiting system.",
+        "dependencies": [],
+        "blockers": [],
+        "source_evidence": [
+          {
+            "speaker": "Austin",
+            "quote": "I will be submitting my feedback Um I'll be working with William on next steps We try to be pretty fast in terms of turnaround So you should hopefully hear back sometime next week.",
+            "approximate_location": "closing / next steps"
+          }
+        ],
+        "confidence_score": 0.72
+      },
+      {
+        "id": "CMT-002",
+        "commitment_text": "Austin will work with William to determine and communicate next steps to Rainie, with a target turnaround of sometime next week.",
+        "commitment_type": "coordination",
+        "owner": "Austin",
+        "owner_confidence": "high",
+        "due_date_raw": "sometime next week",
+        "due_date_normalized": "",
+        "status": "new",
+        "priority": "medium",
+        "proof_artifact_expected": "Follow-up communication sent to Rainie regarding next steps in the interview process.",
+        "dependencies": [
+          "CMT-001"
+        ],
+        "blockers": [
+          "William's availability and decision on next steps"
+        ],
+        "source_evidence": [
+          {
+            "speaker": "Austin",
+            "quote": "I'll be working with William on next steps We try to be pretty fast in terms of turnaround So you should hopefully hear back sometime next week.",
+            "approximate_location": "closing / next steps"
+          }
+        ],
+        "confidence_score": 0.85
+      }
+    ],
+    "unassigned_actions": [
+      "Rainie was advised to emphasize technical literacy and comfort with ambiguity in future interviews, but no specific person was assigned to follow up or track this.",
+      "Rainie was encouraged to review open product manager roles posted in San Francisco to identify potential fit — no owner assigned to facilitate this matching process formally."
+    ],
+    "missing_fields": [
+      {
+        "commitment_id": "CMT-001",
+        "missing": [
+          "due_date",
+          "artifact"
+        ],
+        "suggested_followup_question": "By what specific date will Austin submit his feedback, and in which system or format will it be recorded?"
+      },
+      {
+        "commitment_id": "CMT-002",
+        "missing": [
+          "due_date",
+          "scope_clarity"
+        ],
+        "suggested_followup_question": "What exactly will 'next steps' entail — a follow-up interview, a role offer, or a different outcome — and who is William in relation to this process?"
+      }
+    ],
+    "owner_rollup": [
+      {
+        "owner": "Austin",
+        "count": 2,
+        "critical_count": 0
+      }
+    ],
+    "metadata": {
+      "mode_used": "transcript_only",
+      "generated_at": "2026-03-23T02:45:37.819Z"
+    }
+  },
+  "diagnostics": {
+    "warnings": [],
+    "low_confidence_commitments": []
+  }
+}

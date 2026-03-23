@@ -16,6 +16,7 @@ interface CatalogFile {
   generated_at: string;
   skills: Array<{
     id: string;
+    label?: string;
     description: string;
     command: string;
     status: "active" | "planned";
@@ -99,6 +100,7 @@ export function buildIndex(
 
     return {
       id: skill.entry.id,
+      label: skill.entry.label,
       description: skill.entry.description,
       command: skill.entry.command,
       status: skill.entry.status,

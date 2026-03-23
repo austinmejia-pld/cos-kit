@@ -1,0 +1,145 @@
+{
+  "ok": true,
+  "data": {
+    "summary": "Three actionable commitments were extracted from this Flash Memo UX/UI kickoff meeting. The key owners are Lucy (initial V1 design), Austin Mejia (async follow-up coordination), and an implied team action around preparing a working demo/UI by next Wednesday. Critical gaps include missing explicit due dates for Lucy's design deliverable and unclear scope for the demo readiness requirement. The April release timeline creates downstream pressure on all commitments.",
+    "commitments": [
+      {
+        "id": "CMT-001",
+        "commitment_text": "Lucy to provide an initial design concept for Flash Memo V1 UI",
+        "commitment_type": "deliverable",
+        "owner": "Lucy",
+        "owner_confidence": "high",
+        "due_date_raw": "",
+        "due_date_normalized": "",
+        "status": "new",
+        "priority": "high",
+        "proof_artifact_expected": "Initial V1 design mockup or Figma file shared with the team",
+        "dependencies": [],
+        "blockers": [],
+        "source_evidence": [
+          {
+            "speaker": "Austin Mejia",
+            "quote": "ideally Lucy it'd be great if to get your initial take on. What like a initial design could look like for V 1.",
+            "approximate_location": "closing action items"
+          },
+          {
+            "speaker": "Speaker 4",
+            "quote": "Okay okay yeah. Yeah.",
+            "approximate_location": "closing action items, Lucy's acceptance"
+          }
+        ],
+        "confidence_score": 0.65
+      },
+      {
+        "id": "CMT-002",
+        "commitment_text": "Team to have a working demo and relatively ready UI prepared before next Wednesday to support an early-to-mid April release timeline",
+        "commitment_type": "deliverable",
+        "owner": "UNKNOWN",
+        "owner_confidence": "low",
+        "due_date_raw": "before next Wednesday",
+        "due_date_normalized": "",
+        "status": "new",
+        "priority": "critical",
+        "proof_artifact_expected": "Working demo and UI ready for presentation by next Wednesday",
+        "dependencies": [
+          "CMT-001"
+        ],
+        "blockers": [
+          "QA and testing resources are described as very tight"
+        ],
+        "source_evidence": [
+          {
+            "speaker": "Bruce Li",
+            "quote": "We will need a a working demo and a relatively ready UI before next Wednesday to present if we want to make an early April or mid April timeline release timeline.",
+            "approximate_location": "discussion of April release timeline"
+          }
+        ],
+        "confidence_score": 0.38
+      },
+      {
+        "id": "CMT-003",
+        "commitment_text": "Austin Mejia to follow up async with the group on next steps for Flash Memo V1 UX/UI",
+        "commitment_type": "follow_up",
+        "owner": "Austin Mejia",
+        "owner_confidence": "high",
+        "due_date_raw": "",
+        "due_date_normalized": "",
+        "status": "new",
+        "priority": "medium",
+        "proof_artifact_expected": "Async message or document outlining next steps shared with the group",
+        "dependencies": [
+          "CMT-001"
+        ],
+        "blockers": [],
+        "source_evidence": [
+          {
+            "speaker": "Austin Mejia",
+            "quote": "let's let's follow up async, but I think we can work out some of the like next steps.",
+            "approximate_location": "closing of the meeting"
+          }
+        ],
+        "confidence_score": 0.55
+      }
+    ],
+    "unassigned_actions": [
+      "Decide whether Flash Memos should be placed in a separate file system or nested menu rather than the main file list alongside regular meetings.",
+      "Validate with users whether completed Flash Memo items (e.g., todos) should auto-remove or remain in the file system.",
+      "Determine labeling/UI treatment to clearly distinguish Flash Memo todos from meeting-generated todos (e.g., 'Flash Todos' vs. general todos).",
+      "Explore coordination with Tony on summary cards and dashboard features for a potential V2 iteration.",
+      "Assess whether iBeacon / Capture Flow April launch date will hold, which gates the Flash Memo release."
+    ],
+    "missing_fields": [
+      {
+        "commitment_id": "CMT-001",
+        "missing": [
+          "due_date",
+          "scope_clarity"
+        ],
+        "suggested_followup_question": "Lucy, by what date can you share an initial V1 design concept, and should it cover just the Flash Memo file card style or also the folder/filtering views?"
+      },
+      {
+        "commitment_id": "CMT-002",
+        "missing": [
+          "owner",
+          "scope_clarity"
+        ],
+        "suggested_followup_question": "Who specifically is responsible for producing the working demo and UI by next Wednesday — is this Austin, Andre, Bruce, or a shared ownership?"
+      },
+      {
+        "commitment_id": "CMT-003",
+        "missing": [
+          "due_date",
+          "artifact"
+        ],
+        "suggested_followup_question": "Austin, when will you send the async follow-up, and in what format — a written doc, Slack message, or a follow-up meeting invite?"
+      }
+    ],
+    "owner_rollup": [
+      {
+        "owner": "Lucy",
+        "count": 1,
+        "critical_count": 0
+      },
+      {
+        "owner": "UNKNOWN",
+        "count": 1,
+        "critical_count": 1
+      },
+      {
+        "owner": "Austin Mejia",
+        "count": 1,
+        "critical_count": 0
+      }
+    ],
+    "metadata": {
+      "mode_used": "transcript_only",
+      "generated_at": "2026-03-23T02:55:04.871Z"
+    }
+  },
+  "diagnostics": {
+    "warnings": [],
+    "low_confidence_commitments": [
+      "CMT-002"
+    ]
+  }
+}

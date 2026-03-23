@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "plaud-coach",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["tsx", "app/server/server.ts"],
+      "port": 3000
+    }
+  ]
+}

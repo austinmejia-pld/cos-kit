@@ -31,8 +31,8 @@ describe("formatExecutionFrictionXrayInsight", () => {
     const result = formatInsight("execution-friction-xray", fixture);
     expect(result).toContain("## Execution Friction X-Ray");
     expect(result).toContain("Friction Score: 72/100");
-    expect(result).toContain("### Top Insights");
-    expect(result).toContain("### Next Actions");
+    expect(result).toContain("### Critical Path Risks");
+    expect(result).toContain("### 7-Day Friction Kill Plan");
     expect(result).toContain("### Highest Leverage Move");
   });
 
@@ -77,8 +77,8 @@ describe("formatCommitmentExtractorInsight", () => {
     expect(result).toContain("## Commitment Extraction");
     expect(result).toContain("5 commitments");
     expect(result).toContain("3 owners");
-    expect(result).toContain("### Top Insights");
-    expect(result).toContain("### Next Actions");
+    expect(result).toContain("### Owner Rollup");
+    expect(result).toContain("### CMT-001:");
   });
 
   it("shows critical count", () => {
@@ -86,10 +86,9 @@ describe("formatCommitmentExtractorInsight", () => {
     expect(result).toContain("1 critical");
   });
 
-  it("shows unassigned actions in highest leverage move", () => {
+  it("shows unassigned actions", () => {
     const result = formatInsight("commitment-extractor", fixture);
-    expect(result).toContain("### Highest Leverage Move");
-    expect(result).toContain("Assign owner for:");
+    expect(result).toContain("### Unassigned Actions");
   });
 
   it("does not contain raw JSON keys", () => {
@@ -114,9 +113,9 @@ describe("formatStakeholderAnalysisInsight", () => {
     const result = formatInsight("stakeholder-analysis", fixture);
     expect(result).toContain("## Stakeholder Analysis");
     expect(result).toContain("4 stakeholders mapped");
-    expect(result).toContain("### Top Insights");
-    expect(result).toContain("### Next Actions");
-    expect(result).toContain("### Highest Leverage Move");
+    expect(result).toContain("### Power-Interest Map");
+    expect(result).toContain("### Next 7-Day Actions");
+    expect(result).toContain("### Coalition Dynamics");
   });
 
   it("includes stakeholder names sorted by influence", () => {
@@ -139,15 +138,19 @@ describe("formatDecisionQualityAuditInsight", () => {
     const result = formatInsight("decision-quality-audit", fixture);
     expect(result).toContain("## Decision Quality Audit");
     expect(result).toContain("Decision Quality: 62/100");
-    expect(result).toContain("### Top Insights");
-    expect(result).toContain("### Next Actions");
-    expect(result).toContain("### Highest Leverage Move");
+    expect(result).toContain("### Score Breakdown");
+    expect(result).toContain("### Decision Hygiene Upgrades");
+    expect(result).toContain("### Most Important Upgrade");
   });
 
-  it("identifies weakest and strongest dimensions", () => {
+  it("includes all score breakdown dimensions", () => {
     const result = formatInsight("decision-quality-audit", fixture);
-    expect(result).toContain("Weakest:");
-    expect(result).toContain("Strongest:");
+    expect(result).toContain("Clarity of Decision:");
+    expect(result).toContain("Evidence Quality:");
+    expect(result).toContain("Alternatives Considered:");
+    expect(result).toContain("Risk Assessment Quality:");
+    expect(result).toContain("Ownership & Accountability:");
+    expect(result).toContain("Reversibility & Checkpoints:");
   });
 
   it("does not contain raw JSON keys", () => {

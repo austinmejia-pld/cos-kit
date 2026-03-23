@@ -125,7 +125,8 @@
     },
     {
       "id": "effective-communication",
-      "description": "",
+      "label": "Effective Communications",
+      "description": "Coach communication effectiveness from meeting transcripts with quote-grounded scoring, tactical rewrites, and a next-meeting gameplan focused on clarity, executive presence, and actionability. Use when you want feedback on how you showed up in a meeting or when preparing for a high-stakes conversation.",
       "command": "/comms",
       "status": "active",
       "triggerExamples": [

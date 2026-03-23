@@ -1,0 +1,29 @@
+{
+  "ok": false,
+  "error": {
+    "stage": "input_validation",
+    "message": "Input does not conform to interview-analysis input schema",
+    "details": [
+      {
+        "path": "/",
+        "message": "must have required property 'candidate_name'",
+        "keyword": "required"
+      },
+      {
+        "path": "/",
+        "message": "must have required property 'role'",
+        "keyword": "required"
+      },
+      {
+        "path": "/",
+        "message": "must have required property 'stage'",
+        "keyword": "required"
+      },
+      {
+        "path": "/",
+        "message": "must have required property 'rubric'",
+        "keyword": "required"
+      }
+    ]
+  }
+}

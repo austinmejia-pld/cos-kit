@@ -216,56 +216,9 @@
 
   // ---------- Rendering helpers ----------
 
-  function scrollToBottom(reason) {
-    // #region agent log
-    const _hypothesisId =
-      reason === 'handleUserMessage'
-        ? 'H3'
-        : reason === 'renderSkillInsight' || reason === 'renderAnswer' || reason === 'renderError'
-          ? 'H1'
-          : reason === 'renderThinkingPending'
-            ? 'H2'
-            : 'H5';
-    fetch('http://127.0.0.1:7654/ingest/c89b62c4-2885-43a8-aa7a-3ecf0cb77ce8', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '14ff3f' },
-      body: JSON.stringify({
-        sessionId: '14ff3f',
-        location: 'script.js:scrollToBottom',
-        message: 'scrollToBottom called',
-        data: {
-          runId: 'post-fix',
-          reason: reason || 'unknown',
-          hypothesisId: _hypothesisId,
-          chatScrollTopBefore: chatArea.scrollTop,
-          chatScrollHeight: chatArea.scrollHeight,
-          chatClientHeight: chatArea.clientHeight,
-          windowScrollY: typeof window !== 'undefined' ? window.scrollY : null
-        },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
+  function scrollToBottom() {
     requestAnimationFrame(() => {
       chatArea.scrollTo({ top: chatArea.scrollHeight, behavior: 'smooth' });
-      // #region agent log
-      fetch('http://127.0.0.1:7654/ingest/c89b62c4-2885-43a8-aa7a-3ecf0cb77ce8', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '14ff3f' },
-        body: JSON.stringify({
-          sessionId: '14ff3f',
-          location: 'script.js:scrollToBottom:after',
-          message: 'after scrollTo',
-          data: {
-            runId: 'post-fix',
-            reason: reason || 'unknown',
-            hypothesisId: _hypothesisId,
-            chatScrollTopAfter: chatArea.scrollTop
-          },
-          timestamp: Date.now()
-        })
-      }).catch(() => {});
-      // #endregion
     });
   }
 
@@ -777,7 +730,7 @@
     updateSendButton();
 
     renderUserMessage(text.trim());
-    scrollToBottom('handleUserMessage');
+    scrollToBottom();
     const pendingThinkingState = renderThinkingPending();
 
     try {

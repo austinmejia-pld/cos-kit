@@ -1,0 +1,83 @@
+{
+  "ok": true,
+  "data": {
+    "recommendation": "mixed",
+    "confidence": 0.55,
+    "decision_summary": "Rainie demonstrates genuine strengths in cross-functional collaboration, user research instincts, and structured thinking about AI product problems. However, the interview surfaced incomplete evidence on core must-haves: years of PM experience are unclear and appear to be limited, her 0-to-1 experience at Pleas AI was brief and lacked clear outcome ownership, and her ability to drive hard cross-functional decisions without authority was only partially demonstrated. The hypothetical product problem showed creative analogical thinking but lacked rigorous prioritization and quantitative framing. The role and seniority level are undefined, making calibration difficult, but the overall signal is mixed — promising profile with gaps that need probing before a clear hire decision.",
+    "dimension_scores": [
+      {
+        "dimension": "Problem Solving",
+        "score": 3,
+        "rationale": "Rainie demonstrated solid structured problem-solving in the TikTok example, decomposing the account recovery failure into three root causes and reasoning through prioritization. She asked clarifying questions in the hypothetical, identified a plausible behavioral insight about knowledge-base accumulation, and drew a relevant analogy to Bally. However, her prioritization reasoning for the hypothetical lacked data-grounded rigor and she did not anticipate second-order effects (e.g., what does low summary engagement mean for retention or churn). Her reasoning on the content vs. OCR vs. hallucination tradeoff was sound but somewhat surface-level when pressed.",
+        "evidence_quotes": [
+          "I drill down to see what are the pattern of those failure modes, and I realize there are actually three root causes. One is the hallucination on the first routing node. The second is that currently we don't have the OCR capacity for uploaded images. And the third is that the content delivered to the user itself is not clear enough for the human, for the user to understand what it's saying.",
+          "I would say the content is where it appeared the most in all similar interactions. So if we're able to, and also the content means the backend technology is actually in good shape just because we don't have a good content delivery. Doesn't mean the technology is bad.",
+          "my assumption would be for the previous for most of the conversation the user is having they is they are just they just want to record it as a part of the knowledge base instead of Using, This piece of conversation as a specific insight to focus on."
+        ]
+      },
+      {
+        "dimension": "Execution",
+        "score": 2,
+        "rationale": "Rainie describes meaningful execution activities — driving annotator alignment to 99% inter-rater reliability in three weeks, coordinating across CS teams in Malaysia and engineering teams, and delegating root cause fixes to PM and ML teams. However, outcomes are often stated without clear attribution of her specific decisions vs. team decisions, and the 0-to-1 execution at Pleas AI is thin: the pivot narrative was largely driven by the CEO and a YC partner tweet, with Rainie surfacing data rather than owning the direction. There is no clear evidence of her managing delivery timelines, resolving major cross-functional blockers at a PM level, or owning a shipped product end-to-end.",
+        "evidence_quotes": [
+          "within three weeks, I am able to let the eight annotators to achieve 99% inter-rater reliability so that we can scale our future SOP processes.",
+          "Within two days, the PM is able to collaborate with the content designer to improve the content copies... the ML team is able to execute the prompt regression testing. And within two days we are able to optimize those two part and then it lift up the AI performances.",
+          "the final decision is made by both my insights and the CEO's personal perspective, but definitely my insights contribute a lot.",
+          "at least I I didn't give like specific decision. I just I provide, I propose."
+        ]
+      },
+      {
+        "dimension": "Communication",
+        "score": 3,
+        "rationale": "Rainie communicates clearly and in an organized way throughout. She structures her TikTok narrative coherently, asks clarifying questions before responding to the hypothetical, and proactively contextualizes her background with relevant framing. She adapts her communication style between technical and operational audiences as she describes in her work. There are occasional moments of imprecision (e.g., 'the model itself is not, That's stupid. Actually...') and she sometimes drifts into abstraction rather than grounding in specifics. Her overall communication is audience-aware and trust-building, if not yet at the level of creating clarity in highly ambiguous situations.",
+        "evidence_quotes": [
+          "my work involves two tracks of collaboration. One track is with the customer support annotators, and the other part is with the development team that involves other PMs, machine learning engineers, engineers and DS people.",
+          "I used the data as the evidence to have a talk with the CEO, asking if he has any suggestion on improving um, the data beyond just user testing and iterations. And at the same time in this conversation, I mentioned about my finding of people have different needs in different industry.",
+          "may I ask a clarification question? Of course. Um, so okay, so do we have like for this problem, do we have like a specific member segment for those user what kind of industry condition?"
+        ]
+      }
+    ],
+    "strengths": [
+      "Strong user research instincts: proactively pushed back on feature iteration at Pleas AI by identifying that different user needs pointed to an unclear value proposition before a roadmap could be justified.",
+      "Demonstrated cross-functional coordination across annotators, CS teams (Malaysia), ML engineers, and PMs simultaneously at TikTok, managing both operational and product delivery tracks.",
+      "Analytical depth on evaluation framework design: created a multi-dimensional rubric (problem identification, response quality, interactive experience) that replaced a shallow single metric (CSAT), showing product thinking about measurement quality.",
+      "Creative analogical thinking in the Pod hypothetical: drew a relevant parallel to Bally's restaurant app to hypothesize a 'knowledge base accumulation' model for when summarization becomes valuable to users.",
+      "Comfort with ambiguity and learning agility: self-directed study of Scale AI and Markor workflows to improve annotation operations; proactively sought frameworks beyond her immediate team.",
+      "Good meta-awareness of her own growth and limitations, e.g., acknowledging she would now think in multi-agent terms vs. single-agent assumptions she held in 2023."
+    ],
+    "concerns": [
+      "Total years of PM experience is unclear and appears limited — background suggests approximately 1-2 years of formal PM experience post-Stanford, which is well below the stated 5+ year must-have requirement.",
+      "0-to-1 product ownership at Pleas AI is thin: the pivot was significantly influenced by a YC partner tweet and CEO perspective; Rainie explicitly states she 'didn't give a specific decision' but rather 'proposed,' suggesting she was not the primary decision-maker.",
+      "No shipped user-facing product with clear outcome metrics she owned end-to-end was described — TikTok work was primarily internal tooling and evaluation infrastructure rather than a consumer or prosumer product.",
+      "Cross-functional leadership without authority was partially demonstrated but not at a PM-driving-decisions level; she coordinated and recommended but deferred final decisions to CEO and other PMs.",
+      "Hypothetical problem-solving lacked quantitative rigor: no mention of funnel analysis, cohort segmentation, A/B testing hypotheses, or engagement benchmarks that would be expected of a senior PM.",
+      "Occasional imprecision in articulation under pressure (e.g., the content prioritization explanation wandered before landing on a clear conclusion)."
+    ],
+    "risk_flags": [
+      "Must-have unverified: 5+ years PM experience — transcript does not establish this; estimated tenure appears to be 1-2 years of PM roles. No follow-up was made by the interviewer to clarify total experience.",
+      "Must-have partially unverified: 0-to-1 product ownership — the Pleas AI example shows participation in early-stage work but not clear product ownership or a shipped outcome. Insufficient probing by interviewer.",
+      "Interviewer coaching opportunity: Austin provided significant interview coaching at the end of the session ('I would really think about the ways in which you can emphasize...'), which could inflate performance in subsequent rounds if the candidate adjusts framing based on this coaching rather than actual experience.",
+      "Role ambiguity: interviewer disclosed that there is no specific open role being evaluated against ('your the conversation we're having with you isn't necessarily against a specific role'), making calibration to seniority level and must-have requirements extremely difficult.",
+      "Thin signal on execution in ambiguous environments: most examples involved defined tasks within existing systems rather than navigating from zero to a shipped product with measurable user impact."
+    ],
+    "interviewer_feedback": [
+      "Did not probe the 5+ years experience must-have: the entire interview passed without clarifying how many years of PM experience Rainie has. This is a critical screening gap that should be addressed in every hiring manager conversation.",
+      "The Pleas AI exploration was a strong instinct but stopped short: Austin asked good follow-up questions about how the pivot insight was surfaced, but did not push on what Rainie specifically owned, shipped, and measured as outcomes. The pivot story resolved to 'I proposed, CEO decided,' which needed more interrogation.",
+      "End-of-interview coaching is a significant bias risk: Austin explicitly told the candidate what to emphasize in future rounds ('I would really think about the ways in which you can emphasize and really clearly communicate to future interviewers that...technical literacy and fluency'). This primes the candidate to perform differently in subsequent evaluations, undermining calibration across the panel.",
+      "The hypothetical problem was well-chosen but under-facilitated: when Rainie offered the Bally analogy and the proactive prompting idea, Austin said 'I like that. That was a really lovely insight' and moved to close rather than pushing her to operationalize the idea (e.g., 'How would you test that hypothesis? What experiment would you run?').",
+      "Small talk consumed significant time at the start and the session ended without covering all structured rubric areas. Future interviews should be more time-disciplined, especially when must-have dimensions (5+ years experience, cross-functional authority leadership) remain unverified.",
+      "Austin disclosed confidential internal context including team size targets, Nathan's views on Chinese vs. US talent, and specific bottlenecks — while this builds rapport, it significantly reduces the ability to assess how the candidate handles ambiguity independently."
+    ],
+    "follow_up_questions": [
+      "Can you walk me through a timeline of your PM roles from your first PM position to today — specifically when you held the PM title and what team size and scope you were responsible for at each stage?",
+      "At Pleas AI, what was the specific product you shipped? Who were the users, and what were the key metrics at launch and three months post-launch that you personally owned?",
+      "Describe a time when you had to get a cross-functional partner — engineering lead, designer, or data scientist — to change their approach when they were resistant. What did you do and what was the outcome?",
+      "In the Pod summary engagement hypothetical: if you had two weeks and a small engineering team, what is the single experiment you would run first, what would you measure, and what would a success or failure result look like?",
+      "At TikTok, when you deprioritized the OCR feature, was that your call or the engineering team's? Walk me through the conversation where that decision was made and what your role was in making it.",
+      "Tell me about a product decision you made that turned out to be wrong. What was the decision, what happened, and what did you learn?"
+    ]
+  },
+  "diagnostics": {
+    "warnings": []
+  }
+}

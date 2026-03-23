@@ -1,0 +1,46 @@
+{
+  "ok": true,
+  "data": {
+    "recommendation": "mixed",
+    "confidence": 0,
+    "decision_summary": "Insufficient data for summary.",
+    "dimension_scores": [
+      {
+        "dimension": "problem solving",
+        "score": 1,
+        "rationale": "Insufficient evidence — dimension not scored by LLM",
+        "evidence_quotes": [
+          ""
+        ]
+      },
+      {
+        "dimension": "execution",
+        "score": 1,
+        "rationale": "Insufficient evidence — dimension not scored by LLM",
+        "evidence_quotes": [
+          ""
+        ]
+      },
+      {
+        "dimension": "communication",
+        "score": 1,
+        "rationale": "Insufficient evidence — dimension not scored by LLM",
+        "evidence_quotes": [
+          ""
+        ]
+      }
+    ],
+    "strengths": [],
+    "concerns": [],
+    "risk_flags": [],
+    "interviewer_feedback": [],
+    "follow_up_questions": []
+  },
+  "diagnostics": {
+    "warnings": [
+      "Rubric dimension \"problem solving\" missing from LLM output — adding placeholder",
+      "Rubric dimension \"execution\" missing from LLM output — adding placeholder",
+      "Rubric dimension \"communication\" missing from LLM output — adding placeholder"
+    ]
+  }
+}
