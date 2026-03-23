@@ -20,6 +20,10 @@ client_secret*.json
 *.sqlite3
 *.log
 .DS_Store
+.artifacts/
+
+# Claude local settings (contains machine-specific paths)
+.claude/settings.local.json
 
 # Python/Node misc (if used)
 __pycache__/

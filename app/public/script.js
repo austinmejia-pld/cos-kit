@@ -210,7 +210,8 @@
     chipBar.hidden = false;
     inputBar.hidden = false;
     renderSkillGrid(greeting, suggestedSkills);
-    populateChipBar(suggestedSkills);
+    const chipsCatalog = fullCatalog && fullCatalog.length ? fullCatalog : suggestedSkills;
+    populateChipBar(chipsCatalog);
     inputField.focus();
   }
 
@@ -307,11 +308,11 @@
     wrapper.appendChild(grid);
 
     const skillHint = createEl('div', 'skill-grid-hint');
-    skillHint.appendChild(document.createTextNode("You can also tell me what's top of mind, and "));
+    skillHint.appendChild(document.createTextNode('Think of me as your personal coach. If you have a question, '));
     const skillHintStrong = document.createElement('strong');
-    skillHintStrong.textContent = 'I can suggest relevant skills';
+    skillHintStrong.textContent = 'I can help you think through it together';
     skillHint.appendChild(skillHintStrong);
-    skillHint.appendChild(document.createTextNode('. Either way works!'));
+    skillHint.appendChild(document.createTextNode(" and recommend frameworks. What's top of mind?"));
     wrapper.appendChild(skillHint);
 
     messagesEl.appendChild(wrapper);
@@ -321,10 +322,16 @@
 
   function populateChipBar(skills) {
     chipScroll.innerHTML = '';
-    // Show top 4 skills as quick-access chips
-    skills.slice(0, 4).forEach(s => {
-      const chip = createEl('button', 'chip');
-      chip.textContent = s.label;
+    skills.forEach((s, i) => {
+      const iconKey = SKILL_ICONS[s.id] || 'default';
+      const accent = skillAccentClass(s.id, i);
+      const chip = createEl('button', 'chip chip-skill');
+      chip.type = 'button';
+      const iconSpan = createEl('span', 'chip-icon skill-btn-icon ' + accent);
+      iconSpan.innerHTML = ICONS[iconKey] || ICONS.default;
+      const labelSpan = createEl('span', 'chip-label', escapeHtml(s.label));
+      chip.appendChild(iconSpan);
+      chip.appendChild(labelSpan);
       chip.addEventListener('click', () => {
         if (!isProcessing) handleSkillExecution(s.command, s.label);
       });

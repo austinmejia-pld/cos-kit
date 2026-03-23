@@ -2,7 +2,6 @@ import {
   readFileSync,
   mkdirSync,
   writeFileSync,
-  appendFileSync,
 } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -17,8 +16,6 @@ import { formatInsight } from "./insightFormatter.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(__dirname, "../..");
-const DEBUG_LOG =
-  "/Users/austinmejia/OpenClaw Custom App/.cursor/debug-b71ae0.log";
 
 // ── Config ──────────────────────────────────────────────────────────
 
@@ -383,38 +380,6 @@ export async function runSkillCommand(
   if (skillName === "interview-analysis") {
     mergedInput = applyInterviewCoachDefaults(mergedInput);
   }
-
-  // #region agent log
-  const _tLen = typeof mergedInput.transcript === 'string' ? mergedInput.transcript.length : 0;
-  fetch('http://127.0.0.1:7654/ingest/c89b62c4-2885-43a8-aa7a-3ecf0cb77ce8',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'ea1298'},body:JSON.stringify({sessionId:'ea1298',location:'runSkillCommand.ts:merged',message:'merged input for skill',data:{skillName,transcriptLength:_tLen,inputKeys:Object.keys(mergedInput),hasRubric:!!mergedInput.rubric},timestamp:Date.now(),hypothesisId:'H5'})}).catch(()=>{});
-  // #endregion
-
-  // #region agent log
-  try {
-    const tr = mergedInput.transcript;
-    appendFileSync(
-      DEBUG_LOG,
-      `${JSON.stringify({
-        sessionId: "b71ae0",
-        hypothesisId: "H1-H4",
-        location: "runSkillCommand.ts:pre-runner",
-        message: "merged skill input shape",
-        data: {
-          skillName,
-          keys: Object.keys(mergedInput),
-          transcriptLen: typeof tr === "string" ? tr.length : null,
-          hasCandidateName: "candidate_name" in mergedInput,
-          hasRole: "role" in mergedInput,
-          hasStage: "stage" in mergedInput,
-          hasRubric: "rubric" in mergedInput,
-        },
-        timestamp: Date.now(),
-      })}\n`,
-    );
-  } catch {
-    /* ignore */
-  }
-  // #endregion
 
   let result: {
     ok: boolean;

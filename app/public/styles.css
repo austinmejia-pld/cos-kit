@@ -581,6 +581,29 @@ body {
   transform: scale(0.96);
 }
 
+.chip-skill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: min(280px, 85vw);
+  padding: 6px 12px 6px 8px;
+}
+
+.chip-skill .chip-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  text-align: left;
+}
+
+.chip-skill .chip-icon.skill-btn-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
 /* ========== Input Bar ========== */
 .input-bar {
   flex-shrink: 0;
