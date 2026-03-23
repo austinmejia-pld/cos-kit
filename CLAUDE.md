@@ -2,16 +2,38 @@
 
 Portable Chief of Staff toolkit. Skills are schema-driven, stateless analysis units invoked by name.
 
+## Response Format
+
+Every conversational response (i.e., you are NOT executing a `run` or `test` skill workflow) MUST end with a skill suggestion footer. Your response has two parts:
+
+**Part 1 — Your answer.** Answer the user's question normally.
+
+**Part 2 — Skill suggestions.** End with a horizontal rule, then this exact line: "I can also run these dedicated skills for you. They take a minute to process, but include deeper analysis:" followed by 1-3 bullet points recommending skills from the Available Skills table below. Each bullet: bold skill name, a dash, one sentence tailored to the user's context, then the run command.
+
+Example of Part 2:
+
+---
+
+I can also run these dedicated skills for you. They take a minute to process, but include deeper analysis:
+- **meeting-risk-analysis** -- Surface the unresolved tensions from your meeting. Say `run meeting-risk-analysis` to start.
+- **commitment-extractor** -- Extract who owes what and by when. Say `run commitment-extractor` to start.
+
+Skip Part 2 ONLY when: executing a skill workflow, answering a meta-question about available skills, or the user asked you to stop suggesting.
+
 ## Available Skills
 
-Canonical registry: `orchestration/skill-registry.yaml`
+Canonical registry: `orchestration/skill-registry.yaml` (auto-generated — run `scripts/generate-skill-registry.sh` after adding or modifying skills).
 
 | Skill | Description |
 |---|---|
-| `interview-analysis` | Analyze an interview transcript against a role rubric to produce evidence-backed dimension scores, a hire recommendation, and interviewer coaching feedback. |
-| `meeting-risk-analysis` | Analyze a meeting transcript to surface risks, unresolved tensions, hidden assumptions, decision gaps, and recommended actions with evidence-backed citations. |
-| `redteam` | Adversarial analysis of a meeting transcript to surface failure modes, hidden assumptions, and decision risks. Two modes: transcript-only (broad scan) or transcript + focus (targeted stress-test of a specific idea). Optional inputs: `context`, `audience`, `risk_tolerance`, `focus_idea`, `focus_questions`, `constraints`. See SKILL.md Input Reference for details. |
-| `commitment-extractor` | Extract explicit and implied commitments from meeting transcripts, normalize owner/date/artifact fields, and output an accountability-ready action list with evidence citations. Two modes: transcript-only (broad extraction) or transcript + context (targeted extraction with participant directory, focus person, meeting metadata). |
+| `commitment-extractor` | Extract commitments from meeting transcripts — accountability-ready action list with evidence citations. |
+| `decision-quality-audit` | Audit decision-making quality — clarity, evidence, alternatives, risk, accountability scoring with hygiene upgrades. |
+| `effective-communication` | Coach communication effectiveness — quote-grounded scoring, tactical rewrites, next-meeting gameplan. |
+| `execution-friction-xray` | Diagnose execution drag — friction hotspots, severity scoring, 7-day friction-kill plan. |
+| `interview-analysis` | Analyze interview transcripts against a rubric — dimension scores, hire recommendation, interviewer coaching. |
+| `meeting-risk-analysis` | Surface risks, tensions, hidden assumptions, decision gaps, and recommended actions from meetings. |
+| `redteam` | Adversarial stress-test of strategies and proposals — failure modes, hidden assumptions, decision risks. |
+| `stakeholder-analysis` | Map stakeholders, infer stances/incentives, identify coalitions, produce engagement plans. |
 
 ## Executing a Skill
 
@@ -49,3 +71,4 @@ When the user says **"test {skill-name}"**:
 - **Evidence must be verbatim.** Every `evidence_quotes` entry must be a direct quote from the input transcript. Do not paraphrase.
 - **Prefer uncertainty over fabrication.** If evidence is weak, lower confidence and say so. Do not invent risks, scores, or quotes.
 - **No extra fields.** All output objects enforce `additionalProperties: false`. Do not add fields beyond what the schema defines.
+

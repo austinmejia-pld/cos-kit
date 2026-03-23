@@ -55,20 +55,7 @@ export function formatInsight(skillName: string, data: unknown): string {
     return `No formatter available for skill: ${skillName}`;
   }
   try {
-    // #region agent log
-    const _jsonLen = JSON.stringify(data ?? {}).length;
-    const _obj = data && typeof data === 'object' ? data as Record<string, unknown> : {};
-    const _dimScores = Array.isArray(_obj.dimension_scores) ? _obj.dimension_scores : [];
-    const _strengths = Array.isArray(_obj.strengths) ? _obj.strengths : [];
-    const _concerns = Array.isArray(_obj.concerns) ? _obj.concerns : [];
-    const _decSum = typeof _obj.decision_summary === 'string' ? _obj.decision_summary.length : 0;
-    fetch('http://127.0.0.1:7654/ingest/c89b62c4-2885-43a8-aa7a-3ecf0cb77ce8',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'ea1298'},body:JSON.stringify({sessionId:'ea1298',location:'insightFormatter.ts:formatInsight',message:'data received by formatter',data:{skillName,rawJsonLength:_jsonLen,numDimensions:_dimScores.length,numStrengths:_strengths.length,numConcerns:_concerns.length,decisionSummaryLength:_decSum,avgRationaleLen:_dimScores.length>0?Math.round(_dimScores.reduce((s:number,d:any)=>(s+(typeof d.rationale==='string'?d.rationale.length:0)),0)/_dimScores.length):0,avgEvidenceCount:_dimScores.length>0?Math.round(_dimScores.reduce((s:number,d:any)=>(s+(Array.isArray(d.evidence_quotes)?d.evidence_quotes.length:0)),0)/_dimScores.length):0},timestamp:Date.now(),hypothesisId:'H4'})}).catch(()=>{});
-    // #endregion
-    const result = formatter(data);
-    // #region agent log
-    fetch('http://127.0.0.1:7654/ingest/c89b62c4-2885-43a8-aa7a-3ecf0cb77ce8',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'ea1298'},body:JSON.stringify({sessionId:'ea1298',location:'insightFormatter.ts:formatInsight:after',message:'formatted output length',data:{skillName,formattedLength:result.length},timestamp:Date.now(),hypothesisId:'H4'})}).catch(()=>{});
-    // #endregion
-    return result;
+    return formatter(data);
   } catch {
     return `Failed to format ${skillName} output. Use --raw to see the full JSON.`;
   }

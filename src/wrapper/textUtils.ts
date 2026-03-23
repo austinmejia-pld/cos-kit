@@ -114,8 +114,34 @@ export function keywordOverlap(
 }
 
 /**
- * Check if any anti-keywords appear in the message tokens.
- * Returns 0.0 (penalized) if any match, 1.0 (no penalty) otherwise.
+ * Signal-phrase density: count how many of a skill's signal phrases appear
+ * as substrings in the raw message text (case-insensitive).
+ * Returns a 0.0–1.0 score: matched phrases / total phrases,
+ * with a mild log-boost so even a few matches in a long transcript score well.
+ */
+export function signalPhraseDensity(
+  message: string,
+  signalPhrases: string[],
+): number {
+  if (signalPhrases.length === 0) return 0;
+
+  const msgLower = message.toLowerCase();
+  let hits = 0;
+  for (const phrase of signalPhrases) {
+    if (msgLower.includes(phrase.toLowerCase())) hits++;
+  }
+
+  const raw = hits / signalPhrases.length;
+  // Log-boost: log2(1 + hits) / log2(1 + total) — rewards having several matches
+  // without requiring all phrases to be present.
+  const boosted = Math.log2(1 + hits) / Math.log2(1 + signalPhrases.length);
+  return Math.min(Math.max(raw, boosted), 1.0);
+}
+
+/**
+ * Proportional anti-keyword penalty.
+ * Returns 1.0 (no penalty) when no anti-keywords match, scaling down
+ * toward 0.0 as the fraction of matched anti-keywords increases.
  */
 export function antiKeywordPenalty(
   messageTokens: string[],
@@ -124,9 +150,10 @@ export function antiKeywordPenalty(
   if (antiKeywords.length === 0) return 1.0;
 
   const messageSet = new Set(messageTokens);
+  let hits = 0;
   for (const anti of antiKeywords) {
-    if (messageSet.has(anti)) return 0.0;
+    if (messageSet.has(anti)) hits++;
   }
 
-  return 1.0;
+  return Math.max(0, 1.0 - hits / antiKeywords.length);
 }

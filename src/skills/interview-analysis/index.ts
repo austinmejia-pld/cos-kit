@@ -1,4 +1,4 @@
-import { readFileSync, appendFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -13,8 +13,6 @@ import type {
 } from "./types.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const DEBUG_LOG =
-  "/Users/austinmejia/OpenClaw Custom App/.cursor/debug-b71ae0.log";
 
 let _systemPrompt: string | null = null;
 let _userTemplate: string | null = null;
@@ -106,31 +104,6 @@ export async function runInterviewAnalysis(
   input: unknown,
   client: LLMClient,
 ): Promise<RunResult> {
-  // #region agent log
-  try {
-    const rec =
-      input && typeof input === "object"
-        ? (input as Record<string, unknown>)
-        : null;
-    appendFileSync(
-      DEBUG_LOG,
-      `${JSON.stringify({
-        sessionId: "b71ae0",
-        hypothesisId: "H3",
-        location: "interview-analysis/index.ts:pre-validate",
-        message: "input received by skill",
-        data: {
-          inputType: typeof input,
-          keys: rec ? Object.keys(rec) : [],
-        },
-        timestamp: Date.now(),
-      })}\n`,
-    );
-  } catch {
-    /* ignore */
-  }
-  // #endregion
-
   const inputResult = validateInterviewAnalysisInput(input);
   if (!inputResult.valid) {
     return {

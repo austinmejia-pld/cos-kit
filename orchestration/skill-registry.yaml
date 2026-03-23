@@ -4,7 +4,7 @@
 # The front door agent reads this file to discover available skills.
 # Each entry is extracted from the SKILL.md frontmatter in skills/<name>/.
 
-generated_at: "2026-03-13T07:21:49Z"
+generated_at: "2026-03-23T09:43:23Z"
 skills:
   - name: "commitment-extractor"
     description: "Identify explicit and implied commitments from meeting transcripts/emails, normalize owner/date/artifact fields, and output an accountability-ready action list with evidence citations. Use when preparing follow-ups, weekly reviews, execution tracking, or decision accountability."
@@ -16,6 +16,11 @@ skills:
     path: "skills/decision-quality-audit/SKILL.md"
     input_schema: "skills/decision-quality-audit/schemas/input.schema.json"
     output_schema: "skills/decision-quality-audit/schemas/output.schema.json"
+  - name: "effective-communication"
+    description: "Coach a speaker's communication effectiveness from meeting transcripts with quote-grounded scoring, tactical rewrites, and a next-meeting gameplan focused on clarity, executive presence, and actionability."
+    path: "skills/effective-communication/SKILL.md"
+    input_schema: "skills/effective-communication/schemas/input.schema.json"
+    output_schema: "skills/effective-communication/schemas/output.schema.json"
   - name: "execution-friction-xray"
     description: "Diagnose execution drag (aka any "friction" in a meeting) from a single meeting transcript by identifying friction hotspots (ownership, dependencies, timelines, handoffs, and scope ambiguity), scoring severity/likelihood, and producing a concrete 7-day friction-kill plan with evidence citations. Use when momentum is slipping, launches are at risk, or cross-functional delivery is stalling."
     path: "skills/execution-friction-xray/SKILL.md"

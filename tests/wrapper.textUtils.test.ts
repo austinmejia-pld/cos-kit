@@ -6,6 +6,7 @@ import {
   bestTriggerMatch,
   keywordOverlap,
   antiKeywordPenalty,
+  signalPhraseDensity,
 } from "../src/wrapper/textUtils.js";
 
 describe("tokenize", () => {
@@ -135,11 +136,81 @@ describe("antiKeywordPenalty", () => {
     expect(antiKeywordPenalty(["risk", "meet"], ["interview", "candidate"])).toBe(1.0);
   });
 
-  it("returns 0.0 when anti-keyword matches", () => {
-    expect(antiKeywordPenalty(["interview", "risk"], ["interview"])).toBe(0.0);
+  it("returns 0.0 when all anti-keywords match", () => {
+    expect(antiKeywordPenalty(["interview"], ["interview"])).toBe(0.0);
+  });
+
+  it("returns proportional penalty for partial matches", () => {
+    const score = antiKeywordPenalty(
+      ["interview", "risk", "meet"],
+      ["interview", "candidate", "rubric", "hire"],
+    );
+    // 1 of 4 anti-keywords matched → 1 - 1/4 = 0.75
+    expect(score).toBe(0.75);
+  });
+
+  it("scales down as more anti-keywords match", () => {
+    const score1 = antiKeywordPenalty(["a"], ["a", "b", "c", "d"]);
+    const score2 = antiKeywordPenalty(["a", "b"], ["a", "b", "c", "d"]);
+    expect(score1).toBeGreaterThan(score2);
+    expect(score1).toBe(0.75);
+    expect(score2).toBe(0.5);
   });
 
   it("returns 1.0 for empty anti-keywords", () => {
     expect(antiKeywordPenalty(["risk"], [])).toBe(1.0);
+  });
+});
+
+describe("signalPhraseDensity", () => {
+  it("returns 0 for empty signal phrases", () => {
+    expect(signalPhraseDensity("some text here", [])).toBe(0);
+  });
+
+  it("returns 0 when no phrases match", () => {
+    const score = signalPhraseDensity(
+      "the weather is nice today",
+      ["blocked on", "waiting for", "stalling"],
+    );
+    expect(score).toBe(0);
+  });
+
+  it("returns positive score when phrases match", () => {
+    const score = signalPhraseDensity(
+      "I'll follow up on this by Friday and let me reach out to the team",
+      ["i'll", "follow up", "by friday", "let me", "reach out"],
+    );
+    expect(score).toBeGreaterThan(0.5);
+  });
+
+  it("returns 1.0 when all phrases match", () => {
+    const score = signalPhraseDensity(
+      "i'll follow up by friday",
+      ["i'll", "follow up", "by friday"],
+    );
+    expect(score).toBe(1.0);
+  });
+
+  it("is case-insensitive", () => {
+    const score = signalPhraseDensity(
+      "I'LL FOLLOW UP on this",
+      ["i'll", "follow up"],
+    );
+    expect(score).toBe(1.0);
+  });
+
+  it("produces meaningful scores for realistic transcript snippets", () => {
+    const transcript = `
+      So I think we should probably follow up on the budget issue.
+      I'll reach out to Peter and co to get traction on this.
+      Let me write up a few scenarios for the demo. I need to figure out
+      who is in charge of memory. We should schedule a meeting next week.
+    `;
+    const commitmentPhrases = [
+      "i'll", "let me", "follow up", "reach out", "write up",
+      "schedule a", "i need to", "we should",
+    ];
+    const score = signalPhraseDensity(transcript, commitmentPhrases);
+    expect(score).toBeGreaterThan(0.7);
   });
 });

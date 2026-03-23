@@ -18,13 +18,24 @@ import {
   bestTriggerMatch,
   keywordOverlap,
   antiKeywordPenalty,
+  signalPhraseDensity,
 } from "./textUtils.js";
 
-// ── Scoring weights ─────────────────────────────────────────────────
+// ── Input mode detection ────────────────────────────────────────────
+
+const TRANSCRIPT_CHAR_THRESHOLD = 500;
+
+// ── Scoring weights: short-query mode (original) ────────────────────
 
 const W_TRIGGER = 0.50;
 const W_KEYWORD = 0.35;
 const W_ANTI = 0.15;
+
+// ── Scoring weights: transcript mode ────────────────────────────────
+
+const W_SIGNAL = 0.50;
+const W_KEYWORD_TX = 0.35;
+const W_ANTI_TX = 0.15;
 
 // ── Thresholds ──────────────────────────────────────────────────────
 
@@ -56,11 +67,13 @@ export async function routeSkill(
   }
 
   const messageTokens = tokenize(input.userMessage);
+  const isTranscript = input.userMessage.length >= TRANSCRIPT_CHAR_THRESHOLD;
 
-  // v0: score all active skills
+  // v0: score all active skills (mode-aware)
+  const scoreFn = isTranscript ? computeTranscriptScore : computeV0Score;
   let scores: ScoredSkill[] = active.map((skill) => ({
     skillId: skill.id,
-    score: computeV0Score(input.userMessage, messageTokens, skill),
+    score: scoreFn(input.userMessage, messageTokens, skill),
     rationale: "",
     command: skill.command,
     missingInputs: computeMissingInputs(
@@ -101,7 +114,7 @@ export async function routeSkill(
   return decision;
 }
 
-// ── v0 scoring ──────────────────────────────────────────────────────
+// ── v0 scoring: short-query mode ─────────────────────────────────────
 
 function computeV0Score(
   message: string,
@@ -113,6 +126,20 @@ function computeV0Score(
   const anti = antiKeywordPenalty(messageTokens, skill.antiKeywords);
 
   return trigger * W_TRIGGER + keywords * W_KEYWORD + anti * W_ANTI;
+}
+
+// ── v0 scoring: transcript mode ──────────────────────────────────────
+
+function computeTranscriptScore(
+  message: string,
+  messageTokens: string[],
+  skill: SkillMeta,
+): number {
+  const signal = signalPhraseDensity(message, skill.signalPhrases);
+  const keywords = keywordOverlap(messageTokens, skill.keywords);
+  const anti = antiKeywordPenalty(messageTokens, skill.antiKeywords);
+
+  return signal * W_SIGNAL + keywords * W_KEYWORD_TX + anti * W_ANTI_TX;
 }
 
 function computeMissingInputs(

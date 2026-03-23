@@ -16,7 +16,6 @@ standards/
 workflows/
 tests/
 scripts/
-schemas/
 *.md
 !skills/**/*.md
 !src/**/*.md

@@ -16,6 +16,11 @@ const RAW_ENTRIES = [
       "what did people commit to",
       "pull action items and owners",
     ],
+    signalPhrases: [
+      "i'll", "i will", "let me", "i need to", "we should",
+      "can you", "follow up", "by friday", "by next week",
+      "reach out", "write up", "schedule a", "set up a",
+    ],
     requiredInputs: ["transcript"],
     fallbackPrompt: "I need a transcript.",
   },
@@ -28,6 +33,11 @@ const RAW_ENTRIES = [
       "what are the risks from this meeting",
       "surface risks in this transcript",
       "find hidden assumptions",
+    ],
+    signalPhrases: [
+      "risk", "concern", "what if", "assumption", "tension",
+      "worried", "unclear", "could go wrong", "we don't know",
+      "not defined", "questionable", "potentially",
     ],
     requiredInputs: ["transcript"],
     fallbackPrompt: "I need a transcript.",
@@ -42,6 +52,11 @@ const RAW_ENTRIES = [
       "red team this proposal",
       "poke holes in this plan",
     ],
+    signalPhrases: [
+      "could go wrong", "what if", "failure mode", "too optimistic",
+      "strategy", "proposal", "plan", "the idea is", "ship", "launch",
+      "doesn't work out",
+    ],
     requiredInputs: ["transcript"],
     fallbackPrompt: "I need a transcript.",
   },
@@ -55,6 +70,11 @@ const RAW_ENTRIES = [
       "score this interview",
       "assess candidate performance",
     ],
+    signalPhrases: [
+      "tell me about a time", "walk me through", "your background",
+      "previous role", "candidate", "interviewer", "hiring manager",
+      "years of experience",
+    ],
     requiredInputs: ["transcript", "role", "stage", "rubric"],
     fallbackPrompt: "I need a transcript, role, stage, and rubric.",
   },
@@ -64,6 +84,7 @@ const RAW_ENTRIES = [
     command: "/planned",
     status: "planned" as const,
     triggerExamples: ["do something planned"],
+    signalPhrases: [],
     requiredInputs: ["transcript"],
     fallbackPrompt: "Not ready yet.",
   },
@@ -246,5 +267,73 @@ describe("formatSuggestion", () => {
     expect(text).toContain("/risks");
     expect(text).toContain("/redteam");
     expect(text).toContain("A couple of skills");
+  });
+});
+
+// ── Transcript routing tests ─────────────────────────────────────────
+
+const PRODUCT_MEETING_TRANSCRIPT = `
+  So I think we should probably follow up on the budget issue. I'll reach out
+  to Peter and co to get traction on this. Let me write up a few scenarios
+  for the demo. I need to figure out who is in charge of memory and find the
+  PRD. We should schedule a meeting next week to align on the roadmap.
+  The concern is that things are kind of disconnected and nobody really has
+  an idea of what other people are doing. I don't disagree with you, but I think
+  the company is hitting a point where information just doesn't permeate as quickly.
+  Let me do two things. One, let me reach out and figure out if someone is in
+  charge of memory. Two, let me write up a few of these scenarios.
+  I'm still trying to figure out the best approach. We should set up a call
+  with the team by Friday. The goal would be to ship something within the quarter.
+  I think my suggestion would be if we think there's something fundamentally wrong
+  we should raise it up now, and if not I think we can let these features bake.
+`.repeat(3); // Repeat to ensure >500 chars
+
+describe("routeSkill — transcript mode", () => {
+  it("suggests commitment-extractor for transcript with action language", async () => {
+    const result = await routeSkill(
+      { userMessage: PRODUCT_MEETING_TRANSCRIPT },
+      CATALOG,
+    );
+    expect(result.decision).toBe("SUGGEST_SKILL");
+    expect(result.suggestions).toBeDefined();
+    const skillIds = result.suggestions!.map((s) => s.skillId);
+    expect(skillIds).toContain("commitment-extractor");
+  });
+
+  it("scores above threshold for risk-laden transcript", async () => {
+    const riskTranscript = `
+      The concern is that we don't know what the user experience will look like.
+      It's unclear who owns the integration. What if the API breaks? There's
+      tension between the teams about the timeline. The assumption is that we can
+      ship by Q2, but that feels questionable. We're worried about the dependency
+      on the calendar team. The risk is that we launch without proper testing.
+      I'm not sure if we have buy-in from leadership. There could be pushback
+      if things go wrong. Potentially we need to rethink the whole approach.
+    `.repeat(3);
+    const result = await routeSkill(
+      { userMessage: riskTranscript },
+      CATALOG,
+    );
+    expect(result.decision).toBe("SUGGEST_SKILL");
+    const skillIds = result.suggestions!.map((s) => s.skillId);
+    expect(skillIds).toContain("meeting-risk-analysis");
+  });
+
+  it("returns NO_SKILL for long but irrelevant text", async () => {
+    const irrelevant = "The quick brown fox jumps over the lazy dog. ".repeat(50);
+    const result = await routeSkill(
+      { userMessage: irrelevant },
+      CATALOG,
+    );
+    expect(result.decision).toBe("NO_SKILL");
+  });
+
+  it("still works for short queries (original mode)", async () => {
+    const result = await routeSkill(
+      { userMessage: "extract commitments from this meeting" },
+      CATALOG,
+    );
+    expect(result.decision).toBe("SUGGEST_SKILL");
+    expect(result.suggestions![0].skillId).toBe("commitment-extractor");
   });
 });

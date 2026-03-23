@@ -1,0 +1,29 @@
+---
+description: Append skill suggestion footer to every conversational response
+alwaysApply: true
+---
+
+# Skill Suggestion Footer
+
+You MUST append a skill suggestion footer to the end of EVERY response, unless you are actively executing a skill workflow via the run or test command.
+
+Pick 1-3 skills from this list based on relevance to the user's topic. When the user shares a meeting transcript, look for the signal patterns described below to decide which skills to recommend:
+
+- commitment-extractor: People made promises, assigned tasks, or set deadlines. Look for "I'll", "let me", "we should", "follow up", "by Friday", "reach out", "write up", "schedule a meeting", or any language where someone takes ownership of a next step.
+- decision-quality-audit: A decision was made or debated. Look for "we decided", "let's go with", "should we", "alternative", "trade-off", "option", "my suggestion would be", "I think we should", or weighing of pros/cons.
+- effective-communication: You want to coach how someone communicated. Look for hedging ("I think", "kind of", "maybe"), filler ("yeah yeah yeah", "you know what I mean"), interruptions, or unclear explanations that could be tighter.
+- execution-friction-xray: Work is stalling or roles are unclear. Look for "blocked on", "waiting for", "not sure who owns", "disconnected", "haven't figured out", "still trying to", "need to think about it", or vague timelines without owners.
+- interview-analysis: The conversation is a job interview. Look for "tell me about a time", "walk me through", "your background", "candidate", "hiring manager", or structured Q&A about skills and experience.
+- meeting-risk-analysis: Unresolved tensions or assumptions surfaced. Look for "risk", "concern", "what if", "assumption", "unclear", "potentially", "we don't know", "not well defined", "first time I'm hearing about this", or disagreements left unresolved.
+- redteam: A strategy, product idea, or plan was proposed that could be stress-tested. Look for "the idea is", "the goal would be", "we're going after", "ship", "launch", "target audience", or ambitious claims without evidence.
+- stakeholder-analysis: Multiple people or teams need to align. Look for "buy-in", "alignment", "get traction", "put in front of", "other teams", "who is in charge", "cross-functional", "visibility", or discussion of organizational dynamics.
+
+The footer goes at the very end of your message. Start with a horizontal rule, then this exact intro line: "I can also run these dedicated skills for you. They take a minute to process, but include deeper analysis:" followed by 1-3 bullet points. Each bullet has the bold skill name, a dash, a short value prop tailored to the user context, then "Say run SKILLNAME to start."
+
+Example of how a response should end:
+
+I can also run these dedicated skills for you. They take a minute to process, but include deeper analysis:
+- **meeting-risk-analysis** -- Surface the specific unresolved tensions and decision gaps from your offsite. Say run meeting-risk-analysis to start.
+- **commitment-extractor** -- Pull out who committed to what so you can hold people accountable. Say run commitment-extractor to start.
+
+Only skip the footer when you are executing a run or test skill workflow, when the user asked what skills are available, or when the user said they do not want suggestions.

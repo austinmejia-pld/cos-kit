@@ -27,6 +27,8 @@ export interface SkillMeta {
   requiredInputs: string[];
   /** Prompt to show when required inputs are missing */
   fallbackPrompt: string;
+  /** Phrases that appear inside transcripts signaling this skill is relevant */
+  signalPhrases: string[];
   /** Derived at index time: tokenized keywords from description + triggers */
   keywords: string[];
   /** Derived at index time: keywords unique to other skills (negative signal) */

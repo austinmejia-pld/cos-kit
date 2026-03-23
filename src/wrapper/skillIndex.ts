@@ -21,6 +21,7 @@ interface CatalogFile {
     command: string;
     status: "active" | "planned";
     triggerExamples: string[];
+    signalPhrases?: string[];
     requiredInputs: string[];
     fallbackPrompt: string;
   }>;
@@ -105,6 +106,7 @@ export function buildIndex(
       command: skill.entry.command,
       status: skill.entry.status,
       triggerExamples: skill.entry.triggerExamples,
+      signalPhrases: skill.entry.signalPhrases ?? [],
       requiredInputs: skill.entry.requiredInputs,
       fallbackPrompt: skill.entry.fallbackPrompt,
       keywords: skill.keywords,

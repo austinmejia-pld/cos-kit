@@ -14,6 +14,7 @@ RUN cd app && npm ci --omit=dev
 COPY tsconfig.json ./
 COPY src/ ./src/
 COPY skills/ ./skills/
+COPY schemas/ ./schemas/
 COPY config/ ./config/
 COPY orchestration/ ./orchestration/
 COPY app/ ./app/
