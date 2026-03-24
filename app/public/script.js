@@ -451,7 +451,7 @@
     appFrame.classList.add('processing');
 
     renderUserMessage(label);
-    const pendingThinkingState = renderThinkingPending({ skillSlowHint: true });
+    const pendingThinkingState = renderThinkingPending();
 
     try {
       const response = await apiChat(command, 'skill-summary');
@@ -559,6 +559,10 @@
       if (!isProcessing) handleDeepAnalysis(command, label, deepBtn);
     });
     fuContainer.appendChild(deepBtn);
+
+    const deepNote = createEl('p', 'deep-analysis-note',
+      'Note: In production, Deep Analysis will create a new Note in the Plaud app for you to review later. For now, it will run and append to the chat thread.');
+    fuContainer.appendChild(deepNote);
 
     const runAnotherBtn = createEl('button', 'follow-up-btn', 'Run another analysis');
     runAnotherBtn.addEventListener('click', () => {
@@ -790,7 +794,7 @@
     if (opts.skillSlowHint) {
       slowHintEl = createEl('p', 'thinking-skill-slow-hint');
       slowHintEl.textContent =
-        "I'm taking extra time to best answer your question. This may take a minute";
+        "I'm taking extra time to best answer your question. This may take multiple minutes. I'll notify you when it's ready for review";
       block.appendChild(slowHintEl);
     }
     wrapper.appendChild(block);

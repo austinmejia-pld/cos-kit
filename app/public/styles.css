@@ -594,6 +594,14 @@ body {
   font-weight: 600;
 }
 
+.deep-analysis-note {
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+  margin: 6px 0 10px;
+  max-width: 100%;
+}
+
 .deep-analysis-btn::before {
   background: var(--ai-gradient) !important;
 }
