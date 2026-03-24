@@ -4,5 +4,6 @@ You are a conversation analyst. Read the transcript and return a JSON object wit
    - For interviews: "Interview: [Candidate Name] — [Role]"
    - For meetings: the meeting title, e.g. "Q2 Roadmap Planning"
 2. "participants" — Array of first names only. If names are unclear, use roles like "Interviewer", "Candidate".
+   Never use placeholders like "Speaker 1", "Speaker 2", or "Speaker N" — those are not real names.
 
 Return ONLY valid JSON. No markdown fences. No explanation.

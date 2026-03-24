@@ -18,6 +18,8 @@
   let selectedFiles = [];
   let availableSkills = [];   // ranked subset from triage
   let allSkills = [];          // full catalog for "Run another"
+  let currentMode = 'cos';    // 'cos' or 'coach'
+  let userSpeaker = null;     // participant label the user identified as
 
   // ---------- Skill icon mapping ----------
 
@@ -46,6 +48,36 @@
   function skillAccentClass(skillId, index) {
     const n = (skillId in SKILL_ACCENTS) ? SKILL_ACCENTS[skillId] : (index % NUM_ACCENTS);
     return 'skill-btn-icon--accent' + n;
+  }
+
+  /** Short, complete sentences for skill cards only (not API / routing). */
+  const SKILL_UI_DESCRIPTIONS = {
+    'commitment-extractor': 'Extract commitments, owners, and deadlines with evidence-backed citations.',
+    'meeting-risk-analysis': 'Surface risks, tensions, and decision gaps with evidence from the meeting.',
+    'redteam': 'Stress-test strategies and assumptions with adversarial, evidence-backed critique.',
+    'execution-friction-xray': 'Spot execution friction and outline a concrete plan to reduce it.',
+    'stakeholder-analysis': 'Map stakeholders, incentives, and engagement risks from the discussion.',
+    'decision-quality-audit': 'Review how clearly decisions were made and what to improve next time.',
+    'effective-communication': 'Review clarity, presence, and impact with quote-grounded feedback.',
+    'interview-analysis': 'Score the interview against the rubric with evidence and a recommendation.',
+  };
+
+  function firstCompleteSentence(text) {
+    if (!text || typeof text !== 'string') {
+      return 'Run this analysis on your transcript.';
+    }
+    const t = text.trim();
+    const idx = t.search(/[.!?](?=\s|$)/);
+    if (idx !== -1) return t.slice(0, idx + 1).trim();
+    return t;
+  }
+
+  function skillUiDescription(skill) {
+    if (!skill) return '';
+    if (skill.id && SKILL_UI_DESCRIPTIONS[skill.id]) {
+      return SKILL_UI_DESCRIPTIONS[skill.id];
+    }
+    return firstCompleteSentence(skill.description);
   }
 
   // ---------- SVG icon templates ----------
@@ -93,12 +125,14 @@
   const btnAnalyze = document.getElementById('btn-analyze');
   const analyzeBtnText = btnAnalyze.querySelector('.upload-btn-text');
   const analyzeBtnLoading = btnAnalyze.querySelector('.upload-btn-loading');
+  const modeToggle = document.getElementById('mode-toggle');
 
   // ---------- API calls ----------
 
   async function apiUpload(files) {
     const formData = new FormData();
     files.forEach(f => formData.append('files', f));
+    formData.append('mode', currentMode);
     const res = await fetch('/api/upload', { method: 'POST', body: formData });
     if (!res.ok) {
       const err = await res.json().catch(() => ({ error: 'Upload failed' }));
@@ -118,6 +152,18 @@
       throw new Error(err.error || 'Request failed');
     }
     return res.json();
+  }
+
+  // ---------- Mode toggle ----------
+
+  if (modeToggle) {
+    modeToggle.addEventListener('click', (e) => {
+      const btn = e.target.closest('.mode-option');
+      if (!btn || btn.classList.contains('mode-option--active')) return;
+      currentMode = btn.dataset.mode;
+      modeToggle.querySelectorAll('.mode-option').forEach(b => b.classList.remove('mode-option--active'));
+      btn.classList.add('mode-option--active');
+    });
   }
 
   // ---------- Upload screen ----------
@@ -193,7 +239,13 @@
       sessionId = data.sessionId;
       availableSkills = data.skills || [];
       allSkills = data.allSkills || data.skills || [];
-      transitionToChat(data.greeting, availableSkills, allSkills);
+      const participants = data.participants || [];
+      const named = participants.filter(p => !/^speaker\s*\d+$/i.test(p.trim()));
+      if (named.length > 0) {
+        transitionToSpeakerSelection(data.greeting, named, availableSkills, allSkills);
+      } else {
+        transitionToChat('Here\'s what I can analyze:', availableSkills, allSkills);
+      }
     } catch (err) {
       showToast('Error: ' + err.message, 4000);
       setAnalyzeButtonState(false);
@@ -213,6 +265,58 @@
     const chipsCatalog = fullCatalog && fullCatalog.length ? fullCatalog : suggestedSkills;
     populateChipBar(chipsCatalog);
     inputField.focus();
+  }
+
+  function transitionToSpeakerSelection(greeting, participants, suggestedSkills, fullCatalog) {
+    uploadScreen.hidden = true;
+    chatArea.hidden = false;
+
+    const wrapper = createEl('div', 'msg msg-ai');
+
+    const greetText = createEl('div', 'greeting-text');
+    greetText.innerHTML = greeting;
+    wrapper.appendChild(greetText);
+
+    const prompt = createEl('p', 'speaker-prompt',
+      'First, I need to identify who you are in the conversation to best provide insight.');
+    wrapper.appendChild(prompt);
+
+    const chips = createEl('div', 'speaker-chips');
+    participants.forEach(name => {
+      const chip = createEl('button', 'speaker-chip', escapeHtml(name));
+      chip.addEventListener('click', () => {
+        handleSpeakerSelection(name, suggestedSkills, fullCatalog);
+      });
+      chips.appendChild(chip);
+    });
+    wrapper.appendChild(chips);
+
+    messagesEl.appendChild(wrapper);
+  }
+
+  async function handleSpeakerSelection(speaker, suggestedSkills, fullCatalog) {
+    if (isProcessing) return;
+    isProcessing = true;
+
+    renderUserMessage(speaker);
+    userSpeaker = speaker;
+
+    try {
+      await fetch('/api/identify-speaker', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, speaker })
+      });
+    } catch { /* best-effort — session already stores it on success */ }
+
+    chipBar.hidden = false;
+    inputBar.hidden = false;
+    renderSkillGrid('Got it! Here are a few things I can help with:', suggestedSkills);
+    const chipsCatalog = fullCatalog && fullCatalog.length ? fullCatalog : suggestedSkills;
+    populateChipBar(chipsCatalog);
+    inputField.focus();
+
+    isProcessing = false;
   }
 
   // ---------- Rendering helpers ----------
@@ -296,7 +400,7 @@
         <span class="skill-btn-icon ${accent}">${ICONS[iconKey] || ICONS.default}</span>
         <div class="skill-btn-text">
           <span class="skill-btn-label">${escapeHtml(s.label)}</span>
-          <span class="skill-btn-desc">${escapeHtml(s.description)}</span>
+          <span class="skill-btn-desc">${escapeHtml(skillUiDescription(s))}</span>
         </div>
       `;
       btn.addEventListener('click', () => {
@@ -350,9 +454,39 @@
     const pendingThinkingState = renderThinkingPending({ skillSlowHint: true });
 
     try {
+      const response = await apiChat(command, 'skill-summary');
+
+      clearThinkingPending(pendingThinkingState);
+
+      if (response.type === 'skill-summary') {
+        renderSkillSummary(response.content, command, label);
+      } else if (response.type === 'error') {
+        renderError(response.error);
+      } else {
+        renderError('Unexpected response');
+      }
+    } catch (err) {
+      cleanupThinkingOnError(pendingThinkingState);
+      renderError(err.message);
+    }
+
+    isProcessing = false;
+    appFrame.classList.remove('processing');
+  }
+
+  async function handleDeepAnalysis(command, label, deepBtn) {
+    if (isProcessing) return;
+    isProcessing = true;
+    appFrame.classList.add('processing');
+
+    deepBtn.disabled = true;
+    deepBtn.textContent = 'Running\u2026';
+
+    const pendingThinkingState = renderThinkingPending({ skillSlowHint: true });
+
+    try {
       const response = await apiChat(command, 'skill');
 
-      // Stop thinking animation
       clearThinkingPending(pendingThinkingState);
 
       if (response.type === 'skill-result') {
@@ -369,6 +503,71 @@
 
     isProcessing = false;
     appFrame.classList.remove('processing');
+  }
+
+  // ---------- Render: Skill summary (quick ~500-word overview) ----------
+
+  function renderSkillSummary(markdownContent, command, label) {
+    const wrapper = createEl('div', 'msg msg-ai');
+    const answerId = 'answer-' + Date.now();
+
+    const insightBlock = createEl('div', 'skill-insight');
+    insightBlock.id = answerId;
+    insightBlock.innerHTML = renderMarkdown(markdownContent);
+    wrapper.appendChild(insightBlock);
+
+    const actions = createEl('div', 'answer-actions');
+    const copyBtn = createEl('button', 'answer-action-btn', ICONS.copy);
+    copyBtn.title = 'Copy';
+    const shareBtn = createEl('button', 'answer-action-btn', ICONS.share);
+    shareBtn.title = 'Share';
+    const moreBtn = createEl('button', 'answer-action-btn', ICONS.more);
+    moreBtn.title = 'More options';
+
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(insightBlock.innerText).then(() => showToast('Copied to clipboard'));
+    });
+
+    shareBtn.addEventListener('click', async () => {
+      const plainText = insightBlock.innerText;
+      if (navigator.share) {
+        try { await navigator.share({ text: plainText }); showToast('Shared'); return; } catch { /* canceled */ }
+      }
+      navigator.clipboard.writeText(plainText).then(() => showToast('Copied for sharing'));
+    });
+
+    moreBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentMenuAnswerId = answerId;
+      actionsMenuOverlay.hidden = false;
+    });
+
+    actions.appendChild(copyBtn);
+    actions.appendChild(shareBtn);
+    actions.appendChild(moreBtn);
+    wrapper.appendChild(actions);
+
+    // Deep-analysis CTA
+    const ctaText = createEl('p', 'deep-analysis-cta',
+      'If you\u2019d like, I can perform a deeper analysis. It will take a bit more time, but will have more granularity and cite specific quotes from your conversation as evidence.');
+    wrapper.appendChild(ctaText);
+
+    const fuContainer = createEl('div', 'follow-ups');
+
+    const deepBtn = createEl('button', 'follow-up-btn deep-analysis-btn', 'Start Deep Analysis');
+    deepBtn.addEventListener('click', () => {
+      if (!isProcessing) handleDeepAnalysis(command, label, deepBtn);
+    });
+    fuContainer.appendChild(deepBtn);
+
+    const runAnotherBtn = createEl('button', 'follow-up-btn', 'Run another analysis');
+    runAnotherBtn.addEventListener('click', () => {
+      if (!isProcessing) renderSkillGrid('Pick another analysis to run:', allSkills.length > 0 ? allSkills : availableSkills);
+    });
+    fuContainer.appendChild(runAnotherBtn);
+
+    wrapper.appendChild(fuContainer);
+    messagesEl.appendChild(wrapper);
   }
 
   // ---------- Render: Skill insight (markdown output) ----------
@@ -447,7 +646,7 @@
         <span class="skill-btn-icon ${accent}">${ICONS[iconKey] || ICONS.default}</span>
         <div class="skill-btn-text">
           <span class="skill-btn-label">${escapeHtml(s.label)}</span>
-          <span class="skill-btn-desc">${escapeHtml(s.description)}</span>
+          <span class="skill-btn-desc">${escapeHtml(skillUiDescription(s))}</span>
         </div>
       `;
       btn.addEventListener('click', () => {

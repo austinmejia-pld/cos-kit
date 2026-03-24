@@ -12,11 +12,32 @@ import {
   routeSkill,
 } from "../../src/wrapper/index.js";
 import type { RouterInput, ScoredSkill } from "../../src/wrapper/index.js";
+import { resolveServerPrompt } from "../../src/wrapper/promptResolver.js";
 import { createClaudeLLMClient, CLAUDE_MODEL } from "./claudeAdapter.js";
 import AnthropicVertex from "@anthropic-ai/vertex-sdk";
 
+const VALID_MODES = new Set(["cos", "coach"]);
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const APP_ROOT = resolve(__dirname, "..");
+const PROJECT_ROOT = resolve(APP_ROOT, "..");
+
+type ModeDescriptions = Record<string, { label: string; description: string }>;
+const _modeDescCache = new Map<string, ModeDescriptions>();
+
+function loadModeDescriptions(mode: string): ModeDescriptions {
+  if (mode === "cos") return {};
+  const cached = _modeDescCache.get(mode);
+  if (cached) return cached;
+  try {
+    const filePath = resolve(PROJECT_ROOT, `modes/${mode}/skill-descriptions.json`);
+    const data = JSON.parse(readFileSync(filePath, "utf-8")) as ModeDescriptions;
+    _modeDescCache.set(mode, data);
+    return data;
+  } catch {
+    return {};
+  }
+}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -46,6 +67,8 @@ function readPrompt(filename: string): string {
 
 interface Session {
   transcript: string;
+  mode: string;
+  speaker?: string;
   messages: Array<{ role: "user" | "assistant"; content: string }>;
   createdAt: number;
   lastAccess?: number;
@@ -54,13 +77,13 @@ interface Session {
 const SESSION_TTL_MS = 60 * 60 * 1000;
 const sessions = new Map<string, Session>();
 
-function createSession(transcript: string): string {
+function createSession(transcript: string, mode: string): string {
   const id =
     "sess_" +
     Date.now() +
     "_" +
     Math.random().toString(36).slice(2, 8);
-  sessions.set(id, { transcript, messages: [], createdAt: Date.now() });
+  sessions.set(id, { transcript, mode, messages: [], createdAt: Date.now() });
   return id;
 }
 
@@ -124,10 +147,14 @@ interface TriageResult {
 
 async function triageTranscript(
   transcript: string,
+  mode: string,
 ): Promise<TriageResult | null> {
   try {
     const client = new AnthropicVertex({ projectId: PROJECT_ID, region: REGION });
-    const systemPrompt = readPrompt("system-upload-triage.txt");
+    const systemPrompt = readFileSync(
+      resolveServerPrompt("system-upload-triage.txt", mode),
+      "utf-8",
+    );
 
     // Only send first ~3000 chars — topic and participants appear early
     const excerpt = transcript.slice(0, 3000);
@@ -175,17 +202,21 @@ async function triageTranscript(
 
 async function routeSkillForTriage(
   topic: string,
+  transcript?: string,
 ): Promise<ScoredSkill[]> {
   try {
     const catalog = loadSkillCatalog();
-    const intentMessage = `analyze this ${topic} transcript`;
+    // Use the full transcript for routing when available (enables signal-phrase
+    // detection for long-form input). Fall back to a short intent string when
+    // only a topic summary is provided.
+    const intentMessage = transcript && transcript.length > 200
+      ? transcript
+      : `analyze this ${topic} transcript`;
     const input: RouterInput = {
       userMessage: intentMessage,
       availableInputs: ["transcript"],
     };
-    console.log("[triage] routing with intent:", intentMessage);
     const decision = await routeSkill(input, catalog, llmClient, true);
-    console.log("[triage] routing decision:", decision.decision, "| engine:", decision.engine, "| suggestions:", decision.suggestions?.map(s => `${s.skillId}(${Math.round(s.score * 100)}%)`).join(", ") || "none");
     return decision.suggestions ?? [];
   } catch (err) {
     console.error("[triage] skill routing failed:", err instanceof Error ? err.message : err);
@@ -198,6 +229,25 @@ function formatParticipantList(names: string[]): string {
   if (names.length === 1) return names[0];
   if (names.length === 2) return `${names[0]} and ${names[1]}`;
   return `${names.slice(0, -1).join(", ")}, and ${names[names.length - 1]}`;
+}
+
+/** Placeholder names like "Speaker 1" — not shown in the greeting. */
+function isGenericSpeakerLabel(name: string): boolean {
+  return /^speaker\s*\d+$/i.test(name.trim());
+}
+
+/**
+ * Optional " with Alice and Bob" for the upload greeting, omitting generic Speaker-N labels.
+ * Omit the whole clause if there are no real names, only placeholders, or fewer than two
+ * named speakers (a single name is not listed).
+ */
+function formatGreetingParticipantClause(participants: string[]): string {
+  if (participants.length === 0) return "";
+  const named = participants.filter((n) => !isGenericSpeakerLabel(n));
+  if (named.length > 1) {
+    return ` with ${formatParticipantList(named)}`;
+  }
+  return "";
 }
 
 function escapeHtml(str: string): string {
@@ -244,7 +294,10 @@ app.post("/api/upload", upload.array("files", 5), async (req, res) => {
       return;
     }
 
-    const sessionId = createSession(fullText);
+    const rawMode = typeof req.body?.mode === "string" ? req.body.mode : "cos";
+    const mode = VALID_MODES.has(rawMode) ? rawMode : "cos";
+
+    const sessionId = createSession(fullText, mode);
 
     // Build full skill catalog (for "Run another analysis")
     type SkillEntry = {
@@ -255,6 +308,7 @@ app.post("/api/upload", upload.array("files", 5), async (req, res) => {
     };
 
     let allSkills: SkillEntry[] = [];
+    const modeDescs = loadModeDescriptions(mode);
     try {
       const catalog = loadSkillCatalog();
       allSkills = catalog
@@ -263,37 +317,39 @@ app.post("/api/upload", upload.array("files", 5), async (req, res) => {
             s.status === "active" &&
             s.requiredInputs.includes("transcript"),
         )
-        .map((s) => ({
-          id: s.id,
-          command: s.command,
-          label: s.label?.trim() || deriveLabel(s.command),
-          description:
-            s.description.length > 120
-              ? s.description.slice(0, 117) + "..."
-              : s.description,
-        }));
+        .map((s) => {
+          const override = modeDescs[s.id];
+          const label = override?.label || s.label?.trim() || deriveLabel(s.command);
+          const desc = override?.description || s.description;
+          return {
+            id: s.id,
+            command: s.command,
+            label,
+            description: desc.length > 120 ? desc.slice(0, 117) + "..." : desc,
+          };
+        });
     } catch {
       // Catalog unavailable — return empty skills, app still works
     }
 
     // Step 1: Get greeting (topic + participants)
-    const triage = await triageTranscript(fullText);
+    const triage = await triageTranscript(fullText, mode);
 
     // Step 2: Route using topic (only if triage succeeded)
     let scoredSkills: ScoredSkill[] = [];
     if (triage?.topic) {
-      scoredSkills = await routeSkillForTriage(triage.topic);
+      scoredSkills = await routeSkillForTriage(triage.topic, fullText);
     }
 
-    // Build personalized greeting
+    // Build personalized greeting (omit "Speaker 1"-style placeholders)
     const participantStr =
       triage && triage.participants.length > 0
-        ? ` with ${formatParticipantList(triage.participants)}`
+        ? formatGreetingParticipantClause(triage.participants)
         : "";
     const topic = triage?.topic ?? null;
     const greeting = topic
-      ? `I've reviewed the <strong>${escapeHtml(topic)}</strong> transcript${participantStr}. Here are a few things I can help with:`
-      : "Your transcript is ready. Here's what I can analyze:";
+      ? `I've reviewed the <strong>${escapeHtml(topic)}</strong> transcript${participantStr}.`
+      : "Your transcript is ready.";
 
     // Map router's ScoredSkill[] to SkillEntry[] (preserves router's ranking)
     const skillMap = new Map(allSkills.map((s) => [s.id, s]));
@@ -304,12 +360,29 @@ app.post("/api/upload", upload.array("files", 5), async (req, res) => {
     // Fall back to all skills if router returned nothing
     const skills = suggestedSkills.length > 0 ? suggestedSkills : allSkills;
 
-    res.json({ sessionId, greeting, skills, allSkills });
+    res.json({ sessionId, greeting, participants: triage?.participants ?? [], skills, allSkills });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     console.error("Upload error:", message);
     res.status(500).json({ error: message });
   }
+});
+
+// Identify speaker — store which participant the user is
+app.post("/api/identify-speaker", (req, res) => {
+  const { sessionId, speaker } = req.body;
+  if (!sessionId || !sessions.has(sessionId)) {
+    res.status(400).json({ error: "Invalid or expired session" });
+    return;
+  }
+  if (!speaker || typeof speaker !== "string") {
+    res.status(400).json({ error: "Speaker label is required" });
+    return;
+  }
+  const session = sessions.get(sessionId)!;
+  session.speaker = speaker.trim();
+  touchSession(sessionId);
+  res.json({ ok: true });
 });
 
 // Chat — route through cos-kit wrapper, fall back to Claude
@@ -329,10 +402,50 @@ app.post("/api/chat", async (req, res) => {
     const session = sessions.get(sessionId)!;
     touchSession(sessionId);
 
+    // ── Skill summary (lightweight ~500-word overview) ──
+    if (type === "skill-summary") {
+      const catalog = loadSkillCatalog();
+      const skill = catalog.find(
+        (s) => s.command === message.trim() && s.status === "active",
+      );
+      const skillDescription = skill?.description ?? "general conversation analysis";
+
+      const client = new AnthropicVertex({ projectId: PROJECT_ID, region: REGION });
+      const promptTemplate = readFileSync(
+        resolveServerPrompt("system-skill-summary.txt", session.mode),
+        "utf-8",
+      );
+      const speakerCtx = session.speaker
+        ? `The user is "${session.speaker}" in this conversation. Tailor observations to their perspective.`
+        : "";
+      const systemPrompt = promptTemplate
+        .replace("{{skill_description}}", skillDescription)
+        .replace("{{speaker_context}}", speakerCtx);
+
+      const speakerTag = session.speaker
+        ? `<speaker_identity>The user is "${session.speaker}" in this conversation.</speaker_identity>\n`
+        : "";
+      const response = await client.messages.create({
+        model: CLAUDE_MODEL,
+        max_tokens: 1024,
+        system: systemPrompt,
+        messages: [
+          { role: "user", content: `${speakerTag}<transcript>\n${session.transcript}\n</transcript>` },
+        ],
+      });
+
+      const content =
+        response.content[0].type === "text" ? response.content[0].text : "";
+      res.json({ type: "skill-summary", content });
+      return;
+    }
+
     // ── Skill execution (slash command) ──
     if (type === "skill") {
       const result = await handleWrappedCommand(message, {
         transcript: session.transcript,
+        __mode: session.mode,
+        __speaker: session.speaker,
       });
 
       if (result.ok) {
@@ -347,6 +460,8 @@ app.post("/api/chat", async (req, res) => {
     if (type === "freetext" || !type) {
       const result = await handleWrappedCommand(message, {
         transcript: session.transcript,
+        __mode: session.mode,
+        __speaker: session.speaker,
       });
 
       // Router matched — return suggestion
@@ -383,8 +498,14 @@ app.post("/api/chat", async (req, res) => {
 
       // NO_SKILL — fall through to Claude chat
       const client = new AnthropicVertex({ projectId: PROJECT_ID, region: REGION });
-      const systemPrompt = readPrompt("system-chat.txt");
-      const fullSystem = `${systemPrompt}\n\n<transcript>\n${session.transcript}\n</transcript>`;
+      const systemPrompt = readFileSync(
+        resolveServerPrompt("system-chat.txt", session.mode),
+        "utf-8",
+      );
+      const speakerLine = session.speaker
+        ? `\n\nThe user is "${session.speaker}" in this conversation. Tailor your responses to their perspective.`
+        : "";
+      const fullSystem = `${systemPrompt}${speakerLine}\n\n<transcript>\n${session.transcript}\n</transcript>`;
 
       const prefixedMessage = `The user asks: "${message}"`;
       session.messages.push({ role: "user", content: prefixedMessage });

@@ -32,6 +32,11 @@
         <h2 class="upload-title">Upload your transcript</h2>
         <p class="upload-subtitle">Drop a PDF or TXT file of your meeting notes to get started</p>
 
+        <div class="mode-toggle" id="mode-toggle">
+          <button class="mode-option mode-option--active" data-mode="cos">Chief of Staff</button>
+          <button class="mode-option" data-mode="coach">Executive Coach</button>
+        </div>
+
         <div class="upload-dropzone" id="upload-dropzone">
           <input type="file" id="file-input" accept=".pdf,.txt" multiple hidden>
           <p class="dropzone-label">Drag files here or <button class="dropzone-browse" id="btn-browse">browse</button></p>
